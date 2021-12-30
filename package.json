@@ -4,12 +4,14 @@
   "description": "Ethereum RPC provider proxy which provides transparent logging.",
   "main": "dist/worker.js",
   "scripts": {
-    "build": "esbuild --bundle --outfile=dist/worker.js --minify --sourcemap src/index.ts",
-    "format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}'",
-    "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}'",
+    "build": "tsc",
+    "format": "prettier --write '*.{json,js}' 'src/**/*.{ts}'",
+    "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{ts}'",
     "test": "bash test.sh"
   },
-  "license": "MIT OR Apache-2.0",
+  "license": "MIT",
+  "type": "module",
+  "module": "./dist/index.mjs",
   "eslintConfig": {
     "root": true,
     "extends": [
@@ -23,7 +25,6 @@
     "@types/service-worker-mock": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "5.8.1",
     "@typescript-eslint/parser": "5.8.1",
-    "esbuild": "0.14.9",
     "eslint": "8.5.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-typescript": "^3.0.0",
