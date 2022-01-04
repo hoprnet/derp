@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
-	    "target": "esnext",
-	    "lib": ["esnext"],
-	    "types": ["@cloudflare/workers-types"],
-	    "outDir": "dist"
-	  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+    "target": "esnext",
+    "lib": ["esnext"],
+    "alwaysStrict": true,
+    "strict": true,
+    "noEmitOnError": true,
+    "moduleResolution": "node",
+    "outDir": "tscOutDir",
+    "preserveConstEnums": true,
+    "esModuleInterop": true,
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
