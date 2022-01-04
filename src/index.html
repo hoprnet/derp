@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
     <style type="text/css">
 * {
   box-sizing: border-box;
@@ -12,7 +13,86 @@ body {
   </head>
   <body>
     <p>HELLO WORLD</p>
+    <button onClick="configureMetamask()">
+      Add network to MetaMask
+    </button>
   </body>
   <script type="text/javascript">
+    // must be HTTPS otherwise MetaMask will deny it
+    console.log(location)
+    const rpcUrl = `https://${location.host}/rpc/xdai/mainnet`
+    const explorerUrl = 'https://blockscout.com/xdai/mainnet'
+    const chainId = '0x64'
+    console.log(rpcUrl)
+
+    configureMetamask = async () => {
+      const provider = await detectEthereumProvider({
+        mustBeMetaMask: true
+      })
+      if (!provider) {
+        console.error('Please install MetaMask')
+        return
+      }
+      try {
+        console.log('request accounts')
+        await provider.request({ method: 'eth_requestAccounts'})
+        provider.on("chainChanged", () => {
+              console.log('reloading upon event chainChanged')
+          window.location.reload()
+        })
+        provider.on('accountsChanged', (accounts) => {
+          if (accounts.length === 0) {
+            console.log('Please connect to MetaMask.')
+          }
+        })
+        console.log('add custom network')
+        const res = await provider.request({
+          method: 'wallet_addEthereumChain',
+          params: [{
+            chainId,
+            chainName: 'HERP - Gnosis Chain',
+            nativeCurrency: {
+              name: 'xDAI',
+              symbol: 'xDAI',
+              decimals: 18
+            },
+            rpcUrls: [rpcUrl],
+            blockExplorerUrls: [explorerUrl]
+          }]
+        })
+            console.log(res)
+        await maybeDisableConnectButton()
+      } catch(e) {
+        console.error(e)
+      }
+    }
+
+    maybeDisableConnectButton = async () => {
+      const provider = await detectEthereumProvider({
+        mustBeMetaMask: true
+      })
+      if (!provider) {
+        console.error('Please install MetaMask')
+        return
+      }
+      try {
+        const usedChainId = await provider.request({
+          method: 'eth_chainId'
+        })
+        if (usedChainId === chainId){
+          console.log("disabling connect button")
+        }
+      } catch(e) {
+        console.error(e)
+      }
+    }
+
+    window.addEventListener('load', async () => {
+      try {
+        await maybeDisableConnectButton()
+      } catch (e) {
+        console.error(e)
+      }
+    }, false)
   </script>
 </html>

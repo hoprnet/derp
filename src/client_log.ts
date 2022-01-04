@@ -1,12 +1,11 @@
 export class ClientLog {
-  state: DurableObjectState
+  state: DurableObjectState;
 
   constructor(state: DurableObjectState, env: Env) {
-      this.state = state;
+    this.state = state;
   }
 
-  async fetch(request: Request) {
-  }
+  async fetch(request: Request) {}
 }
 
 interface Env {}
