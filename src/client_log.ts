@@ -21,11 +21,12 @@ export class ClientLog {
 
     if (url.pathname == "/" && request.method == "POST") {
       const requestJson = await request.json();
-      const clientIp = request.headers.get("CF-Connecting-IP");
       const data = JSON.stringify({
-        ip: clientIp,
+        ip: request.headers.get("CF-Connecting-IP"),
+        country: request.headers.get("CF-IPCountry"),
         log: {
-          timestamp: Date.now(),
+          timestamp: new Date().toJSON(),
+          userAgent: request.headers.get("User-Agent"),
           type: "request",
           method: requestJson.method,
           params: requestJson.params,

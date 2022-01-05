@@ -1,115 +1,157 @@
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
     <!-- CSS Reset -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
     <!-- Milligram CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+    />
     <style type="text/css">
-* {
-  box-sizing: border-box;
-}
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .container {
+        margin: 1em 0;
+      }
+      .row {
+        margin-bottom: 1em;
+      }
+      h4 {
+        border-bottom: 0.3rem solid #0000b4;
+      }
+      pre {
+        border-left: 0.3rem solid #0000b4;
+      }
     </style>
   </head>
   <body>
-    <h4>Your IP</h4>
-    <div id='client-ip'></div>
-    <h4>Status</h4>
-    <div id='client-connection-status'></div>
-    <h4>Your Logs</h4>
-    <table id='client-logs'>
-      <thead>
-        <tr>
-          <th>
-            Timestamp
-          </th>
-          <th>
-            Type
-          </th>
-          <th>
-            Method
-          </th>
-          <th>
-            Params
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <div class="container">
+      <div class="row">
+        <div class="column">
+          <h4>IP</h4>
+          <div id="client-ip"></div>
+        </div>
+        <div class="column">
+          <h4>Country</h4>
+          <div id="client-country"></div>
+        </div>
+        <div class="column">
+          <h4>Status</h4>
+          <div id="client-connection-status"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <h4>Logs</h4>
+          <table id="client-logs">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Type</th>
+                <th>User Agent</th>
+                <th>Method</th>
+                <th>Params</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </body>
   <script type="text/javascript">
-    let currentWebSocket
+    let currentWebSocket;
 
-    const tableCells = ['timestamp', 'type', 'method', 'params']
+    const tableCells = ["timestamp", "type", "userAgent", "method", "params"];
 
-    const updateIp = (ip) => {
-      const ipDiv = document.getElementById("client-ip")
-      if (ip) {
-        ipDiv.textContent = ip
-      } else {
-        ipDiv.textContent = ""
-      }
-    }
+    const updateIp = (ip, country) => {
+      const ipDiv = document.getElementById("client-ip");
+      ipDiv.textContent = ip;
+      const countryDiv = document.getElementById("client-country");
+      countryDiv.textContent = country;
+    };
 
     const setConnectionStatus = () => {
-      const connectionDiv = document.getElementById("client-connection-status")
-      connectionDiv.textContent = "connected"
-    }
+      const connectionDiv = document.getElementById("client-connection-status");
+      connectionDiv.textContent = "connected";
+    };
 
     const unsetConnectionStatus = () => {
-      const connectionDiv = document.getElementById("client-connection-status")
-      connectionDiv.textContent = "not connected"
-    }
+      const connectionDiv = document.getElementById("client-connection-status");
+      connectionDiv.textContent = "not connected";
+    };
 
     const addLogEntry = (entry) => {
-      const table = document.getElementById("client-logs")
-      const tableBody = table.getElementsByTagName("tbody")[0]
-      const tableRow = tableBody.insertRow(0)
+      const table = document.getElementById("client-logs");
+      const tableBody = table.getElementsByTagName("tbody")[0];
+      const tableRow = tableBody.insertRow(0);
       tableCells.forEach((name) => {
-        const cell = tableRow.insertCell()
-        const cellContent = document.createTextNode(entry[name])
-        cell.appendChild(cellContent)
-      })
-    }
+        const cell = tableRow.insertCell();
+        let cellContent = document.createTextNode(entry[name]);
+        if (name == "params") {
+          cellContent = document.createElement("pre");
+          const text = document.createTextNode(
+            JSON.stringify(entry[name], null, 2)
+          );
+          cellContent.appendChild(text);
+        }
+        cell.appendChild(cellContent);
+      });
+    };
 
     const join = () => {
-      const wsUrl = `wss://${location.host}/client_logs/websocket`
-      const ws = new WebSocket(wsUrl)
+      const wsUrl = `wss://${location.host}/client_logs/websocket`;
+      const ws = new WebSocket(wsUrl);
 
-      ws.addEventListener("open", event => {
-        console.log("websocket opened")
-        currentWebSocket = ws
-        setConnectionStatus()
-      })
+      ws.addEventListener("open", (event) => {
+        console.log("websocket opened");
+        currentWebSocket = ws;
+        setConnectionStatus();
+      });
 
-      ws.addEventListener("message", event => {
-        const data = JSON.parse(event.data)
-        console.log("received websocket message", event.data)
-        addLogEntry(data.log)
-        updateIp(data.ip)
-      })
+      ws.addEventListener("message", (event) => {
+        const data = JSON.parse(event.data);
+        console.log("received websocket message", event.data);
+        addLogEntry(data.log);
+        updateIp(data.ip, data.country);
+      });
 
-      ws.addEventListener("close", event => {
-        console.log("websocket closed, reconnecting:", event.code, event.reason)
-        unsetConnectionStatus()
-        join()
-      })
+      ws.addEventListener("close", (event) => {
+        console.log(
+          "websocket closed, reconnecting:",
+          event.code,
+          event.reason
+        );
+        unsetConnectionStatus();
+        join();
+      });
 
-      ws.addEventListener("error", event => {
-        console.log("websocket error, reconnecting:", event)
-        unsetConnectionStatus()
-        join()
-      })
-    }
+      ws.addEventListener("error", (event) => {
+        console.log("websocket error, reconnecting:", event);
+        unsetConnectionStatus();
+        join();
+      });
+    };
 
-    window.addEventListener('load', async () => {
-      unsetConnectionStatus()
-      join()
-    }, false)
+    window.addEventListener(
+      "load",
+      async () => {
+        unsetConnectionStatus();
+        join();
+      },
+      false
+    );
   </script>
 </html>
