@@ -20,22 +20,28 @@ export class ClientLog {
     }
 
     if (url.pathname == "/" && request.method == "POST") {
-      const requestJson = await request.json();
-      const data = JSON.stringify({
-        ip: request.headers.get("CF-Connecting-IP"),
-        country: request.headers.get("CF-IPCountry"),
-        log: {
-          timestamp: new Date().toJSON(),
-          userAgent: request.headers.get("User-Agent"),
-          type: "request",
-          method: requestJson.method,
-          params: requestJson.params,
-        },
-      });
+      request
+        .json()
+        .then((json) => {
+          const data = JSON.stringify({
+            ip: request.headers.get("CF-Connecting-IP"),
+            country: request.headers.get("CF-IPCountry"),
+            log: {
+              timestamp: new Date().toJSON(),
+              userAgent: request.headers.get("User-Agent"),
+              type: "request",
+              method: json.method,
+              params: json.params,
+            },
+          });
 
-      this.sessions.forEach((session) => {
-        session.webSocket.send(data);
-      });
+          this.sessions.forEach((session) => {
+            session.webSocket.send(data);
+          });
+        })
+        .catch((error) => {
+          console.log("Cannot read JSON body:", error);
+        });
     }
 
     return new Response("Not found", { status: 404 });
