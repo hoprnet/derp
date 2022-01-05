@@ -7,7 +7,9 @@
   "scripts": {
     "format": "prettier --write '**/*.{js,ts,css,json,md}'",
     "build": "node build.js",
-    "types:check": "tsc"
+    "types:check": "tsc",
+    "start-local-ssl-proxy": "local-ssl-proxy --source 8788 --target 8787",
+    "start-dev": "wrangler dev"
   },
   "license": "MIT",
   "devDependencies": {
