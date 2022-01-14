@@ -1,7 +1,7 @@
 {
-  "name": "herp",
+  "name": "derp",
   "version": "0.1.0",
-  "description": "Ethereum RPC provider proxy which provides transparent logging.",
+  "description": "An Ethereum RPC provider which gives access to the logs it gathers.",
   "module": "./dist/index.mjs",
   "type": "module",
   "scripts": {
