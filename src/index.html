@@ -15,18 +15,29 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
     />
+    <!-- Font -->
+    <link
+      rel="stylesheet"
+      media="screen"
+      href="https://fontlibrary.org//face/source-code-pro"
+      type="text/css"
+    />
     <style type="text/css">
       * {
         box-sizing: border-box;
       }
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: "SourceCodeProRegular";
+        color: #414141;
       }
       .container {
-        margin: 1em 0;
+        margin: 1em auto;
       }
       .row {
         margin-bottom: 1em;
+      }
+      h1 {
+        text-transform: uppercase;
       }
       h4 {
         border-bottom: 0.3rem solid #0000b4;
@@ -73,10 +84,115 @@
         padding: 0;
         margin: 0;
       }
+      #how-to {
+        background-color: #eee;
+      }
+      #show-setup a,
+      #close-setup a {
+        text-transform: uppercase;
+        background: linear-gradient(270deg, #000050, #0000b4);
+        border-radius: 25px;
+        color: #fff;
+        font-size: 1em;
+      }
+      #show-setup a:hover,
+      #close-setup a:hover {
+        color: #ffffa0;
+      }
+      [hidden] {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <div class="container">
+      <div class="row">
+        <div class="column column-100">
+          <h1>Dishonest Ethereum RPC Provider</h1>
+          <p>
+            But I must explain to you how all this mistaken idea of denouncing
+            pleasure and praising pain was born and I will give you a complete
+            account of the system, and expound the actual teachings of the great
+            explorer of the truth, the master-builder of human happiness. No one
+            rejects, dislikes, or avoids pleasure itself, because it is
+            pleasure, but because those who do not know how to pursue pleasure
+            rationally encounter consequences that are extremely painful. Nor
+            again is there anyone who loves or pursues or desires to obtain pain
+            of itself, because it is pain, but because occasionally
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column column-50"></div>
+        <div class="column column-50">
+          <h5>Profitable</h5>
+          <p>
+            But I must explain to you how all this mistaken idea of denouncing
+            pleasure and praising pain was born and I will give you a complete
+            account of the system, and expound the actual teachings of the great
+            explorer of the truth, the master-builder of human happiness. No one
+            rejects, dislikes, or avoids pleasure itself, because it is
+            pleasure, but because those who do not know how to pursue pleasure
+            rationally encounter consequences that are extremely painful. Nor
+            again is there anyone who loves or pursues or desires to obtain pain
+            of itself, because it is pain, but because occasionally
+          </p>
+        </div>
+      </div>
+      <div class="row" id="show-setup">
+        <div class="column">
+          <a class="button float-left" href="#" onClick="toggleSetup()"
+            >Setup (very easy)</a
+          >
+        </div>
+      </div>
+      <div class="row" id="how-to" hidden>
+        <div class="container">
+          <div class="row" id="close-setup">
+            <div class="column">
+              <a class="button float-right" href="#" onClick="toggleSetup()"
+                >Close</a
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="column column-50"></div>
+            <div class="column column-50">
+              <h5>Step 1</h5>
+              <p>
+                But I must explain to you how all this mistaken idea of
+                denouncing pleasure and praising pain was born and I will give
+                you a complete account of the system, and expound the actual
+                teachings of the great explorer of the truth, the master-builder
+                of human happiness. No one rejects, dislikes, or avoids pleasure
+                itself, because it is pleasure, but because those who do not
+                know how to pursue pleasure rationally encounter consequences
+                that are extremely painful. Nor again is there anyone who loves
+                or pursues or desires to obtain pain of itself, because it is
+                pain, but because occasionally
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="column column-50"></div>
+            <div class="column column-50">
+              <h5>Step 2</h5>
+              <p>
+                But I must explain to you how all this mistaken idea of
+                denouncing pleasure and praising pain was born and I will give
+                you a complete account of the system, and expound the actual
+                teachings of the great explorer of the truth, the master-builder
+                of human happiness. No one rejects, dislikes, or avoids pleasure
+                itself, because it is pleasure, but because those who do not
+                know how to pursue pleasure rationally encounter consequences
+                that are extremely painful. Nor again is there anyone who loves
+                or pursues or desires to obtain pain of itself, because it is
+                pain, but because occasionally
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="column column-30">
           <h4>IP</h4>
@@ -125,6 +241,13 @@
     let currentWebSocket;
 
     const tableCells = ["timestamp", "type", "userAgent", "method", "params"];
+
+    const toggleSetup = () => {
+      const howtoDiv = document.getElementById("how-to");
+      const showsetupDiv = document.getElementById("show-setup");
+      howtoDiv.hidden = !howtoDiv.hidden;
+      showsetupDiv.hidden = !showsetupDiv.hidden;
+    };
 
     const updateIp = (ip, country) => {
       const ipDiv = document.getElementById("client-ip");
