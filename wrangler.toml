@@ -1,4 +1,4 @@
-name = "dishonest-ethereum-rpc-provider"
+name = "derp"
 type = "javascript"
 workers_dev = true
 usage_model = "unbound"
