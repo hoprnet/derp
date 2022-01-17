@@ -1,10 +1,6 @@
-name = "derp"
+name = "dishonest-ethereum-rpc-provider"
 type = "javascript"
 workers_dev = true
-
-# TODO: insert account id here
-account_id = ""
-
 usage_model = "unbound"
 compatibility_date = "2021-12-30"
 
@@ -17,7 +13,7 @@ main = "./index.mjs"
 
 [durable_objects]
 bindings = [
-  { name = "logs", class_name = "ClientLog" }
+  { name = "client_logs", class_name = "ClientLog" }
 ]
 
 [[migrations]]
