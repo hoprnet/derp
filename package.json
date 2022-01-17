@@ -5,7 +5,7 @@
   "module": "./dist/index.mjs",
   "type": "module",
   "scripts": {
-    "format": "prettier --write 'src/*.{js,ts,css,json,md,html}' tsconfig.json build.js README.md",
+    "format": "prettier --write 'src/*.{js,ts,css,json,md,html}' tsconfig.json build.js README.md '.github/**/*.yml'",
     "build": "node build.js",
     "types:check": "tsc",
     "start-local-ssl-proxy": "local-ssl-proxy --source 8788 --target 8787",
