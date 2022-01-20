@@ -5,17 +5,11 @@ body {
   font-family: "SourceCodeProRegular";
   color: #414141;
 }
-.container {
-  margin: 1em auto;
-}
-.row {
-  margin-bottom: 1em;
-}
 .wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-  grid-auto-rows: minmax(100px, auto);
+  grid-auto-rows: minmax(0px, auto);
   margin: 0 auto;
   max-width: 112rem;
   padding: 0 2rem;
@@ -44,7 +38,7 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  grid-auto-rows: minmax(20px, auto);
+  grid-auto-rows: minmax(0px, auto);
   padding: 20px;
 }
 .how-to-button-close {
@@ -73,7 +67,7 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  grid-auto-rows: minmax(20px, auto);
+  grid-auto-rows: minmax(0px, auto);
   padding: 20px;
 }
 .example-1-button-close {
@@ -94,7 +88,7 @@ body {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 20px;
-  grid-auto-rows: minmax(20px, auto);
+  grid-auto-rows: minmax(0px, auto);
 }
 .ip {
   grid-column: 1/4;
@@ -191,4 +185,107 @@ dd {
 }
 [hidden] {
   display: none;
+}
+@media (max-width: 600px) {
+  .wrapper {
+    grid-template-columns: 100%;
+  }
+  .introduction {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .image-privacy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .privacy {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .buttons {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .how-to {
+    grid-column: 1;
+    grid-row: 5;
+    grid-template-columns: 100%;
+  }
+  .how-to-button-close {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .how-to-explanation-1 {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .how-to-explanation-2 {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .how-to-image-1 {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .how-to-image-2 {
+    grid-column: 1;
+    grid-row: 5;
+  }
+  .example-1 {
+    grid-column: 1;
+    grid-row: 6;
+    display: grid;
+    grid-template-columns: 100%;
+  }
+  .example-1-button-close {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .example-1-image {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .example-1-explanation {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .information {
+    grid-column: 1;
+    grid-row: 7;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    grid-auto-rows: minmax(0px, auto);
+  }
+  .ip {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .country {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .status {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .settings {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .logs {
+    grid-column: 1;
+    grid-row: 5;
+  }
+  dt {
+    float: none;
+    width: 100%;
+  }
+  dd {
+    float: none;
+    width: 100%;
+  }
+  [hidden] {
+    display: none;
+  }
 }
