@@ -15,6 +15,8 @@ build({
   outExtension: { ".js": ".mjs" },
   loader: {
     ".html": "text",
+    ".gif": "binary",
+    ".png": "binary"
   },
 }).catch((error) => {
   console.error(error);
