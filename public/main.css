@@ -110,8 +110,12 @@ body {
   grid-column: 1 / 11;
   grid-row: 2;
 }
-h2 {
+h2,
+h5 {
   text-transform: uppercase;
+}
+h5 {
+  font-family: "SourceCodeProMedium";
 }
 h4 {
   border-bottom: 0.3rem solid #0000b4;
@@ -161,6 +165,10 @@ dd {
 #how-to,
 #example-1 {
   background-color: #eee;
+}
+a {
+  text-decoration: underline;
+  color: #0000b4;
 }
 #show-info a {
   margin-right: 20px;
