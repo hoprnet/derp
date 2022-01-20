@@ -10,13 +10,13 @@ const files = {
   "hopr_derp.gif": picHoprDerp,
   "hopr_rpc_linkability.gif": picHoprLink,
   "hopr_derp_setup_1.png": picHoprSetup1,
-  "hopr_derp_setup_2.png": picHoprSetup2
-}
+  "hopr_derp_setup_2.png": picHoprSetup2,
+};
 
 const mimeTypes = {
   ".gif": "image/gif",
-  ".png": "image/png"
-}
+  ".png": "image/png",
+};
 
 export async function handleRequest(
   request: Request,
@@ -46,10 +46,10 @@ export async function handleRequest(
 
   // serve static assets
   if (files[path[0]]) {
-    const filename = path[0]
-    const file = files[filename]
-    const fileExt = filename.split('.')[1]
-    const mimeType = mimeTypes[fileExt]
+    const filename = path[0];
+    const file = files[filename];
+    const fileExt = filename.split(".")[1];
+    const mimeType = mimeTypes[fileExt];
     return new Response(file, {
       headers: { "Content-Type": mimeType },
     });

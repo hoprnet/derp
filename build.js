@@ -16,7 +16,7 @@ build({
   loader: {
     ".html": "text",
     ".gif": "binary",
-    ".png": "binary"
+    ".png": "binary",
   },
 }).catch((error) => {
   console.error(error);

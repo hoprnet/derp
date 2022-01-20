@@ -84,7 +84,8 @@
         padding: 0;
         margin: 0;
       }
-      #how-to, #example-1 {
+      #how-to,
+      #example-1 {
         background-color: #eee;
       }
       #show-info a {
@@ -116,120 +117,134 @@
           <h1>D.E.R.P.</h1>
           <h2>Dumb Ethereum RPC Provider</h2>
           <p>
-          Crypto services are flashier and more user-friendly than ever, but few
-          understand what goes on under the hood. The DERP tool from HOPR
-          duplicates the functionality of a typical RPC provider, but it makes
-          explicit the sheer amount of identifying data these services expose.
-          As you’ll see, this happens as soon as you connect your wallet, <b>and
-            all without you needing to make a transaction.</b>
+            Crypto services are flashier and more user-friendly than ever, but
+            few understand what goes on under the hood. The DERP tool from HOPR
+            duplicates the functionality of a typical RPC provider, but it makes
+            explicit the sheer amount of identifying data these services expose.
+            As you’ll see, this happens as soon as you connect your wallet,
+            <b>and all without you needing to make a transaction.</b>
           </p>
           <p>
-          Add the DERP RPC endpoint to your crypto wallet to see exactly what
-          information is being leaked about you every time you connect to a
-          crypto service.
+            Add the DERP RPC endpoint to your crypto wallet to see exactly what
+            information is being leaked about you every time you connect to a
+            crypto service.
           </p>
         </div>
       </div>
       <div class="row">
         <div class="column column-50">
-          <img src="/hopr_derp.gif">
+          <img src="/hopr_derp.gif" />
         </div>
         <div class="column column-50">
           <h5>I thought web3 was private?</h5>
+          <p>Not a chance.</p>
           <p>
-          Not a chance.
+            As soon as you start a wallet, it gets in touch with the RPC
+            provider to find out basic information such as your token balances
+            and network (Ethereum, Polygon, Gnosis Chain, etc.). When you
+            connect your wallet to a web-based crypto service, the site
+            immediately starts making calls to RPC endpoints to gather the data
+            needed to populate the UI and facilitate the transactions. All this
+            happens within a fraction of a second, before you even start to make
+            a transaction.
           </p>
           <p>
-          As soon as you start a wallet, it gets in touch with the RPC provider
-          to find out basic information such as your token balances and network
-          (Ethereum, Polygon, Gnosis Chain, etc.). When you connect your wallet
-          to a web-based crypto service, the site immediately starts making
-          calls to RPC endpoints to gather the data needed to populate the UI
-          and facilitate the transactions. All this happens within a fraction of
-          a second, before you even start to make a transaction.
+            The associated metadata exposes your IP address. Some wallets like
+            MetaMask expose details about ALL your addresses, not just the
+            connected one.
           </p>
           <p>
-          The associated metadata exposes your IP address. Some wallets like
-          MetaMask expose details about ALL your addresses, not just the
-          connected one.
+            This is normally all hidden from you, the user, but DERP makes all
+            these RPC calls explicit. It’s incredible to see just how much
+            identifying data and metadata is shared by every popular crypto
+            service.
           </p>
           <p>
-          This is normally all hidden from you, the user, but DERP makes all
-          these RPC calls explicit. It’s incredible to see just how much
-          identifying data and metadata is shared by every popular crypto
-          service.
+            A malicious RPC provider could easily use this metadata to front-run
+            transactions or share this information with third parties to link
+            your real world identity to particular addresses, even if those
+            addresses have never interacted on chain.
           </p>
           <p>
-          A malicious RPC provider could easily use this metadata to front-run
-          transactions or share this information with third parties to link your
-          real world identity to particular addresses, even if those addresses
-          have never interacted on chain.
-          </p>
-          <p>
-          As part of <a href="https://hoprnet.org/hop-on-board">HOPR’s IP
-            Privacy Week</a>, we invite you to play with DERP and
-          see just how far we have to go before the web3 privacy dream can
-          become a reality. Just follow the setup instructions to get started,
-          then click the example buttons to learn how widespread the risks are.
-          We’ll be adding more example showcases throughout the week.
+            As part of
+            <a href="https://hoprnet.org/hop-on-board">HOPR’s IP Privacy Week</a
+            >, we invite you to play with DERP and see just how far we have to
+            go before the web3 privacy dream can become a reality. Just follow
+            the setup instructions to get started, then click the example
+            buttons to learn how widespread the risks are. We’ll be adding more
+            example showcases throughout the week.
           </p>
         </div>
       </div>
       <div class="row" id="show-info">
         <div class="column">
-          <a class="button float-left" href="" onClick="return toggleInfo('how-to')">Setup</a>
-          <a class="button float-left" href="" onClick="return toggleInfo('example-1')">Example 1</a>
+          <a
+            class="button float-left"
+            href=""
+            onClick="return toggleInfo('how-to')"
+            >Setup</a
+          >
+          <a
+            class="button float-left"
+            href=""
+            onClick="return toggleInfo('example-1')"
+            >Example 1</a
+          >
         </div>
       </div>
       <div class="row" id="how-to" hidden>
         <div class="container">
           <div class="row" id="close-info">
             <div class="column">
-              <a class="button float-right" href="" onClick="return toggleInfo('how-to')"
+              <a
+                class="button float-right"
+                href=""
+                onClick="return toggleInfo('how-to')"
                 >Close</a
               >
             </div>
           </div>
           <div class="row">
             <div class="column column-50">
-          <img src="/hopr_derp_setup_1.png">
+              <img src="/hopr_derp_setup_1.png" />
             </div>
             <div class="column column-50">
               <h5>Setup</h5>
               <p>
-              To start using DERP, you’ll need to set it up as your ETH RPC
-              provider in your wallet. Instructions are for MetaMask, but DERP
-              will work for any wallet that allows you to manage RPC endpoints.
-              DERP currently only works with Ethereum mainnet, but other chains
-              have the same problems and may be added in the future.
+                To start using DERP, you’ll need to set it up as your ETH RPC
+                provider in your wallet. Instructions are for MetaMask, but DERP
+                will work for any wallet that allows you to manage RPC
+                endpoints. DERP currently only works with Ethereum mainnet, but
+                other chains have the same problems and may be added in the
+                future.
               </p>
-              <p>
-              Click “Networks” (1) and then “Add Network” (2)
-              </p>
+              <p>Click “Networks” (1) and then “Add Network” (2)</p>
             </div>
           </div>
           <div class="row">
             <div class="column column-50">
-          <img src="/hopr_derp_setup_2.png">
-</div>
+              <img src="/hopr_derp_setup_2.png" />
+            </div>
             <div class="column column-50">
               <p>
-              In the window that appears, fill in the fields by copy / pasting
-              the RPC information in the DERP panel below this box (3).
+                In the window that appears, fill in the fields by copy / pasting
+                the RPC information in the DERP panel below this box (3).
               </p>
               <p>
-              A warning will appear for Chain ID (4), because MetaMask already
-              has an ETH RPC Network as standard. It’s safe to ignore this.
+                A warning will appear for Chain ID (4), because MetaMask already
+                has an ETH RPC Network as standard. It’s safe to ignore this.
               </p>
               <p>
-              Clive Save (5). Visit a DeFi service of your choice and connect
-              your wallet. DERP will now make transparent all the RPC calls
-              which are normally hidden from you.
+                Clive Save (5). Visit a DeFi service of your choice and connect
+                your wallet. DERP will now make transparent all the RPC calls
+                which are normally hidden from you.
               </p>
               <p>
-              <b>DERP doesn’t store or share your information or display inaccurate
-              blockchain data: it simply reveals what goes on under the hood
-              when you connect to an RPC endpoint.</b>
+                <b
+                  >DERP doesn’t store or share your information or display
+                  inaccurate blockchain data: it simply reveals what goes on
+                  under the hood when you connect to an RPC endpoint.</b
+                >
               </p>
             </div>
           </div>
@@ -239,36 +254,41 @@
         <div class="container">
           <div class="row" id="close-info">
             <div class="column">
-              <a class="button float-right" href="" onClick="return toggleInfo('example-1')"
+              <a
+                class="button float-right"
+                href=""
+                onClick="return toggleInfo('example-1')"
                 >Close</a
               >
             </div>
           </div>
           <div class="row">
             <div class="column column-50">
-          <img src="/hopr_rpc_linkability.gif">
+              <img src="/hopr_rpc_linkability.gif" />
             </div>
             <div class="column column-50">
               <h5>MetaMask</h5>
               <p>
-              When you connect to your MetaMask, it needs to find out your
-              balance(s) so it can populate the UI. To achieve this, a single
-              call (eth_call) is sent requesting the balance of ALL your
-              addresses. Even if those addresses never interacted on chain, the
-              RPC provider now knows that they have the same owner.
+                When you connect to your MetaMask, it needs to find out your
+                balance(s) so it can populate the UI. To achieve this, a single
+                call (eth_call) is sent requesting the balance of ALL your
+                addresses. Even if those addresses never interacted on chain,
+                the RPC provider now knows that they have the same owner.
               </p>
               <p>
-              But it gets worse! Remember, the RPC provider knows your IP
-              address. So in addition to linking all these accounts together, a
-              malicious RPC provider could try to use the IP data to connect
-              your addresses to your real-world identity.
+                But it gets worse! Remember, the RPC provider knows your IP
+                address. So in addition to linking all these accounts together,
+                a malicious RPC provider could try to use the IP data to connect
+                your addresses to your real-world identity.
               </p>
               <p>
-              To see this in DERP, open MetaMask and look for a request called
-              eth_call. In the data, between lots of dividing zeroes, you will
-              see all of the addresses in your MetaMask, one after the other.
-              <b>DERP doesn’t store or share your information, but a malicious RPC
-                provider could.</b>
+                To see this in DERP, open MetaMask and look for a request called
+                eth_call. In the data, between lots of dividing zeroes, you will
+                see all of the addresses in your MetaMask, one after the other.
+                <b
+                  >DERP doesn’t store or share your information, but a malicious
+                  RPC provider could.</b
+                >
               </p>
             </div>
           </div>
