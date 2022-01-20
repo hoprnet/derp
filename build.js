@@ -18,6 +18,7 @@ build({
     ".gif": "binary",
     ".png": "binary",
   },
+  external: ["__STATIC_CONTENT_MANIFEST"],
 }).catch((error) => {
   console.error(error);
   process.exitCode = 1;

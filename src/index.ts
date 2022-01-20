@@ -1,26 +1,14 @@
-import HTML from "./index.html";
-import picHoprDerp from "./hopr_derp.gif";
-import picHoprLink from "./hopr_rpc_linkability.gif";
-import picHoprSetup1 from "./hopr_derp_setup_1.png";
-import picHoprSetup2 from "./hopr_derp_setup_2.png";
+import { getAssetFromKV } from "@cloudflare/kv-asset-handler";
+
+import manifestJSON from "__STATIC_CONTENT_MANIFEST";
+const assetManifest = JSON.parse(manifestJSON);
 
 const ethMainnetProvider = "https://eth-erigon.lsotech.net/";
 
-const files = {
-  "hopr_derp.gif": picHoprDerp,
-  "hopr_rpc_linkability.gif": picHoprLink,
-  "hopr_derp_setup_1.png": picHoprSetup1,
-  "hopr_derp_setup_2.png": picHoprSetup2,
-};
-
-const mimeTypes = {
-  ".gif": "image/gif",
-  ".png": "image/png",
-};
-
 export async function handleRequest(
   request: Request,
-  env: Env
+  env: Env,
+  ctx: Context
 ): Promise<Response> {
   const url = new URL(request.url);
   const acceptContent = request.headers.get("accept");
@@ -38,29 +26,28 @@ export async function handleRequest(
     return fetchFromProvider(ethMainnetProvider, request);
   }
 
-  if (url.pathname == "/" && /text\/html/.test(acceptContent)) {
-    return new Response(HTML, {
-      headers: { "Content-Type": "text/html;charset=UTF-8" },
-    });
+  // before proceeding to try to setup the websocket, we try to serve static
+  // assets
+  try {
+    return await getAssetFromKV(
+      {
+        request,
+        waitUntil(promise) {
+          return ctx.waitUntil(promise);
+        },
+      },
+      {
+        ASSET_NAMESPACE: env.__STATIC_CONTENT,
+        ASSET_MANIFEST: assetManifest,
+      }
+    );
+  } catch (e) {
+    if (path[0] == "client_logs") {
+      newUrl.pathname = "/" + path.slice(1).join("/");
+      return logsObject.fetch(newUrl, request);
+    }
+    return new Response("Not found", { status: 404 });
   }
-
-  // serve static assets
-  if (files[path[0]]) {
-    const filename = path[0];
-    const file = files[filename];
-    const fileExt = filename.split(".")[1];
-    const mimeType = mimeTypes[fileExt];
-    return new Response(file, {
-      headers: { "Content-Type": mimeType },
-    });
-  }
-
-  if (path[0] == "client_logs") {
-    newUrl.pathname = "/" + path.slice(1).join("/");
-    return logsObject.fetch(newUrl, request);
-  }
-
-  return new Response("Not found", { status: 404 });
 }
 
 async function fetchFromProvider(provider: String, request: Request) {

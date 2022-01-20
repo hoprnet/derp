@@ -11,6 +11,10 @@ command = "yarn && yarn build"
 format = "modules"
 main = "./index.mjs"
 
+[site]
+bucket = "./public"
+entry-point = "dist"
+
 [durable_objects]
 bindings = [
   { name = "client_logs", class_name = "ClientLog" }
