@@ -9,6 +9,19 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Build
+        run: yarn && yarn build
+
+      - name: Disable wrangler build
+        run: |
+           sed "s/^command\ =.*$/command\ =\ ''/g" wrangler.toml > wrangler.toml.new
+           mv wrangler.toml.new wrangler.toml
+
       - name: Publish
         uses: cloudflare/wrangler-action@1.3.0
         with:
