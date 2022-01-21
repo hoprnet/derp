@@ -11,6 +11,24 @@ export async function handleRequest(
   ctx: Context
 ): Promise<Response> {
   const url = new URL(request.url);
+
+  // redirect to secure connections, unless on localhost (for testing)
+  if (url.hostname != "localhost" && url.hostname != "127.0.0.1") {
+    if (url.protocol == "http:" || url.protocol == "ws:") {
+      const { pathname, search, host } = url;
+      const secureProtocol = url.protocol
+        .replace("http", "https")
+        .replace("ws", "wss");
+      const secureUrl = `${secureProtocol}//${host}${pathname}${search}`;
+      return Response.redirect(secureUrl, 307);
+    }
+
+    // only pass when we are on secure connections
+    if (url.protocol != "https:" && url.protocol != "wss:") {
+      return new Response("Unsupported protocol", { status: 422 });
+    }
+  }
+
   const acceptContent = request.headers.get("accept");
   const contentType = request.headers.get("content-type");
   const method = request.method;
