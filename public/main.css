@@ -61,7 +61,9 @@ body {
   grid-column: 1;
   grid-row: 3;
 }
-.example-1 {
+.example-1,
+.example-2,
+.example-3 {
   grid-column: 1 / 3;
   grid-row: 5;
   display: grid;
@@ -70,15 +72,21 @@ body {
   grid-auto-rows: minmax(0px, auto);
   padding: 20px;
 }
-.example-1-button-close {
+.example-1-button-close,
+.example-2-button-close,
+.example-3-button-close {
   grid-column: 1 / 3;
   grid-row: 1;
 }
-.example-1-image {
+.example-1-image,
+.example-2-image,
+.example-3-image {
   grid-column: 1;
   grid-row: 2;
 }
-.example-1-explanation {
+.example-1-explanation,
+.example-2-explanation,
+.example-3-explanation {
   grid-column: 2;
   grid-row: 2;
 }
@@ -163,7 +171,9 @@ dd {
   margin: 0;
 }
 #how-to,
-#example-1 {
+#example-1,
+#example-2,
+#example-3 {
   background-color: #eee;
 }
 a {
@@ -176,6 +186,8 @@ a {
 #show-info a,
 .how-to-button-close a,
 .example-1-button-close a,
+.example-2-button-close a,
+.example-3-button-close a,
 #close-info a {
   text-transform: uppercase;
   background: linear-gradient(180deg, #000050, #0000b4);
@@ -188,6 +200,8 @@ a {
 #show-info a:hover,
 .how-to-button-close a:hover,
 .example-1-button-close a:hover,
+.example-2-button-close a:hover,
+.example-3-button-close a:hover,
 #close-info a:hover {
   color: #fff;
 }
@@ -239,21 +253,29 @@ a {
     grid-column: 1;
     grid-row: 5;
   }
-  .example-1 {
+  .example-1,
+  .example-2,
+  .example-3 {
     grid-column: 1;
     grid-row: 6;
     display: grid;
     grid-template-columns: 100%;
   }
-  .example-1-button-close {
+  .example-1-button-close,
+  .example-2-button-close,
+  .example-3-button-close {
     grid-column: 1;
     grid-row: 1;
   }
-  .example-1-image {
+  .example-1-image,
+  .example-2-image,
+  .example-3-image {
     grid-column: 1;
     grid-row: 3;
   }
-  .example-1-explanation {
+  .example-1-explanation,
+  .example-2-explanation,
+  .example-3-explanation {
     grid-column: 1;
     grid-row: 2;
   }

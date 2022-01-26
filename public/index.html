@@ -106,6 +106,18 @@
           onClick="return toggleInfo('example-1')"
           >Example 1: MetaMask Linkability</a
         >
+        <a
+          class="button float-left"
+          href=""
+          onClick="return toggleInfo('example-2')"
+          >Example 2: NFT Frontrun</a
+        >
+        <a
+          class="button float-left"
+          href=""
+          onClick="return toggleInfo('example-3')"
+          >Example 3: DEX MEV</a
+        >
       </div>
       <div class="how-to" id="how-to" hidden>
         <div class="how-to-button-close">
@@ -191,6 +203,76 @@
               >DERP doesn’t store or share your information, but a malicious RPC
               provider could.</b
             >
+          </p>
+        </div>
+      </div>
+      <div class="example-2" id="example-2" hidden>
+        <div class="example-2-button-close">
+          <a
+            class="button float-right"
+            href=""
+            onClick="return toggleInfo('example-2')"
+            >Close</a
+          >
+        </div>
+        <div class="example-2-image">
+          <img src="/hopr_nft_frontrun.gif" />
+        </div>
+        <div class="example-2-explanation">
+          <h5>NFT Frontrun</h5>
+          <p>
+            When you bid on an NFT in a marketplace, your wallet will send a
+            request to estimate the necessary gas price. As part of this
+            request, the RPC endpoint will learn your IP address, your wallet
+            address, the precise NFT you intend to buy and the amount of your
+            bid. All this happens before the transaction is confirmed, giving a
+            malicious actor all the information they need to frontrun you by
+            placing a higher bid or setting a higher gas price. In an NFT
+            minting event, this could mean the difference between getting an NFT
+            or missing out.
+          </p>
+          <p>
+            DERP doesn’t work with all NFT marketplaces: OpenSea, for example,
+            uses a private RPC provider which we can’t duplicate the
+            functionality of. But that’s not necessarily better!
+            <b
+              >With crypto, you shouldn’t have to trust black box service
+              providers with your data.</b
+            >
+          </p>
+        </div>
+      </div>
+      <div class="example-3" id="example-3" hidden>
+        <div class="example-3-button-close">
+          <a
+            class="button float-right"
+            href=""
+            onClick="return toggleInfo('example-3')"
+            >Close</a
+          >
+        </div>
+        <div class="example-3-image">
+          <img src="/hopr_dex_mev.gif" />
+        </div>
+        <div class="example-3-explanation">
+          <h5>DEX MEV</h5>
+          <p>
+            When you use a DEX like Uniswap, many RPC requests are needed to
+            populate the UI with data about your balances, the token pair you
+            want to swap and details like price and slippage.
+          </p>
+          <p>
+            All this information is sent to the RPC provider before your
+            transaction is broadcast. A malicious provider can use this
+            information to perform a sandwich attack on your transaction, maxing
+            out the slippage and effectively taking money from you.
+          </p>
+          <p>
+            Separately, DEX RPC endpoints also expose a large amount of
+            identifying metadata. Simply browsing swaps reveals information
+            about your portfolio, even if you never make a transaction. Combined
+            with your IP address, which is also leaked, this can facilitate
+            precise identification of you and your crypto holdings.
           </p>
         </div>
       </div>
