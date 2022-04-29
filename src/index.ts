@@ -7,6 +7,7 @@ const assetManifest = JSON.parse(manifestJSON);
 const ethMainnetProvider =
   "https://eth-mainnet.gateway.pokt.network/v1/lb/61dc3e545a6d110038222645";
 const xdaiMainnetProvider = "https://dai.poa.network/";
+const arbitrumMainnetProvider = "https://arb1.arbitrum.io/rpc";
 
 export async function handleRequest(
   request: Request,
@@ -51,6 +52,12 @@ export async function handleRequest(
     newUrl.pathname = "/";
     await logsObject.fetch(newUrl, request.clone());
     return fetchFromProvider(xdaiMainnetProvider, request);
+  }
+
+  if (url.pathname == "/rpc/arbitrum/mainnet") {
+    newUrl.pathname = "/";
+    await logsObject.fetch(newUrl, request.clone());
+    return fetchFromProvider(arbitrumMainnetProvider, request);
   }
 
   // before proceeding to try to setup the websocket, we try to serve static
