@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "@emotion/styled";
 import MuiButton from '@mui/material/Button'
 
-const SBanner = styled.div`
+const SBanner = styled.section`
   height: 58px;
   background: linear-gradient(#000050,#0000b4);
   display: flex;
