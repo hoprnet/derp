@@ -10,7 +10,7 @@ build({
   sourcemap: true,
   format: "esm",
   target: "esnext",
-  entryPoints: [path.join(__dirname, "src", "index.ts")],
+  entryPoints: [path.join(__dirname, "server", "index.ts")],
   outdir: path.join(__dirname, "dist"),
   outExtension: { ".js": ".mjs" },
   loader: {

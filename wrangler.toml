@@ -12,7 +12,7 @@ format = "modules"
 main = "./index.mjs"
 
 [site]
-bucket = "./public"
+bucket = "./build"
 entry-point = "dist"
 
 [durable_objects]

@@ -205,6 +205,37 @@ a {
 #close-info a:hover {
   color: #fff;
 }
+
+i {
+  text-decoration: underline;
+  color: #0000b4;
+}
+#show-info i {
+  margin-right: 20px;
+}
+#show-info i,
+.how-to-button-close i,
+.example-1-button-close i,
+.example-2-button-close i,
+.example-3-button-close i,
+#close-info i {
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #000050, #0000b4);
+  border-radius: 25px;
+  border: none;
+  color: #fff;
+  font-size: 1em;
+  font-weight: lighter;
+}
+#show-info i:hover,
+.how-to-button-close i:hover,
+.example-1-button-close i:hover,
+.example-2-button-close i:hover,
+.example-3-button-close i:hover,
+#close-info i:hover {
+  color: #fff;
+}
+
 [hidden] {
   display: none;
 }
