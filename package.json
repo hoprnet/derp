@@ -1,6 +1,6 @@
 {
   "name": "derp",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "An Ethereum RPC provider which gives access to the logs it gathers.",
   "module": "./dist/index.mjs",
   "type": "module",
@@ -19,6 +19,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.8.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
