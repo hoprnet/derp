@@ -4,9 +4,7 @@ import styled from "@emotion/styled";
 
 import Section from '../components/Section/index.jsx'
 import Typography from '../components/Typography/index.jsx'
-import Brick from '../components/Brick/index.jsx'
-import GrayButton from '../components/Button/gray.jsx'
-
+import Derp from '../components/DERP/index.jsx'
 
 const SSection = styled(Section)`
   padding-bottom: 40px;
@@ -36,25 +34,12 @@ const Subtext = styled(Typography)`
 `
 
 
-function Section3() {
+function Section5() {
     return (
-        <SSection
-            darkGradient
-        >
-            {/*<Typography*/}
-            {/*    type="h6"*/}
-            {/*    className="mb32"*/}
-            {/*    white*/}
-            {/*>*/}
-            {/*    Set up your DERP RPC endpoint to your crypto wallet.*/}
-            {/*</Typography>*/}
-            {/*<GrayButton*/}
-            {/*    className="unifiedSize"*/}
-            {/*>*/}
-            {/*    SETUP*/}
-            {/*</GrayButton>*/}
+        <SSection>
+            <Derp/>
         </SSection>
     );
 }
 
-export default Section3;
+export default Section5;

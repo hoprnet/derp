@@ -21,7 +21,7 @@ function App() {
           <Section4/>
           <Section5/>
           <Section6/>
-          <OriginalWebsite/>
+          {/*<OriginalWebsite/>*/}
       </Layout>
     </div>
   );
