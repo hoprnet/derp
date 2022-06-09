@@ -13,10 +13,26 @@ const SSection = styled(Section)`
 `
 
 
-const Image = styled.img`
-  height: 590px;
-  width: auto;
+
+const ImageContainer = styled.div`
+  max-width: 780px;
+  width: 100%;
   margin-top: -140px;
+  @media (max-width: 600px) {
+    margin-top: -90px;
+  }
+  @media (max-width: 400px) {
+    margin-top: -65px;
+  }
+  @media (max-width: 300px) {
+    margin-top: -40px;
+  }
+`
+
+const Image = styled.img`
+  height: auto;
+  max-width: 100%;
+ // margin-top: -140px;
 `
 
 const Center = styled.div`
@@ -41,10 +57,13 @@ function Section2() {
         <SSection
             gradient
         >
-            <Image
-                alt="Hopr logo"
-                src={'/images/derp_top-header.png'}
-            />
+            <ImageContainer>
+                <Image
+                    alt="Hopr logo"
+                    src={'/images/derp_top-header.png'}
+                />
+            </ImageContainer>
+
             <Typography type="h2">
                 D.E.R.P.<br/>
                 DUMB ETHEREUM RPC PROVIDER

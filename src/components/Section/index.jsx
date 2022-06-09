@@ -8,6 +8,12 @@ const SSection = styled.section`
   &.section--yellow{
     background: #FFFFA0;
   }
+  &.section--dark-gradient{
+    background: linear-gradient(180deg, #0000B4 0.5%, #000050 100%);
+  }
+  &.section--grey {
+    background: #EEEEEE;
+  }
 `
 
 const Content = styled.div`
@@ -23,7 +29,7 @@ const Content = styled.div`
 function Section(props) {
     return (
         <SSection
-            className={`${props.className} Section${props.gradient ? ' section--gradient' : ''}${props.yellow ? ' section--yellow' : ''}${props.gradient ? ' Section-gradient' : ''}`}
+            className={`Section ${props.className} ${props.gradient ? ' section--gradient' : ''}${props.yellow ? ' section--yellow' : ''}${props.darkGradient ? ' section--dark-gradient' : ''}${props.grey ? ' section--grey' : ''}`}
         >
             <Content className="Content">
                 {props.children}

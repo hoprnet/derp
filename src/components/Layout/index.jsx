@@ -16,12 +16,12 @@ const Content = styled.div`
   margin-top: 68px;
 //  max-width: 1096px;
   
-  @media screen and (max-width: 700px) {
-    margin-top: 128px;
-  }
-  @media screen and (max-width: 293px) {
-    margin-top: 216px;
-  }
+  //@media screen and (max-width: 700px) {
+  //  margin-top: 128px;
+  //}
+  //@media screen and (max-width: 293px) {
+  //  margin-top: 216px;
+  //}
 `
 
 const Layout = ({ className = '', children }) => {

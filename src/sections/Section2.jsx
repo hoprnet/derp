@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import Section from '../components/Section/index.jsx'
 import Typography from '../components/Typography/index.jsx'
-import Button from '../components/Button/index.jsx'
+import Brick from '../components/Brick/index.jsx'
 
 
 
@@ -32,34 +32,36 @@ const Center = styled.div`
 
 
 const Subtext = styled(Typography)`
-  max-width: 640px;
+  max-width: 960px;
 `
 
 
 
-function Section1() {
+function Section2() {
     return (
         <SSection
             yellow
         >
             <Typography type="h2">
-                D.E.R.P.<br/>
-                DUMB ETHEREUM RPC PROVIDER
+                I THOUGHT WEB3<br/>
+                WAS PRIVATE?<br/>
+                NOT A CHANCE.
             </Typography>
 
             <Subtext>
+                Crypto services are flashier and more user-friendly than ever, but few understand what goes on under the hood. The DERP tool from HOPR duplicates the functionality of a typical RPC provider, but it makes explicit the sheer amount of identifying data these services expose. As you’ll see, this happens as soon as you connect your wallet, and all without you needing to make a transaction.
+            </Subtext>
+            <Subtext className='mb80'>
                 Add the DERP RPC endpoint to your crypto wallet to see exactly what information is being leaked about you every time you connect to a crypto service.
             </Subtext>
-
-            <Button
-                hopr
-            >
-                SETUP
-            </Button>
-
-
+            <Brick
+                title="HOW IS THIS DONE?"
+                text="As soon as you start a wallet, it gets in touch with the RPC provider to find out basic information such as your token balances and network (Ethereum, Polygon, Gnosis Chain, etc.)"
+                image="/images/hopr_derp.gif"
+                button="LEARN MORE"
+            />
         </SSection>
     );
 }
 
-export default Section1;
+export default Section2;
