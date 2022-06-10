@@ -1,17 +1,35 @@
 {
   "name": "derp",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "description": "An Ethereum RPC provider which gives access to the logs it gathers.",
   "module": "./dist/index.mjs",
   "type": "module",
   "scripts": {
-    "format": "prettier --write 'src/*.{js,ts}' 'public/*.{css,json,md,html}' tsconfig.json build.js README.md '.github/**/*.yml'",
-    "build": "node build.js",
+    "format": "prettier --write 'server/*.{js,ts}' 'public/*.{css,json,md,html}' tsconfig.json build.js README.md '.github/**/*.yml'",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "node build.js",
     "types:check": "tsc",
     "start-local-ssl-proxy": "local-ssl-proxy --source 8788 --target 8787",
-    "start-dev": "miniflare --live-reload"
+    "start-miniflare": "miniflare --live-reload",
+    "start": "react-scripts start",
+    "start-https": "HTTPS=true yarn start",
+    "build:frontend": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "license": "MIT",
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.8.3",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.2.0",
     "@cloudflare/workers-types": "3.3.0",
@@ -22,5 +40,23 @@
     "prettier": "^2.3.0",
     "tslib": "^2.2.0",
     "typescript": "^4.4.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

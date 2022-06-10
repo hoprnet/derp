@@ -1,426 +1,69 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>D.E.R.P</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>D.E.R.P v2</title>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
     <script src="https://cdn.usefathom.com/script.js" data-site="JKWBJUIC" defer></script>
     <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
     <!-- CSS Reset -->
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
     />
     <!-- Milligram CSS -->
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
     />
     <!-- Font -->
     <link
-      rel="stylesheet"
-      media="screen"
-      href="https://fontlibrary.org//face/source-code-pro"
-      type="text/css"
+            rel="stylesheet"
+            media="screen"
+            href="https://fontlibrary.org//face/source-code-pro"
+            type="text/css"
     />
     <link rel="stylesheet" href="/main.css" />
     <link rel="icon" href="/hopr_icon.svg" />
+
   </head>
   <body>
-    <div class="wrapper">
-      <div class="introduction">
-        <h1>D.E.R.P.</h1>
-        <h2>Dumb Ethereum RPC Provider</h2>
-        <p>
-          Crypto services are flashier and more user-friendly than ever, but few
-          understand what goes on under the hood. The DERP tool from HOPR
-          duplicates the functionality of a typical RPC provider, but it makes
-          explicit the sheer amount of identifying data these services expose.
-          As you’ll see, this happens as soon as you connect your wallet,
-          <b>and all without you needing to make a transaction.</b>
-        </p>
-        <p>
-          Add the DERP RPC endpoint to your crypto wallet to see exactly what
-          information is being leaked about you every time you connect to a
-          crypto service.
-        </p>
-      </div>
-      <div class="image-privacy">
-        <img src="/hopr_derp.gif" />
-      </div>
-      <div class="privacy">
-        <h5>I thought web3 was private?</h5>
-        <p>Not a chance.</p>
-        <p>
-          As soon as you start a wallet, it gets in touch with the RPC provider
-          to find out basic information such as your token balances and network
-          (Ethereum, Polygon, Gnosis Chain, etc.). When you connect your wallet
-          to a web-based crypto service, the site immediately starts making
-          calls to RPC endpoints to gather the data needed to populate the UI
-          and facilitate the transactions. All this happens within a fraction of
-          a second, <b>before you even start to make a transaction</b>.
-        </p>
-        <p>
-          The associated metadata exposes your IP address. Some wallets like
-          MetaMask expose details about ALL your addresses, not just the
-          connected one.
-        </p>
-        <p>
-          This is normally all hidden from you, the user, but DERP makes all
-          these RPC calls explicit. It’s incredible to see just how much
-          identifying data and metadata is shared by every popular crypto
-          service.
-        </p>
-        <p>
-          A malicious RPC provider could easily use this metadata to front-run
-          transactions or share this information with third parties to link your
-          real world identity to particular addresses, even if those addresses
-          have never interacted on chain.
-        </p>
-        <p>
-          Just follow the setup instructions to get started, then click the
-          example buttons to learn how widespread the risks are.
-        </p>
-        <p>
-          To read more visit this blog post:
-          <a href="https://medium.com/hoprnet/intro-to-d-e-r-p-9e09a5e54904"
-            >Intro to D.E.R.P.</a
-          >
-        </p>
-      </div>
-      <div class="buttons" id="show-info">
-        <a
-          class="button float-left"
-          href=""
-          onClick="return toggleInfo('how-to')"
-          >Setup</a
-        >
-        <a
-          class="button float-left"
-          href=""
-          onClick="return toggleInfo('example-1')"
-          >Example 1: MetaMask Linkability</a
-        >
-        <a
-          class="button float-left"
-          href=""
-          onClick="return toggleInfo('example-2')"
-          >Example 2: NFT Frontrun</a
-        >
-        <a
-          class="button float-left"
-          href=""
-          onClick="return toggleInfo('example-3')"
-          >Example 3: DEX MEV</a
-        >
-      </div>
-      <div class="how-to" id="how-to" hidden>
-        <div class="how-to-button-close">
-          <a
-            class="button float-right"
-            href=""
-            onClick="return toggleInfo('how-to')"
-            >Close</a
-          >
-        </div>
-        <div class="how-to-image-1">
-          <img src="/hopr_derp_setup_1.png" />
-        </div>
-        <div class="how-to-explanation-1">
-          <h5>Setup</h5>
-          <p>
-            To start using DERP, you’ll need to set it up as your ETH RPC
-            provider in your wallet. Instructions are for MetaMask, but DERP
-            will work for any wallet that allows you to manage RPC endpoints.
-            DERP currently only works with Ethereum mainnet, but other chains
-            have the same problems and may be added in the future.
-          </p>
-          <p>Click “Networks” (1) and then “Add Network” (2)</p>
-        </div>
-        <div class="how-to-image-2">
-          <img src="/hopr_derp_setup_2.png" />
-        </div>
-        <div class="how-to-explanation-2">
-          <p>
-            In the window that appears, fill in the fields by copy / pasting the
-            RPC information in the DERP panel below this box (3).
-          </p>
-          <p>
-            A warning will appear for Chain ID (4), because MetaMask already has
-            an ETH RPC Network as standard. It’s safe to ignore this.
-          </p>
-          <p>
-            Click Save (5). Visit a DeFi service of your choice and connect your
-            wallet. DERP will now make transparent all the RPC calls which are
-            normally hidden from you.
-          </p>
-          <p>
-            <b
-              >DERP doesn’t store or share your information or display
-              inaccurate blockchain data: it simply reveals what goes on under
-              the hood when you connect to an RPC endpoint.</b
-            >
-          </p>
-        </div>
-      </div>
-      <div class="example-1" id="example-1" hidden>
-        <div class="example-1-button-close">
-          <a
-            class="button float-right"
-            href=""
-            onClick="return toggleInfo('example-1')"
-            >Close</a
-          >
-        </div>
-        <div class="example-1-image">
-          <img src="/hopr_rpc_linkability.gif" />
-        </div>
-        <div class="example-1-explanation">
-          <h5>MetaMask Linkability</h5>
-          <p>
-            When you connect to your MetaMask, it needs to find out your
-            balance(s) so it can populate the UI. To achieve this, a single call
-            (eth_call) is sent requesting the balance of ALL your addresses.
-            Even if those addresses never interacted on chain, the RPC provider
-            now knows that they have the same owner.
-          </p>
-          <p>
-            But it gets worse! Remember, the RPC provider knows your IP address.
-            So in addition to linking all these accounts together, a malicious
-            RPC provider could try to use the IP data to connect your addresses
-            to your real-world identity.
-          </p>
-          <p>
-            To see this in DERP, open MetaMask and look for a request called
-            eth_call. In the data, between lots of dividing zeroes, you will see
-            all of the addresses in your MetaMask, one after the other.
-            <b
-              >DERP doesn’t store or share your information, but a malicious RPC
-              provider could.</b
-            >
-          </p>
-          <p>
-            Read more <a
-              href="https://medium.com/hoprnet/derp-example-1-metamask-linkability-6b26ba42072f">here</a>.
-          </p>
-        </div>
-      </div>
-      <div class="example-2" id="example-2" hidden>
-        <div class="example-2-button-close">
-          <a
-            class="button float-right"
-            href=""
-            onClick="return toggleInfo('example-2')"
-            >Close</a
-          >
-        </div>
-        <div class="example-2-image">
-          <img src="/hopr_nft_frontrun.gif" />
-        </div>
-        <div class="example-2-explanation">
-          <h5>NFT Frontrun</h5>
-          <p>
-            When you bid on an NFT in a marketplace, your wallet will send a
-            request to estimate the necessary gas price. As part of this
-            request, the RPC endpoint will learn your IP address, your wallet
-            address, the precise NFT you intend to buy and the amount of your
-            bid. All this happens before the transaction is confirmed, giving a
-            malicious actor all the information they need to frontrun you by
-            placing a higher bid or setting a higher gas price. In an NFT
-            minting event, this could mean the difference between getting an NFT
-            or missing out.
-          </p>
-          <p>
-            DERP doesn’t work with all NFT marketplaces: OpenSea, for example,
-            uses a private RPC provider which we can’t duplicate the
-            functionality of. But that’s not necessarily better!
-            <b
-              >With crypto, you shouldn’t have to trust black box service
-              providers with your data.</b
-            >
-          </p>
-          <p>
-            Read more <a
-              href="https://medium.com/hoprnet/derp-example-2-nft-marketplace-7d3e4b4e8e2a">here</a>.
-          </p>
-        </div>
-      </div>
-      <div class="example-3" id="example-3" hidden>
-        <div class="example-3-button-close">
-          <a
-            class="button float-right"
-            href=""
-            onClick="return toggleInfo('example-3')"
-            >Close</a
-          >
-        </div>
-        <div class="example-3-image">
-          <img src="/hopr_dex_mev.gif" />
-        </div>
-        <div class="example-3-explanation">
-          <h5>DEX MEV</h5>
-          <p>
-            When you use a DEX like Uniswap, many RPC requests are needed to
-            populate the UI with data about your balances, the token pair you
-            want to swap and details like price and slippage.
-          </p>
-          <p>
-            All this information is sent to the RPC provider before your
-            transaction is broadcast. A malicious provider can use this
-            information to perform a sandwich attack on your transaction, maxing
-            out the slippage and effectively taking money from you.
-          </p>
-          <p>
-            Separately, DEX RPC endpoints also expose a large amount of
-            identifying metadata. Simply browsing swaps reveals information
-            about your portfolio, even if you never make a transaction. Combined
-            with your IP address, which is also leaked, this can facilitate
-            precise identification of you and your crypto holdings.
-          </p>
-          <p>
-            Read more <a
-              href="https://medium.com/hoprnet/derp-example-3-uniswap-mev-c2a8d3417c8">here</a>.
-          </p>
-        </div>
-      </div>
-      <div class="information">
-        <div class="ip">
-          <h4>IP</h4>
-          <div id="client-ip"></div>
-        </div>
-        <div class="country">
-          <h4>Country</h4>
-          <div id="client-country"></div>
-        </div>
-        <div class="status">
-          <h4>Status</h4>
-          <div id="client-connection-status"></div>
-        </div>
-        <div class="settings">
-          <h4>MetaMask Network Settings</h4>
-          <dl>
-            <dt>Network Name</dt>
-            <dd>DERP - ETH Mainnet</dd>
-            <dt>RPC Url</dt>
-            <dd id="rpc-url"></dd>
-            <dt>Chain ID</dt>
-            <dd>1</dd>
-          </dl>
-        </div>
-        <div class="logs">
-          <h4>Logs</h4>
-          <table id="client-logs">
-            <thead>
-              <tr>
-                <th>Timestamp</th>
-                <th>Type</th>
-                <th>User Agent</th>
-                <th>Method</th>
-                <th>Params</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
   </body>
-  <script type="text/javascript">
-    let currentWebSocket;
-
-    const tableCells = ["timestamp", "type", "userAgent", "method", "params"];
-
-    const toggleInfo = (nodeId) => {
-      const node = document.getElementById(nodeId);
-      const showinfoDiv = document.getElementById("show-info");
-      node.hidden = !node.hidden;
-      showinfoDiv.hidden = !showinfoDiv.hidden;
-      return false;
-    };
-
-    const updateIp = (ip, country) => {
-      const ipDiv = document.getElementById("client-ip");
-      ipDiv.textContent = ip;
-      const countryDiv = document.getElementById("client-country");
-      countryDiv.textContent = country;
-    };
-
-    const setConnectionStatus = () => {
-      const connectionDiv = document.getElementById("client-connection-status");
-      connectionDiv.textContent = "connected";
-    };
-
-    const unsetConnectionStatus = () => {
-      const connectionDiv = document.getElementById("client-connection-status");
-      connectionDiv.textContent = "not connected";
-    };
-
-    const setRpcUrl = () => {
-      const div = document.getElementById("rpc-url");
-      div.textContent = `https://${location.host}/rpc/eth/mainnet`;
-    };
-
-    const addLogEntry = (entry) => {
-      const table = document.getElementById("client-logs");
-      const tableBody = table.getElementsByTagName("tbody")[0];
-      const tableRow = tableBody.insertRow(0);
-      tableCells.forEach((name) => {
-        const cell = tableRow.insertCell();
-        let cellContent = document.createTextNode(entry[name]);
-        if (name == "params") {
-          cellContent = document.createElement("pre");
-          const text = document.createTextNode(
-            JSON.stringify(entry[name], null, 2)
-          );
-          cellContent.appendChild(text);
-        }
-        cell.appendChild(cellContent);
-      });
-    };
-
-    const join = () => {
-      const wsUrl = `wss://${location.host}/client_logs/websocket`;
-      const ws = new WebSocket(wsUrl);
-
-      ws.addEventListener("open", (event) => {
-        console.log("websocket opened");
-        currentWebSocket = ws;
-        setConnectionStatus();
-      });
-
-      ws.addEventListener("message", (event) => {
-        const data = JSON.parse(event.data);
-        console.log("received websocket message", event.data);
-        addLogEntry(data.log);
-        updateIp(data.ip, data.country);
-      });
-
-      ws.addEventListener("close", (event) => {
-        console.log(
-          "websocket closed, reconnecting:",
-          event.code,
-          event.reason
-        );
-        unsetConnectionStatus();
-        join();
-      });
-
-      ws.addEventListener("error", (event) => {
-        console.log("websocket error, reconnecting:", event);
-        unsetConnectionStatus();
-        join();
-      });
-    };
-
-    window.addEventListener(
-      "load",
-      async () => {
-        unsetConnectionStatus();
-        setRpcUrl();
-        join();
-      },
-      false
-    );
-  </script>
 </html>
