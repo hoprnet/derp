@@ -34,11 +34,12 @@ const Text = styled.div`
     color: #FFFFFF;
 `
 
-const Banner = () =>
+const Banner = (props) =>
     <SBanner>
         <Text>Add the DERP RPC endpoint to your crypto wallet</Text>
         <GrayButton
             variant="contained"
+            onClick={props.onButtonClick}
         >SETUP</GrayButton>
     </SBanner>
 

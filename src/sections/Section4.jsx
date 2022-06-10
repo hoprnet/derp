@@ -1,4 +1,4 @@
-import React, { Fragment, useState} from "react";
+import React, { Fragment } from "react";
 import styled from "@emotion/styled";
 
 import Section from '../components/Section/index.jsx'
@@ -35,13 +35,12 @@ const Subtext = styled(Typography)`
 `
 
 
-function Section3() {
-    const [showSetup, setShowSetup] = useState(false);
-
+function Section3(props) {
     return (
         <Fragment>
             <SSection
                 darkGradient
+                id='setup-section'
             >
                 <Typography
                     type="h6"
@@ -52,12 +51,12 @@ function Section3() {
                 </Typography>
                 <GrayButton
                     className="unifiedSize"
-                    onClick={()=>{setShowSetup(current => !current)}}
+                    onClick={()=>{props.setShowSetup(current => !current)}}
                 >
                     SETUP
                 </GrayButton>
             </SSection>
-            {showSetup &&
+            { props.showSetup &&
                 <SSection
                     grey
                 >

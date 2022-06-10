@@ -59,6 +59,7 @@ function Section2() {
                 text="As soon as you start a wallet, it gets in touch with the RPC provider to find out basic information such as your token balances and network (Ethereum, Polygon, Gnosis Chain, etc.)"
                 image="/images/hopr_derp.gif"
                 button="LEARN MORE"
+                buttonHref="https://medium.com/hoprnet/intro-to-d-e-r-p-9e09a5e54904"
             />
         </SSection>
     );

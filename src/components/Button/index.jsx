@@ -18,9 +18,9 @@ const SButton = styled(MuiButton)`
     line-height: 45px;
     
     letter-spacing: 0.25px;
-
     color: #FFFFFF;
     
+    height: 38px;
   }
   &.btn-hopr--v2:not(.btn-hopr--image-only) {
     width: 100%;

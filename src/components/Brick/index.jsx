@@ -82,6 +82,8 @@ function Brick(props) {
                     props.button &&
                     <Button
                         hopr
+                        href={props.buttonHref}
+                        target="_blank"
                     >
                         {props.button}
                     </Button>

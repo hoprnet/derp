@@ -30,6 +30,7 @@ function Section(props) {
     return (
         <SSection
             className={`Section ${props.className} ${props.gradient ? ' section--gradient' : ''}${props.yellow ? ' section--yellow' : ''}${props.darkGradient ? ' section--dark-gradient' : ''}${props.grey ? ' section--grey' : ''}`}
+            id={props.id}
         >
             <Content className="Content">
                 {props.children}

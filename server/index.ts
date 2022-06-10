@@ -5,9 +5,11 @@ const assetManifest = JSON.parse(manifestJSON);
 
 //const ethMainnetProvider = "https://eth-erigon.lsotech.net/";
 const ethMainnetProvider =
-  "https://eth-mainnet.gateway.pokt.network/v1/lb/61dc3e545a6d110038222645";
+    "https://eth-mainnet.gateway.pokt.network/v1/lb/61dc3e545a6d110038222645";
 const xdaiMainnetProvider = "https://dai.poa.network/";
 const arbitrumMainnetProvider = "https://arb1.arbitrum.io/rpc";
+const avalancheProvider = "https://api.avax.network/ext/bc/C/rpc";
+const neonlabsSolanaProxy = "https://proxy.devnet.neonlabs.org/solana";
 
 export async function handleRequest(
   request: Request,
@@ -60,6 +62,46 @@ export async function handleRequest(
     return fetchFromProvider(arbitrumMainnetProvider, request);
   }
 
+
+  //const arbitrumMainnetProvider = "https://arb1.arbitrum.io/rpc";
+  //const neonlabsSolanaProxy = "https://proxy.devnet.neonlabs.org/solana";
+
+  if (url.pathname == "/rpc/avax/avalanche") {
+    newUrl.pathname = "/";
+    await logsObject.fetch(newUrl, request.clone());
+    return fetchFromProvider(avalancheProvider, request);
+  }
+
+  if (url.pathname == "/rpc/sol/solana-neonlabs") {
+    newUrl.pathname = "/";
+    await logsObject.fetch(newUrl, request.clone());
+    return fetchFromProvider(neonlabsSolanaProxy, request);
+  }
+
+
+  // if (url.pathname == "/geolocation") {
+  //   console.log('geolocation geolocation geolocation geolocation', clientIp)
+  //   let geolocation = {status: 500};
+  //   try {
+  //     const response = await fetch(`https://ssl.geoplugin.net/json.gp?ip=${clientIp}`
+  //         , {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             'Accept': 'application/json'
+  //           }
+  //         }
+  //     );
+  //     const json = response.json();
+  //     geolocation = json;
+  //   } catch (e) {
+  //     console.warn('Error with getting geolocation.')
+  //   }
+  //
+  //   // newUrl.pathname = "/";
+  //   // await logsObject.fetch(newUrl, request.clone());
+  //   new Response("Geolocation", geolocation);
+  // }
+
   // before proceeding to try to setup the websocket, we try to serve static
   // assets
   try {
@@ -80,6 +122,11 @@ export async function handleRequest(
       newUrl.pathname = "/" + path.slice(1).join("/");
       return logsObject.fetch(newUrl, request);
     }
+    // if (path[0] == "geolocation") {
+    //   console.log('geolocation geolocation geolocation geolocation')
+    //   // newUrl.pathname = "/" + path.slice(1).join("/");
+    //   // return logsObject.fetch(newUrl, request);
+    // }
     return new Response("Not found", { status: 404 });
   }
 }

@@ -52,7 +52,7 @@ const Subtext = styled(Typography)`
 
 
 
-function Section2() {
+function Section1(props) {
     return (
         <SSection
             gradient
@@ -75,6 +75,7 @@ function Section2() {
 
             <Button
                 hopr
+                onClick={props.setShowSetup}
             >
                 SETUP
             </Button>
@@ -84,4 +85,4 @@ function Section2() {
     );
 }
 
-export default Section2;
+export default Section1;

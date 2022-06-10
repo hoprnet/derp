@@ -24,12 +24,14 @@ const Content = styled.div`
   //}
 `
 
-const Layout = ({ className = '', children }) => {
+const Layout = ({ className = '', children, setShowSetup }) => {
     return (
         <SLayout className="Layout">
             <NavBar />
             <Content className="Content">
-                <Banner/>
+                <Banner
+                    onButtonClick={setShowSetup}
+                />
                 {children}
             </Content>
             <Footer />
