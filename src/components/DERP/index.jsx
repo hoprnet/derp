@@ -114,6 +114,9 @@ function App() {
     th, td {
       padding: 8px;
     }
+    pre {
+      max-width: 440px;
+    }
     
     .hopr-table-header {
       background: linear-gradient(180deg, #0000B4 0.5%, #000050 100%);
