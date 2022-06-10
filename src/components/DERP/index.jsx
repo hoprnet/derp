@@ -8,6 +8,7 @@ function App() {
   const [ip, setIp] = useState('-');
   const [country, setCountry] = useState('-');
   const [status, setStatus] = useState('not connected');
+  const [rpcUrl, setRpcUrl2] = useState('');
 
   let currentWebSocket;
 
@@ -51,6 +52,7 @@ function App() {
   const setRpcUrl = () => {
     // const div = document.getElementById("rpc-url");
     // div.textContent = `https://${url}/rpc/eth/mainnet`;
+    setRpcUrl2(`https://${url}/rpc/eth/mainnet`);
   };
 
   const addLogEntry = (entry) => {
@@ -183,7 +185,7 @@ function App() {
                 <dt>Network Name</dt>
                 <dd>DERP - ETH Mainnet</dd>
                 <dt>RPC Url</dt>
-                <dd id="rpc-url"></dd>
+                <dd id="rpc-url">{rpcUrl}</dd>
                 <dt>Chain ID</dt>
                 <dd>1</dd>
               </dl>
