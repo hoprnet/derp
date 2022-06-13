@@ -26,6 +26,7 @@ export class ClientLog {
           const data = JSON.stringify({
             ip: request.headers.get("CF-Connecting-IP"),
             country: request.headers.get("CF-IPCountry"),
+            cf: request?.cf,
             log: {
               timestamp: new Date().toJSON(),
               userAgent: request.headers.get("User-Agent"),

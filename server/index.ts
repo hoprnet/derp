@@ -46,19 +46,25 @@ export async function handleRequest(
 
   if (url.pathname == "/rpc/eth/mainnet") {
     newUrl.pathname = "/";
-    await logsObject.fetch(newUrl, request.clone());
+    let object = request.clone();
+    object.cf.originalUrl = object.url;
+    await logsObject.fetch(newUrl, object);
     return fetchFromProvider(ethMainnetProvider, request);
   }
 
   if (url.pathname == "/rpc/xdai/mainnet") {
     newUrl.pathname = "/";
-    await logsObject.fetch(newUrl, request.clone());
+    let object = request.clone();
+    object.cf.originalUrl = object.url;
+    await logsObject.fetch(newUrl, object);
     return fetchFromProvider(xdaiMainnetProvider, request);
   }
 
   if (url.pathname == "/rpc/arbitrum/mainnet") {
     newUrl.pathname = "/";
-    await logsObject.fetch(newUrl, request.clone());
+    let object = request.clone();
+    object.cf.originalUrl = object.url;
+    await logsObject.fetch(newUrl, object);
     return fetchFromProvider(arbitrumMainnetProvider, request);
   }
 
@@ -68,13 +74,17 @@ export async function handleRequest(
 
   if (url.pathname == "/rpc/avax/avalanche") {
     newUrl.pathname = "/";
-    await logsObject.fetch(newUrl, request.clone());
+    let object = request.clone();
+    object.cf.originalUrl = object.url;
+    await logsObject.fetch(newUrl, object);
     return fetchFromProvider(avalancheProvider, request);
   }
 
   if (url.pathname == "/rpc/sol/solana-neonlabs") {
     newUrl.pathname = "/";
-    await logsObject.fetch(newUrl, request.clone());
+    let object = request.clone();
+    object.cf.originalUrl = object.url;
+    await logsObject.fetch(newUrl, object);
     return fetchFromProvider(neonlabsSolanaProxy, request);
   }
 

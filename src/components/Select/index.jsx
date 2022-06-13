@@ -1,12 +1,11 @@
-import React, { useState, Fragment } from "react";
+import React from "react";
 import styled from "@emotion/styled";
-
 
 //mui
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 const SFormControl = styled(FormControl)`
   margin-bottom: 16px;
@@ -17,10 +16,6 @@ const SFormControl = styled(FormControl)`
   .MuiOutlinedInput-root {
     font-size: 17px;
   }
-`
-
-const Content = styled.div`
-
 `
 
 function Section(props) {

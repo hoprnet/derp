@@ -9,6 +9,9 @@ function App() {
   const [country, setCountry] = useState('-');
   const [status, setStatus] = useState('not connected');
   const [rpcUrl, setRpcUrl2] = useState('');
+  const [chainId, setChainId] = useState('1');
+  const [name, setName] = useState('DERP - ETH Mainnet');
+  const [city, setCity] = useState(undefined);
 
   let currentWebSocket;
 
@@ -55,6 +58,49 @@ function App() {
     setRpcUrl2(`https://${url}/rpc/eth/mainnet`);
   };
 
+  const updateInfo = (cf) => {
+    setRpcUrl2(cf.originalUrl);
+    setCity(cf.city)
+
+    // {
+    //   "clientTcpRtt": 3,
+    //     "longitude": "21.00260",
+    //     "latitude": "52.24840",
+    //     "tlsCipher": "AEAD-AES256-GCM-SHA384",
+    //     "continent": "EU",
+    //     "asn": 5617,
+    //     "clientAcceptEncoding": "br, gzip, deflate",
+    //     "country": "PL",
+    //     "isEUCountry": "1",
+    //     "colo": "WAW",
+    //     "timezone": "Europe/Warsaw",
+    //     "city": "Warsaw",
+    //   "clientTrustScore": 1,
+    //     "region": "Mazovia",
+    //     "regionCode": "14",
+    //     "asOrganization": "Orange Swiatlowod",
+    //     "postalCode": "00-202",
+    //     "originalUrl": "http://localhost:8788/rpc/xdai/mainnet"
+    // }
+
+    if (cf.originalUrl.includes("/rpc/eth/mainnet")) {
+      setChainId('1');
+      setName('DERP - ETH Mainnet');
+    } else if (cf.originalUrl.includes("/rpc/xdai/mainnet")) {
+      setChainId('100');
+      setName('DERP - xDai Mainnet');
+    } else if (cf.originalUrl.includes("/rpc/arbitrum/mainnet")) {
+      setChainId('42161');
+      setName('DERP - Arbitrum One');
+    } else if (cf.originalUrl.includes("/rpc/avax/avalanche")) {
+      setChainId('43114');
+      setName('Avalanche Mainnet C-Chain');
+    } else if (cf.originalUrl.includes("/rpc/sol/solana-neonlabs")) {
+      setChainId('245022926');
+      setName('DERP - NeonLabs Solana Devnet Proxy');
+    }
+  };
+
   const addLogEntry = (entry) => {
     setLog((prevState)=> {
       const newState = [entry, ...prevState]
@@ -78,6 +124,7 @@ function App() {
       console.log("received websocket message", event.data);
       addLogEntry(data.log);
       updateIp(data.ip, data.country);
+      updateInfo(data.cf);
     });
 
     ws.addEventListener("close", (event) => {
@@ -164,6 +211,10 @@ function App() {
       }
     }
     
+    
+    .hopr-table-content-IP {
+      overflow-wrap: anywhere;
+    }
   `
 
   return (
@@ -177,17 +228,17 @@ function App() {
             <th className={'hopr-table-header-MetaMask'}>MetaMask Network Settings</th>
           </tr>
           <tr>
-            <td>{country}</td>
-            <td>{ip}</td>
+            <td>{country}{city && `, ${city}`}</td>
+            <td className={'hopr-table-content-IP'}>{ip}</td>
             <td>{status}</td>
             <td>
               <dl>
                 <dt>Network Name</dt>
-                <dd>DERP - ETH Mainnet</dd>
+                <dd>{name}</dd>
                 <dt>RPC Url</dt>
                 <dd id="rpc-url">{rpcUrl}</dd>
                 <dt>Chain ID</dt>
-                <dd>1</dd>
+                <dd>{chainId}</dd>
               </dl>
             </td>
           </tr>
