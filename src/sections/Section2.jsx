@@ -48,10 +48,10 @@ function Section2() {
                 NOT A CHANCE.
             </Typography>
 
-            <Subtext>
+            <Subtext center>
                 Crypto services are flashier and more user-friendly than ever, but few understand what goes on under the hood. The DERP tool from HOPR duplicates the functionality of a typical RPC provider, but it makes explicit the sheer amount of identifying data these services expose. As you’ll see, this happens as soon as you connect your wallet, and all without you needing to make a transaction.
             </Subtext>
-            <Subtext className='mb80'>
+            <Subtext center className='mb80'>
                 Add the DERP RPC endpoint to your crypto wallet to see exactly what information is being leaked about you every time you connect to a crypto service.
             </Subtext>
             <Brick

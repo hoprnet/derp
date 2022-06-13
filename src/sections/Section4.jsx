@@ -1,17 +1,20 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import styled from "@emotion/styled";
 
 import Section from '../components/Section/index.jsx'
 import Typography from '../components/Typography/index.jsx'
 import Brick from '../components/Brick/index.jsx'
 import GrayButton from '../components/Button/gray.jsx'
+import RpcSelect from '../components/Select'
+import CopyButton from '../components/CopyButton'
 
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import IconButton from '@mui/material/IconButton';
 
 const SSection = styled(Section)`
   padding-bottom: 40px;
   padding-top: 40px;
 `
-
 
 const Image = styled.img`
   height: 590px;
@@ -34,6 +37,77 @@ const Subtext = styled(Typography)`
   max-width: 960px;
 `
 
+
+
+function RpcInformation(){
+    const host = window.location.host;
+    const [rpc, setRpc] = useState('ETH');
+    const [nm, setNm] = useState('DERP - ETH Mainnet');
+    const [url, setUrl] = useState(`https://${host}/rpc/eth/mainnet`);
+    const [id, setId] = useState('1');
+    const [symbol, setSymbol] = useState('ETH');
+
+    const handleChange = (event) => {
+        setRpc(event.target.value);
+        if(event.target.value === 'ETH') {
+            setNm('DERP - ETH Mainnet');
+            setUrl(`https://${host}/rpc/eth/mainnet`);
+            setId('1');
+            setSymbol('ETH');
+        } else if(event.target.value === 'xDai') {
+            setNm('DERP - xDai Mainnet');
+            setUrl(`https://${host}/rpc/xdai/mainnet`);
+            setId('100');
+            setSymbol('ETH');
+        } else if(event.target.value === 'arbitrum') {
+            setNm('DERP - Arbitrum One');
+            setUrl(`https://${host}/rpc/arbitrum/mainnet`);
+            setId('42161');
+            setSymbol('AETH');
+        } else if(event.target.value === 'avalanche') {
+            setNm('DERP - Avalanche Mainnet C-Chain');
+            setUrl(`https://${host}/rpc/avax/avalanche`);
+            setId('43114');
+            setSymbol('AVAX');
+        } else if(event.target.value === 'neonlabs') {
+            setNm('DERP - NeonLabs Solana Devnet Proxy');
+            setUrl(`https://${host}/rpc/sol/solana-neonlabs`);
+            setId('245022926');
+            setSymbol('NEON');
+        }
+
+    };
+
+    return (
+        <div>
+            <RpcSelect
+                value={rpc}
+                onChange={handleChange}
+            />
+            <br/>
+            <b>Network Name:</b> {nm}
+            <CopyButton
+                copy={nm}
+            />
+            <br/>
+            <b>New PRC Url:</b> {url}
+            <CopyButton
+                copy={url}
+            />
+            <br/>
+            <b>Chain ID:</b> {id}
+            <CopyButton
+                copy={id}
+            />
+            <br/>
+            <b>Currency Symbol:</b> {symbol}
+            <CopyButton
+                copy={symbol}
+            />
+            <br/>
+        </div>
+    )
+}
 
 function Section3(props) {
     return (
@@ -75,11 +149,12 @@ function Section3(props) {
                         reverse
                         noShadow
                     />
+                    <Typography>
+                        In the window that appears, fill in the fields by copy / pasting the RPC information (3):
+                        <RpcInformation/>
+                    </Typography>
                     <Brick
                         text={<div>
-                            In the window that appears, fill in the fields by copy / pasting the RPC information in the
-                            DERP panel below this box (3).
-                            <br/><br/>
                             A warning will appear for Chain ID (4), because MetaMask already has an ETH RPC Network as
                             standard. It’s safe to ignore this.
                             <br/><br/>

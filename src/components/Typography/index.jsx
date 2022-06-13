@@ -63,7 +63,11 @@ const PlainText = styled.div`
   line-height: 1.6;
   /* or 144% */
 
-  text-align: center;
+  text-align: left;
+  
+  &.Typography--center {
+    text-align: center;
+  }
   letter-spacing: 0.25px;
 
   color: #414141;
@@ -105,7 +109,7 @@ function Typography(props) {
 
     return (
         <PlainText
-           className={`Typography--PlainText ${props.className}`}
+           className={`Typography--PlainText ${props.className} ${props.center ? 'Typography--center' : ''}`}
         >
             {props.children}
         </PlainText>

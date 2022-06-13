@@ -350,3 +350,9 @@ i {
     display: none;
   }
 }
+
+
+
+li.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root {
+  font-size: 15px;
+}
