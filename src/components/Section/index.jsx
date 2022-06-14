@@ -21,9 +21,12 @@ const Content = styled.div`
   margin: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding-left: 16px;
   padding-right: 16px;
+  &.content--center {
+    align-items: center;
+  }
 `
 
 function Section(props) {
@@ -32,7 +35,7 @@ function Section(props) {
             className={`Section ${props.className} ${props.gradient ? ' section--gradient' : ''}${props.yellow ? ' section--yellow' : ''}${props.darkGradient ? ' section--dark-gradient' : ''}${props.grey ? ' section--grey' : ''}`}
             id={props.id}
         >
-            <Content className="Content">
+            <Content className={`Content ${props.center ? ' content--center' : ''}`}>
                 {props.children}
             </Content>
         </SSection>

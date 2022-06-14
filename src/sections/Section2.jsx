@@ -41,6 +41,7 @@ function Section2() {
     return (
         <SSection
             yellow
+            center
         >
             <Typography type="h2">
                 I THOUGHT WEB3<br/>

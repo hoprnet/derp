@@ -56,6 +56,7 @@ function Section1(props) {
     return (
         <SSection
             gradient
+            center
         >
             <ImageContainer>
                 <Image
@@ -69,7 +70,7 @@ function Section1(props) {
                 DUMB ETHEREUM RPC PROVIDER
             </Typography>
 
-            <Subtext>
+            <Subtext center>
                 Add the DERP RPC endpoint to your crypto wallet to see exactly what information is being leaked about you every time you connect to a crypto service.
             </Subtext>
 

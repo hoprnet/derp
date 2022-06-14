@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
 import styled from "@emotion/styled";
-
+import { chains } from "../../shared/chains.js"
 
 function App() {
   const [log, setLog] = useState([]);
@@ -53,14 +53,18 @@ function App() {
   // },[])
 
   const setRpcUrl = () => {
-    // const div = document.getElementById("rpc-url");
-    // div.textContent = `https://${url}/rpc/eth/mainnet`;
     setRpcUrl2(`https://${url}/rpc/eth/mainnet`);
   };
 
   const updateInfo = (cf) => {
     setRpcUrl2(cf.originalUrl);
     setCity(cf.city)
+
+    let chosenChain = chains.filter(chain => cf.originalUrl.includes(chain.derpUrl))[0];
+    if (chosenChain) {
+      setChainId(chosenChain.chainId);
+      setName('DERP - ' + chosenChain.name);
+    }
 
     // {
     //   "clientTcpRtt": 3,
@@ -82,24 +86,7 @@ function App() {
     //     "postalCode": "00-202",
     //     "originalUrl": "http://localhost:8788/rpc/xdai/mainnet"
     // }
-
-    if (cf.originalUrl.includes("/rpc/eth/mainnet")) {
-      setChainId('1');
-      setName('DERP - ETH Mainnet');
-    } else if (cf.originalUrl.includes("/rpc/xdai/mainnet")) {
-      setChainId('100');
-      setName('DERP - xDai Mainnet');
-    } else if (cf.originalUrl.includes("/rpc/arbitrum/mainnet")) {
-      setChainId('42161');
-      setName('DERP - Arbitrum One');
-    } else if (cf.originalUrl.includes("/rpc/avax/avalanche")) {
-      setChainId('43114');
-      setName('Avalanche Mainnet C-Chain');
-    } else if (cf.originalUrl.includes("/rpc/sol/solana-neonlabs")) {
-      setChainId('245022926');
-      setName('DERP - NeonLabs Solana Devnet Proxy');
-    }
-  };
+  }
 
   const addLogEntry = (entry) => {
     setLog((prevState)=> {

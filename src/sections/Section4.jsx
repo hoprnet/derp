@@ -8,36 +8,17 @@ import GrayButton from '../components/Button/gray.jsx'
 import RpcSelect from '../components/Select'
 import CopyButton from '../components/CopyButton'
 
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import IconButton from '@mui/material/IconButton';
+import { chains } from "../shared/chains.js"
 
 const SSection = styled(Section)`
   padding-bottom: 40px;
   padding-top: 40px;
+  align-items: flex-start;
 `
 
-const Image = styled.img`
-  height: 590px;
-  width: auto;
-  margin-top: -140px;
+const Container = styled.div`
+  overflow-wrap: anywhere;
 `
-
-const Center = styled.div`
-  max-width: 1098px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 16px;
-  padding-right: 16px;
-`
-
-
-const Subtext = styled(Typography)`
-  max-width: 960px;
-`
-
-
 
 function RpcInformation(){
     const host = window.location.host;
@@ -58,7 +39,7 @@ function RpcInformation(){
             setNm('DERP - xDai Mainnet');
             setUrl(`https://${host}/rpc/xdai/mainnet`);
             setId('100');
-            setSymbol('ETH');
+            setSymbol('XDAI');
         } else if(event.target.value === 'arbitrum') {
             setNm('DERP - Arbitrum One');
             setUrl(`https://${host}/rpc/arbitrum/mainnet`);
@@ -79,7 +60,7 @@ function RpcInformation(){
     };
 
     return (
-        <div>
+        <Container>
             <RpcSelect
                 value={rpc}
                 onChange={handleChange}
@@ -105,7 +86,7 @@ function RpcInformation(){
                 copy={symbol}
             />
             <br/>
-        </div>
+        </Container>
     )
 }
 
@@ -115,6 +96,7 @@ function Section3(props) {
             <SSection
                 darkGradient
                 id='setup-section'
+                center
             >
                 <Typography
                     type="h6"

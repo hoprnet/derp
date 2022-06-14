@@ -30,7 +30,7 @@ function Section(props) {
                 label="RPC"
             >
                 <MenuItem value={'ETH'}>ETH Mainnet</MenuItem>
-                <MenuItem value={'xDai'}>xDai Mainnet</MenuItem>
+                <MenuItem value={'xDai'}>Gnosis Chain</MenuItem>
                 <MenuItem value={'arbitrum'}>Arbitrum One</MenuItem>
                 <MenuItem value={'avalanche'}>Avalanche Mainnet</MenuItem>
                 <MenuItem value={'neonlabs'}>NeonLabs Solana Devnet Proxy</MenuItem>
