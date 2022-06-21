@@ -40,6 +40,7 @@ const Subtext = styled(Typography)`
 function Section2() {
     return (
         <SSection
+            id={'Section2'}
             yellow
             center
         >

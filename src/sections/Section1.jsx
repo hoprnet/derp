@@ -55,6 +55,7 @@ const Subtext = styled(Typography)`
 function Section1(props) {
     return (
         <SSection
+            id={'Section1'}
             gradient
             center
         >

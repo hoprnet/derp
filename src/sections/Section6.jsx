@@ -54,7 +54,9 @@ const Image = styled.img`
 
 function Section3() {
     return (
-        <SSection>
+        <SSection
+            id={'Section6'}
+        >
             <Typography type="h2">
                 BE PART OF THE HOPR ECOSYSTEM
             </Typography>

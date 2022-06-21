@@ -30,39 +30,20 @@ function RpcInformation(){
 
     const handleChange = (event) => {
         setRpc(event.target.value);
-        if(event.target.value === 'ETH') {
-            setNm('DERP - ETH Mainnet');
-            setUrl(`https://${host}/rpc/eth/mainnet`);
-            setId('1');
-            setSymbol('ETH');
-        } else if(event.target.value === 'xDai') {
-            setNm('DERP - xDai Mainnet');
-            setUrl(`https://${host}/rpc/xdai/mainnet`);
-            setId('100');
-            setSymbol('XDAI');
-        } else if(event.target.value === 'arbitrum') {
-            setNm('DERP - Arbitrum One');
-            setUrl(`https://${host}/rpc/arbitrum/mainnet`);
-            setId('42161');
-            setSymbol('AETH');
-        } else if(event.target.value === 'avalanche') {
-            setNm('DERP - Avalanche Mainnet C-Chain');
-            setUrl(`https://${host}/rpc/avax/avalanche`);
-            setId('43114');
-            setSymbol('AVAX');
-        } else if(event.target.value === 'neonlabs') {
-            setNm('DERP - NeonLabs Solana Devnet Proxy');
-            setUrl(`https://${host}/rpc/sol/solana-neonlabs`);
-            setId('245022926');
-            setSymbol('NEON');
+        let chosenChain = chains.filter(chain => chain.value === event.target.value)[0];
+        if (chosenChain) {
+            setNm(chosenChain.name);
+            setUrl(`https://${host}${chosenChain.derpUrl}`);
+            setId(chosenChain.chainId);
+            setSymbol(chosenChain.coin);
         }
-
     };
 
     return (
         <Container>
             <RpcSelect
                 value={rpc}
+                chains={chains}
                 onChange={handleChange}
             />
             <br/>

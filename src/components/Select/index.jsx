@@ -29,11 +29,11 @@ function Section(props) {
                 onChange={props.onChange}
                 label="RPC"
             >
-                <MenuItem value={'ETH'}>ETH Mainnet</MenuItem>
-                <MenuItem value={'xDai'}>Gnosis Chain</MenuItem>
-                <MenuItem value={'arbitrum'}>Arbitrum One</MenuItem>
-                <MenuItem value={'avalanche'}>Avalanche Mainnet</MenuItem>
-                <MenuItem value={'neonlabs'}>NeonLabs Solana Devnet Proxy</MenuItem>
+                {
+                    props.chains.map(chain =>
+                        <MenuItem value={chain.value}>{chain.name}</MenuItem>
+                    )
+                }
             </Select>
         </SFormControl>
     );

@@ -38,7 +38,9 @@ const Subtext = styled(Typography)`
 
 function Section3() {
     return (
-        <SSection>
+        <SSection
+            id={'Section3'}
+        >
             <Typography type="h2">
                 FURTHER EXAMPLES
             </Typography>
