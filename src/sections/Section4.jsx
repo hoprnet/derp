@@ -32,7 +32,7 @@ function RpcInformation(){
         setRpc(event.target.value);
         let chosenChain = chains.filter(chain => chain.value === event.target.value)[0];
         if (chosenChain) {
-            setNm(chosenChain.name);
+            setNm(`DERP - ${chosenChain.name}`);
             setUrl(`https://${host}${chosenChain.derpUrl}`);
             setId(chosenChain.chainId);
             setSymbol(chosenChain.coin);
