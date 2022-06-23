@@ -12,6 +12,7 @@ function App() {
   const [chainId, setChainId] = useState('1');
   const [name, setName] = useState('DERP - ETH Mainnet');
   const [city, setCity] = useState(undefined);
+  const [coordinates, setCoordinates] = useState(undefined);
 
   let currentWebSocket;
 
@@ -66,7 +67,11 @@ function App() {
       setName('DERP - ' + chosenChain.name);
     }
 
-    // {
+    // if(cf.longitude && cf.latitude){
+    //   setCoordinates()
+    // }
+
+    // cf: {
     //   "clientTcpRtt": 3,
     //     "longitude": "21.00260",
     //     "latitude": "52.24840",
@@ -121,13 +126,13 @@ function App() {
           event.reason
       );
       unsetConnectionStatus();
-      setTimeout(join(), 500);
+      setTimeout(join(), 1000);
     });
 
     ws.addEventListener("error", (event) => {
       console.log("websocket error, reconnecting:", event);
       unsetConnectionStatus();
-      setTimeout(join(), 1000);
+   //   setTimeout(join(), 1000);
     });
   };
 
@@ -215,7 +220,19 @@ function App() {
             <th className={'hopr-table-header-MetaMask'}>MetaMask Network Settings</th>
           </tr>
           <tr>
-            <td>{country}{city && `, ${city}`}</td>
+            <td>
+              <div>
+                <div>{country}{city && `, ${city}`}</div>
+                {/*<div>*/}
+                {/*  /!*<iframe*!/*/}
+                {/*  /!*    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156350.22604103578!2d19.00260!3d52.24388711124657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd0889090081dc01!2zNTLCsDE0JzU0LjIiTiAyMcKwMDAnMDkuNCJF!5e0!3m2!1sen!2spl!4v1655291635152!5m2!1sen!2spl`}*!/*/}
+                {/*  /!*    className={'google-maps-iframe'}*!/*/}
+                {/*  /!*    width="250" height="150"  allowFullScreen="" loading="lazy"*!/*/}
+                {/*  /!*    referrerPolicy="no-referrer-when-downgrade">*!/*/}
+                {/*  /!*</iframe>*!/*/}
+                {/*</div>*/}
+              </div>
+            </td>
             <td className={'hopr-table-content-IP'}>{ip}</td>
             <td>{status}</td>
             <td>

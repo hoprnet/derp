@@ -9,7 +9,7 @@ import Button from '../components/Button/index.jsx'
 
 
 const SSection = styled(Section)`
-  padding-bottom: 200px;
+  padding-bottom: 80px;
 `
 
 
