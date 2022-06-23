@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 const SSection = styled.section`
   overflow: hidden;
   &.section--gradient{
-    background: linear-gradient(180.13deg, #0000B4 -110.52%, rgba(216, 216, 216, 0.0001) 99.89%);
+    background: linear-gradient(180deg,#0000b4 -110.52%,hsla(0,0%,85%,0) 60.89%);
   }
   &.section--yellow{
     background: #FFFFA0;
@@ -14,6 +14,8 @@ const SSection = styled.section`
   &.section--grey {
     background: #EEEEEE;
   }
+  padding-bottom: 40px;
+  padding-top: 40px;
 `
 
 const Content = styled.div`

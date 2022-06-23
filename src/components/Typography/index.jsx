@@ -5,14 +5,21 @@ const H2 = styled.h2`
   font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
-  font-size: 55px;
+  font-size: 50px;
   line-height: 1.25;
 
-  text-align: center;
+
   letter-spacing: 0.5px;
 
   color: #414141;
   margin-bottom: 32px;
+  
+  &.typography--center{
+    text-align: center;
+  }
+  &.typography--fullWidth{
+    width: 100%;
+  }
 
   @media (max-width: 768px) {
     font-size: 36px;
@@ -25,7 +32,7 @@ const H2 = styled.h2`
 const H5 = styled.h5`
   font-family: 'Source Code Pro';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 28px;
   line-height: 25px;
   
@@ -65,7 +72,7 @@ const PlainText = styled.div`
 
   text-align: left;
   
-  &.Typography--center {
+  &.typography--center {
     text-align: center;
   }
   letter-spacing: 0.25px;
@@ -89,13 +96,13 @@ function Typography(props) {
 
     if (props.type==="h2") {
         return (
-            <H2 className={`Typography--h2 ${props.className}`} >
+            <H2 className={`Typography--h2 ${props.className} ${props.center ? 'typography--center' : ''} ${props.fullWidth ? 'typography--fullWidth' : ''}`} >
                 {props.children}
             </H2>
         );
     } else if (props.type==="h5") {
         return (
-            <H5 className={`Typography--h5 ${props.className}`} >
+            <H5 className={`Typography--h5 ${props.className} ${props.center ? 'typography--center' : ''} ${props.fullWidth ? 'typography--fullWidth' : ''}`} >
                 {props.children}
             </H5>
         );
@@ -109,7 +116,7 @@ function Typography(props) {
 
     return (
         <PlainText
-           className={`Typography--PlainText ${props.className} ${props.center ? 'Typography--center' : ''}`}
+           className={`Typography--PlainText ${props.className} ${props.center ? 'typography--center' : ''}`}
         >
             {props.children}
         </PlainText>

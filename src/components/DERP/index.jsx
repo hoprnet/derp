@@ -213,72 +213,78 @@ function App() {
     <Fragment>
       <Location>
         <table>
-          <tr className={'hopr-table-header'}>
-            <th className={'hopr-table-header-Location'}>Location</th>
-            <th className={'hopr-table-header-IP'}>IP</th>
-            <th className={'hopr-table-header-Status'}>Status</th>
-            <th className={'hopr-table-header-MetaMask'}>MetaMask Network Settings</th>
-          </tr>
-          <tr>
-            <td>
-              <div>
-                <div>{country}{city && `, ${city}`}</div>
-                {/*<div>*/}
-                {/*  /!*<iframe*!/*/}
-                {/*  /!*    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156350.22604103578!2d19.00260!3d52.24388711124657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd0889090081dc01!2zNTLCsDE0JzU0LjIiTiAyMcKwMDAnMDkuNCJF!5e0!3m2!1sen!2spl!4v1655291635152!5m2!1sen!2spl`}*!/*/}
-                {/*  /!*    className={'google-maps-iframe'}*!/*/}
-                {/*  /!*    width="250" height="150"  allowFullScreen="" loading="lazy"*!/*/}
-                {/*  /!*    referrerPolicy="no-referrer-when-downgrade">*!/*/}
-                {/*  /!*</iframe>*!/*/}
-                {/*</div>*/}
-              </div>
-            </td>
-            <td className={'hopr-table-content-IP'}>{ip}</td>
-            <td>{status}</td>
-            <td>
-              <dl>
-                <dt>Network Name</dt>
-                <dd>{name}</dd>
-                <dt>RPC Url</dt>
-                <dd id="rpc-url">{rpcUrl}</dd>
-                <dt>Chain ID</dt>
-                <dd>{chainId}</dd>
-              </dl>
-            </td>
-          </tr>
+          <thead>
+            <tr className={'hopr-table-header'}>
+              <th className={'hopr-table-header-Location'}>Location</th>
+              <th className={'hopr-table-header-IP'}>IP</th>
+              <th className={'hopr-table-header-Status'}>Status</th>
+              <th className={'hopr-table-header-MetaMask'}>MetaMask Network Settings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div>
+                  <div>{country}{city && `, ${city}`}</div>
+                  {/*<div>*/}
+                  {/*  /!*<iframe*!/*/}
+                  {/*  /!*    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156350.22604103578!2d19.00260!3d52.24388711124657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd0889090081dc01!2zNTLCsDE0JzU0LjIiTiAyMcKwMDAnMDkuNCJF!5e0!3m2!1sen!2spl!4v1655291635152!5m2!1sen!2spl`}*!/*/}
+                  {/*  /!*    className={'google-maps-iframe'}*!/*/}
+                  {/*  /!*    width="250" height="150"  allowFullScreen="" loading="lazy"*!/*/}
+                  {/*  /!*    referrerPolicy="no-referrer-when-downgrade">*!/*/}
+                  {/*  /!*</iframe>*!/*/}
+                  {/*</div>*/}
+                </div>
+              </td>
+              <td className={'hopr-table-content-IP'}>{ip}</td>
+              <td>{status}</td>
+              <td>
+                <dl>
+                  <dt>Network Name</dt>
+                  <dd>{name}</dd>
+                  <dt>RPC Url</dt>
+                  <dd id="rpc-url">{rpcUrl}</dd>
+                  <dt>Chain ID</dt>
+                  <dd>{chainId}</dd>
+                </dl>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </Location>
       <Location>
         <table>
-          <tr className={'hopr-table-header'}>
-            <th className={'hopr-table-header-Timestamp'}>Timestamp</th>
-            <th className={'hopr-table-header-type'}>Type</th>
-            <th className={'hopr-table-header-User-Agent'}>User Agent</th>
-            <th className={'hopr-table-header-Method'}>Method</th>
-            <th className={'hopr-table-header-Params'}>Params</th>
-          </tr>
-
-          {
-            log.map((entry, index)=>{
-              return(
-                <tr
-                  key={`entry-${index}`}
-                >
-                  <td>{entry?.timestamp}</td>
-                  <td>{entry?.type}</td>
-                  <td>{entry?.userAgent}</td>
-                  <td>{entry?.method}</td>
-                  <td>
-                    <pre>
-                      { entry.params && JSON.stringify(entry.params, null, 2) }
-                    </pre>
-                  </td>
-                </tr>
+          <thead>
+            <tr className={'hopr-table-header'}>
+              <th className={'hopr-table-header-Timestamp'}>Timestamp</th>
+              <th className={'hopr-table-header-type'}>Type</th>
+              <th className={'hopr-table-header-User-Agent'}>User Agent</th>
+              <th className={'hopr-table-header-Method'}>Method</th>
+              <th className={'hopr-table-header-Params'}>Params</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              log.map((entry, index)=>{
+                return(
+                  <tr
+                    key={`entry-${index}`}
+                  >
+                    <td>{entry?.timestamp}</td>
+                    <td>{entry?.type}</td>
+                    <td>{entry?.userAgent}</td>
+                    <td>{entry?.method}</td>
+                    <td>
+                      <pre>
+                        { entry.params && JSON.stringify(entry.params, null, 2) }
+                      </pre>
+                    </td>
+                  </tr>
+                )
+                }
               )
-              }
-            )
-          }
-
+            }
+          </tbody>
         </table>
       </Location>
     </Fragment>

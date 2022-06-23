@@ -5,6 +5,11 @@ body {
   font-family: "SourceCodeProRegular";
   color: #414141;
 }
+
+.google-maps-iframe{
+  border: none;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

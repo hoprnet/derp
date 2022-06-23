@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "format": "prettier --write 'server/*.{js,ts}' 'public/*.{css,json,md,html}' tsconfig.json build.js README.md '.github/**/*.yml'",
-    "build": "npm run build:backend && CI=false npm run build:frontend",
+    "build": "npm run build:backend && npm run build:frontend",
     "build:backend": "node build.js",
     "types:check": "tsc",
     "start-local-ssl-proxy": "local-ssl-proxy --source 8788 --target 8787",
@@ -29,6 +29,7 @@
     "lottie-web": "^5.9.4",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-id-generator": "^3.0.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
