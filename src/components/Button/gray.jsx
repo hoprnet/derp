@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
 import MuiButton from "@mui/material/Button";
-import PropTypes from 'prop-types';
 
 const SButton = styled(MuiButton)`
   background: #FFFFFF;

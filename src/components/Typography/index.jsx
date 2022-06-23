@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Button from "../Button/index.jsx";
 
 const H2 = styled.h2`
   font-family: 'Source Code Pro';

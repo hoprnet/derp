@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-
 import styled from "@emotion/styled";
 
 import Section from '../components/Section/index.jsx'
@@ -10,13 +9,10 @@ import { ReactComponent as HoprBall } from '../assets/hopr-ball.svg';
 import derpAnimation from '../assets/derp-animation.json'
 import lottie from "lottie-web";
 
-
 const SSection = styled(Section)`
   padding-bottom: 80px;
   padding-top: 0;
 `
-
-
 
 const ImageContainer = styled.div`
   max-width: 780px;
@@ -33,38 +29,9 @@ const Animation = styled.div`
   right: 0;
 `
 
-const Image = styled.img`
-  height: auto;
-  max-width: 100%;
- // margin-top: -140px;
-`
-
-const Center = styled.div`
-  max-width: 1098px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 16px;
-  padding-right: 16px;
-`
-
-
 const Subtext = styled(Typography)`
   max-width: 640px;
 `
-
-// const HoprBall = styled.div`
-//   max-width: 900px;
-//   max-height: 900px;
-//   width: 100%;
-//   height: 100%;
-// `
-
-
-
-
-
 
 function Section1(props) {
 

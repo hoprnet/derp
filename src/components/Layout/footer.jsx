@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-
 const SFooter = styled.footer`
   display: flex;
   align-items: flex-start;
@@ -73,8 +72,6 @@ const Addresses = styled.div`
   }
 `
 
-
-
 const links = [
   {
     "name": "CONTACT",
@@ -96,30 +93,37 @@ const links = [
 
 const socials = [
   {
+    "network": "twitter",
     "img": "/social-networks/twitter.svg",
     "link": "https://twitter.com/hoprnet"
   },
   {
+    "network": "telegram",
     "img": "/social-networks/telegram.svg",
     "link": "https://t.me/hoprnet"
   },
   {
+    "network": "linkedin",
     "img": "/social-networks/linkedin.svg",
     "link": "https://www.linkedin.com/company/hoprnet"
   },
   {
+    "network": "github",
     "img": "/social-networks/github.svg",
     "link": "https://github.com/hoprnet"
   },
   {
+    "network": "medium",
     "img": "/social-networks/medium.svg",
     "link": "https://medium.com/hoprnet"
   },
   {
+    "network": "youtube",
     "img": "/social-networks/youtube.svg",
     "link": "https://www.youtube.com/channel/UC2DzUtC90LXdW7TfT3igasA"
   },
   {
+    "network": "discord",
     "img": "/social-networks/discord.svg",
     "link": "https://discord.gg/dEAWC4G"
   }
@@ -144,8 +148,8 @@ const Footer = () => {
         <div className='right-column'>
           <div className="social-networks">
             {socials?.map((x, i) => (
-              <a key={i} href={x.link} target="_blank">
-                <img src={x.img} />
+              <a key={i} href={x.link} target="_blank" rel="noreferrer">
+                <img src={x.img}  alt={x.network} />
               </a>
             ))}
           </div>

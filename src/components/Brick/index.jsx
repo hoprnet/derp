@@ -1,5 +1,4 @@
 import React from "react";
-
 import styled from "@emotion/styled";
 
 import Typography from '../Typography/index.jsx'
@@ -55,10 +54,6 @@ const Image = styled.img`
     }
   }
 
-`
-
-const Subtext = styled(Typography)`
-  max-width: 960px;
 `
 
 function Brick(props) {
