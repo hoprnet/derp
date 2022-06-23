@@ -127,6 +127,10 @@ dist
 .env.test.local
 .env.production.local
 
+
+#webstorm
+/.idea
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
