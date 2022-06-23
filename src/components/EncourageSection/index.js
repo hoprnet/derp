@@ -44,6 +44,7 @@ function EncourageSection(props) {
                 animationData: props.animationData,
         });
         }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
         animationLoaded = true;
     }, []);
 

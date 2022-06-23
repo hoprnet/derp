@@ -44,6 +44,7 @@ function Section1(props) {
                 animationData: derpAnimation,
             });
         }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
         animationLoaded = true;
     }, []);
 

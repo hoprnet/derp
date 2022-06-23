@@ -12,9 +12,9 @@ function App() {
   const [chainId, setChainId] = useState('1');
   const [name, setName] = useState('DERP - ETH Mainnet');
   const [city, setCity] = useState(undefined);
-  const [coordinates, setCoordinates] = useState(undefined);
+  // const [coordinates, setCoordinates] = useState(undefined);
 
-  let currentWebSocket;
+  //let currentWebSocket;
 
   const url = window.location.host;
   //const url = window.location.hostname + ':8788' //dev
@@ -107,7 +107,7 @@ function App() {
 
     ws.addEventListener("open", (event) => {
       console.log("websocket opened");
-      currentWebSocket = ws;
+      // currentWebSocket = ws;
       setConnectionStatus();
     });
 
@@ -140,6 +140,7 @@ function App() {
     unsetConnectionStatus();
     setRpcUrl();
     join();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

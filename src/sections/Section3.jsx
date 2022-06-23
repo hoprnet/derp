@@ -30,7 +30,7 @@ function Section3() {
             <Brick
                 className='mbt80'
                 title="NFT FRONTRUN"
-                text="When you bid on an NFT in a marketplace, your wallet will send a request to estimate the necessary gas price. As part of this request, the RPC endpoint will learn your IP address, your wallet address, the precise NFT you intend to buy and the amount of your bid."            image="/images/hopr_rpc_linkability.gif"
+                text="When you bid on an NFT in a marketplace, your wallet will send a request to estimate the necessary gas price. As part of this request, the RPC endpoint will learn your IP address, your wallet address, the precise NFT you intend to buy and the amount of your bid."
                 image="/images/hopr_nft_frontrun.gif"
                 button="LEARN MORE"
                 buttonHref="https://medium.com/hoprnet/derp-example-2-nft-marketplace-7d3e4b4e8e2a"
