@@ -11,14 +11,15 @@ const SBanner = styled.section`
   padding-right: 8px;
   padding-left: 8px;
   padding: 10px;
+  @media (max-width: 600px) {
+    button {
+      font-size: 14px;
+    }
+  }
   @media (max-width: 440px) {
     flex-direction: column;
     gap: 5px;
-    button {
-      
-    }
   }
-  
 `
 
 const Text = styled.div`
@@ -27,11 +28,14 @@ const Text = styled.div`
     font-weight: 700;
     font-size: 18px;
     line-height: 38px;
-    /* or 211% */
-    
     letter-spacing: 0.25px;
-   // padding: 10px;
     color: #FFFFFF;
+      @media (max-width: 600px) {
+        font-size: 14px;
+        button {
+          font-size: 14px;
+        }
+      }
 `
 
 const Banner = (props) =>

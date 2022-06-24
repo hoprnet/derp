@@ -20,8 +20,7 @@ function Section2() {
             center
         >
             <Typography type="h2">
-                I THOUGHT WEB3<br/>
-                WAS PRIVATE?<br/>
+                I THOUGHT WEB3 WAS PRIVATE?<br/>
                 NOT A CHANCE.
             </Typography>
 
