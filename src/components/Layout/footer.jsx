@@ -135,7 +135,7 @@ const Footer = () => {
       <Content>
         <LeftColumn className='left-column'>
           <Logo className='logo'>
-            <img src="/images/hopr-pride-token.png" alt="HOPR Logo" />
+            <img src="/images/hopr-token.svg" alt="HOPR Logo" />
           </Logo>
           <div className='content'>
             <Addresses>
