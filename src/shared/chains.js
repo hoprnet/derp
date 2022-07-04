@@ -74,12 +74,4 @@ export const chains = [
         derpUrl: '/rpc/one/harmony',
         originalUrl: 'https://rpc.ankr.com/harmony'
     },
-    {
-        value:'aurora',
-        name: 'Aurora Testnet',
-        coin: 'ETH',
-        chainId: '1313161555',
-        derpUrl: '/rpc/eth/aurora',
-        originalUrl: 'https://testnet.aurora.dev'
-    },
 ]
