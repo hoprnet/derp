@@ -1,5 +1,6 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useCallback } from "react";
 import styled from "@emotion/styled";
+import { hexValue } from "@ethersproject/bytes";
 
 import Section from '../components/Section/index.jsx'
 import Typography from '../components/Typography/index.jsx'
@@ -19,6 +20,28 @@ const SSection = styled(Section)`
 const Container = styled.div`
   overflow-wrap: anywhere;
 `
+const SwitchContainer = styled(Container)`
+  margin-top: 8px;
+`
+const SwitchButton = styled(GrayButton)`
+  max-width: 150px;
+  width: 100%;
+  border: 1px solid;
+`
+
+function SwitchChain(props){
+    return (
+      <SwitchContainer>
+          <SwitchButton
+            onClick={props.handleSwitchChain}
+          >
+              Switch
+          </SwitchButton>
+      </SwitchContainer>
+
+    )
+}
+
 
 function RpcInformation(){
     const host = window.location.host;
@@ -38,6 +61,43 @@ function RpcInformation(){
             setSymbol(chosenChain.coin);
         }
     };
+
+    const switchChain = useCallback(
+    async () => {
+      if (!window.ethereum) return;
+      const rawEthereumProvider = window.ethereum;
+      let { chainId, name, originalUrl, coin} = chains.filter(chain => chain.value === rpc)[0];
+      console.log(chainId)
+      console.log(originalUrl)
+      const chainIdHex = hexValue(parseInt(chainId));
+      try {
+        await rawEthereumProvider.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: chainIdHex }]
+        })
+      } catch (error) {
+        try {
+          if (error.code === 4902) {
+            await rawEthereumProvider.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: chainIdHex,
+                chainName: name,
+                nativeCurrency: {
+                  symbol: coin,
+                  decimals: 18
+                },
+                rpcUrls: [originalUrl],
+              }],
+            })
+          } else {
+            console.log(error)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }, [rpc])
 
     return (
         <Container>
@@ -67,6 +127,9 @@ function RpcInformation(){
                 copy={symbol}
             />
             <br/>
+            <SwitchChain
+                handleSwitchChain={switchChain}
+            />
         </Container>
     )
 }
