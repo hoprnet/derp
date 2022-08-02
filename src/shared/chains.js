@@ -74,4 +74,12 @@ export const chains = [
         derpUrl: '/rpc/one/harmony',
         originalUrl: 'https://rpc.ankr.com/harmony'
     },
+    {
+        value: 'goerli',
+        name: 'Goerli Testnet',
+        coin: 'ETH',
+        chainId: '5',
+        derpUrl: '/rpc/eth/goerli',
+        originalUrl: 'https://goerli.infura.io/v3/'
+    }
 ]

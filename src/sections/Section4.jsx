@@ -1,10 +1,12 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useCallback } from "react";
 import styled from "@emotion/styled";
+import { hexValue } from "@ethersproject/bytes";
 
 import Section from '../components/Section/index.jsx'
 import Typography from '../components/Typography/index.jsx'
 import Brick from '../components/Brick/index.jsx'
 import GrayButton from '../components/Button/gray.jsx'
+import Button from '../components/Button'
 import RpcSelect from '../components/Select'
 import CopyButton from '../components/CopyButton'
 
@@ -19,8 +21,25 @@ const SSection = styled(Section)`
 const Container = styled.div`
   overflow-wrap: anywhere;
 `
+const SwitchContainer = styled(Container)`
+  margin-top: 10px;
+`
+function SwitchChain(props) {
+    return (
+        <SwitchContainer>
+            <Button
+                hopr
+                onClick={props.handleSwitchChain}
+            >
+                Switch
+            </Button>
+        </SwitchContainer>
 
-function RpcInformation(){
+    )
+}
+
+
+function RpcInformation() {
     const host = window.location.host;
     const [rpc, setRpc] = useState('ETH');
     const [nm, setNm] = useState('DERP - ETH Mainnet');
@@ -39,6 +58,39 @@ function RpcInformation(){
         }
     };
 
+    const switchChain = useCallback(async () => {
+        if (!window.ethereum) return;
+        const rawEthereumProvider = window.ethereum;
+        const chainIdHex = hexValue(parseInt(id));
+        try {
+            await rawEthereumProvider.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: chainIdHex }]
+            })
+        } catch (error) {
+            try {
+                if (error.code === 4902) {
+                    await rawEthereumProvider.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [{
+                            chainId: chainIdHex,
+                            chainName: nm,
+                            nativeCurrency: {
+                                symbol: symbol,
+                                decimals: 18
+                            },
+                            rpcUrls: [url],
+                        }],
+                    })
+                } else {
+                    console.log(error)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }, [nm, id, url, symbol])
+
     return (
         <Container>
             <RpcSelect
@@ -46,7 +98,7 @@ function RpcInformation(){
                 chains={chains}
                 onChange={handleChange}
             />
-            <br/>
+            <br />
             <b>Network Name:</b> {nm}
             <CopyButton
                 copy={nm}
@@ -56,17 +108,20 @@ function RpcInformation(){
             <CopyButton
                 copy={url}
             />
-            <br/>
+            <br />
             <b>Chain ID:</b> {id}
             <CopyButton
                 copy={id}
             />
-            <br/>
+            <br />
             <b>Currency Symbol:</b> {symbol}
             <CopyButton
                 copy={symbol}
             />
-            <br/>
+            <br />
+            <SwitchChain
+                handleSwitchChain={switchChain}
+            />
         </Container>
     )
 }
@@ -88,12 +143,12 @@ function Section3(props) {
                 </Typography>
                 <GrayButton
                     className="unifiedSize"
-                    onClick={()=>{props.setShowSetup(current => !current)}}
+                    onClick={() => { props.setShowSetup(current => !current) }}
                 >
                     SETUP
                 </GrayButton>
             </SSection>
-            { props.showSetup &&
+            {props.showSetup &&
                 <SSection
                     grey
                 >
@@ -104,9 +159,9 @@ function Section3(props) {
                             Instructions are for MetaMask, but DERP will work for any wallet that allows you to manage
                             RPC endpoints. DERP currently only works with Ethereum mainnet, but other chains have the
                             same problems and may be added in the future.
-                            <br/><br/>
+                            <br /><br />
                             Click “Networks” (1) and then “Add Network” (2)
-                            <br/><br/>
+                            <br /><br />
                         </div>}
                         image={"/hopr_derp_setup_1.png"}
                         reverse
@@ -114,16 +169,16 @@ function Section3(props) {
                     />
                     <Typography>
                         In the window that appears, fill in the fields by copy / pasting the RPC information (3):
-                        <RpcInformation/>
+                        <RpcInformation />
                     </Typography>
                     <Brick
                         text={<div>
                             A warning will appear for Chain ID (4), because MetaMask already has an ETH RPC Network as
                             standard. It’s safe to ignore this.
-                            <br/><br/>
+                            <br /><br />
                             Click Save (5). Visit a DeFi service of your choice and connect your wallet. DERP will now
                             make transparent all the RPC calls which are normally hidden from you.
-                            <br/><br/>
+                            <br /><br />
                             DERP doesn’t store or share your information or display inaccurate blockchain data: it
                             simply reveals what goes on under the hood when you connect to an RPC endpoint.
                         </div>}
