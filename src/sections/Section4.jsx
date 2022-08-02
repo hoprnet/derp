@@ -103,8 +103,8 @@ function RpcInformation() {
             <CopyButton
                 copy={nm}
             />
-            <br />
-            <b>New PRC Url:</b> {url}
+            <br/>
+            <b>New RPC Url:</b> {url}
             <CopyButton
                 copy={url}
             />
