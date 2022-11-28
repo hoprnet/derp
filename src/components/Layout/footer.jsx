@@ -148,14 +148,14 @@ const Footer = () => {
         <div className='right-column'>
           <div className="social-networks">
             {socials?.map((x, i) => (
-              <a key={i} href={x.link} target="_blank" rel="noreferrer">
+              <a key={`social-networks-${i}`} href={x.link} target="_blank" rel="noreferrer">
                 <img src={x.img}  alt={x.network} />
               </a>
             ))}
           </div>
           <div className="links">
             {links?.map((x, i) => (
-              <a key={i} title={x.name} href={x.link}>{x.name}</a>
+              <a key={`links-${i}`} title={x.name} href={x.link}>{x.name}</a>
             ))}
           </div>
         </div>
