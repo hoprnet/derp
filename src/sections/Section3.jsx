@@ -14,6 +14,7 @@ function Section3() {
     return (
         <SSection
             id={'Section3'}
+            center
         >
             <Typography type="h2">
                 FURTHER EXAMPLES
