@@ -10,6 +10,7 @@ import Section2 from './sections/Section2.jsx'
 import Section3 from './sections/Section3.jsx'
 import Section4 from './sections/Section4.jsx'
 import Section5 from './sections/Section5.jsx'
+import Section6 from './sections/Section6.jsx'
 import EncourageSection from "./components/EncourageSection/index.js";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
               setShowSetup={setShowSetup}
           />
           <Section5/>
+          <Section6/>
           <EncourageSection
             title='BE PART OF THE HOPR ECOSYSTEM'
             text='HOPR is building the transport layer privacy needed to make web3 work. Work with us to build dApps that change data privacy for good.'

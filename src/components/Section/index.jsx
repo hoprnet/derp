@@ -9,7 +9,7 @@ const SSection = styled.section`
     background: #FFFFA0;
   }
   &.section--dark-gradient{
-    background: linear-gradient(180deg, #0000B4 0.5%, #000050 100%);
+    background: linear-gradient(180deg, #000050 0.5%, #0000B4 100%);
   }
   &.section--grey {
     background: #EEEEEE;
