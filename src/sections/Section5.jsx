@@ -126,7 +126,7 @@ function RpcInformation() {
     )
 }
 
-function Section3(props) {
+function Section5(props) {
     return (
         <Fragment>
             <SSection
@@ -192,4 +192,4 @@ function Section3(props) {
     );
 }
 
-export default Section3;
+export default Section5;

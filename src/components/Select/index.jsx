@@ -30,8 +30,11 @@ function Section(props) {
                 label="RPC"
             >
                 {
-                    props.chains.map(chain =>
-                        <MenuItem value={chain.value}>{chain.name}</MenuItem>
+                    props.chains.map((chain,index) =>
+                        <MenuItem 
+                            value={chain.value}
+                            key={`chain-${index}`}
+                        >{chain.name}</MenuItem>
                     )
                 }
             </Select>

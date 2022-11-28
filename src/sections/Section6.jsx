@@ -8,14 +8,14 @@ const SSection = styled(Section)`
   padding-top: 40px;
 `
 
-function Section5() {
+function Section6() {
     return (
         <SSection
-            id={'Section5'}
+            id={'Section6'}
         >
             <Derp/>
         </SSection>
     );
 }
 
-export default Section5;
+export default Section6;

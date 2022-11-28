@@ -33,11 +33,11 @@ function App() {
           />
           <Section2/>
           <Section3/>
-          <Section4
-              showSetup={showSetup}
-              setShowSetup={setShowSetup}
+          <Section4/>
+          <Section5
+            showSetup={showSetup}
+            setShowSetup={setShowSetup}
           />
-          <Section5/>
           <Section6/>
           <EncourageSection
             title='BE PART OF THE HOPR ECOSYSTEM'
