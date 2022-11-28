@@ -14,7 +14,7 @@ const SSection = styled(Section)`
 function Section4() {
     return (
         <SSection
-            yellow
+            lightBlue
             center
         >
             <Typography
