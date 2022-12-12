@@ -12,7 +12,7 @@ function App() {
   const [chainId, setChainId] = useState('1');
   const [name, setName] = useState('DERP - ETH Mainnet');
   const [city, setCity] = useState(undefined);
-  const [coordinates, setCoordinates] = useState({long: undefined, lat: undefined});
+ // const [coordinates, setCoordinates] = useState({long: undefined, lat: undefined});
 
   //let currentWebSocket;
 
@@ -67,12 +67,12 @@ function App() {
       setName('DERP - ' + chosenChain.name);
     }
 
-    if(cf.longitude && cf.latitude){
-      setCoordinates({
-        long: cf.longitude,
-        lat: cf.latitude
-      })
-    }
+    // if(cf.longitude && cf.latitude){
+    //   setCoordinates({
+    //     long: cf.longitude,
+    //     lat: cf.latitude
+    //   })
+    // }
 
   }
 

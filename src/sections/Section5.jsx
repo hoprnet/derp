@@ -92,7 +92,7 @@ function RpcInformation() {
                 console.log(error)
             }
         }
-    }, [nm, id, url, symbol])
+    }, [nm, id, url, symbol, blockExplorerUrl])
 
     return (
         <Container>
