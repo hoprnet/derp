@@ -6,17 +6,18 @@ export const chains = [
         coin: 'ETH',
         derpUrl: "/rpc/eth/mainnet",
 //        originalUrl: "https://eth-erigon.lsotech.net/";
-        originalUrl: "https://eth-mainnet.gateway.pokt.network/v1/lb/61dc3e545a6d110038222645"
-
+        originalUrl: "https://eth-mainnet.gateway.pokt.network/v1/lb/61dc3e545a6d110038222645",
+        blockExplorerUrl: 'https://etherscan.io'
     },
     {
         value: 'xDai',
         name: 'Gnosis Chain',
         chainId: '100',
-        coin: 'XDAI',
+        coin: 'xDAI',
         derpUrl: "/rpc/xdai/mainnet",
 //        originalUrl: "https://dai.poa.network/",
         originalUrl: "https://rpc.gnosischain.com/",
+        blockExplorerUrl: 'http://gnosisscan.io'
     },
     {
         value:'arbitrum',
@@ -25,6 +26,7 @@ export const chains = [
         coin: 'AETH',
         derpUrl: '/rpc/arbitrum/mainnet',
         originalUrl: 'https://arb1.arbitrum.io/rpc',
+        blockExplorerUrl: 'https://arbiscan.io/'
     },
     {
         value: 'avalanche',
@@ -33,6 +35,7 @@ export const chains = [
         coin: 'AVAX',
         derpUrl: '/rpc/avax/avalanche',
         originalUrl: 'https://api.avax.network/ext/bc/C/rpc',
+        blockExplorerUrl: 'https://snowtrace.io/'
     },
     {
         value:'neonlabs',
@@ -40,7 +43,8 @@ export const chains = [
         chainId: '245022926',
         coin: 'NEON',
         derpUrl: '/rpc/sol/solana-neonlabs',
-        originalUrl: 'https://proxy.devnet.neonlabs.org/solana'
+        originalUrl: 'https://proxy.devnet.neonlabs.org/solana',
+        blockExplorerUrl: 'https://explorer.solana.com/'
     },
     {
         value:'polygon',
@@ -48,7 +52,8 @@ export const chains = [
         coin: 'MATIC',
         chainId: '137',
         derpUrl: '/rpc/matic/polygon',
-        originalUrl: 'https://rpc.ankr.com/polygon'
+        originalUrl: 'https://rpc.ankr.com/polygon',
+        blockExplorerUrl: 'https://polygonscan.com/'
     },
     {
         value:'bnb',
@@ -56,7 +61,8 @@ export const chains = [
         coin: 'BNB',
         chainId: '56',
         derpUrl: '/rpc/bnb/bsc',
-        originalUrl: 'https://rpc.ankr.com/bsc'
+        originalUrl: 'https://rpc.ankr.com/bsc',
+        blockExplorerUrl: 'https://bscscan.com/'
     },
     {
         value:'fantom',
@@ -64,7 +70,8 @@ export const chains = [
         coin: 'FTM',
         chainId: '250',
         derpUrl: '/rpc/ftm/fantom',
-        originalUrl: 'https://rpc.ankr.com/fantom'
+        originalUrl: 'https://rpc.ankr.com/fantom',
+        blockExplorerUrl: 'https://ftmscan.com/'
     },
     {
         value:'harmony',
@@ -72,7 +79,8 @@ export const chains = [
         coin: 'ONE',
         chainId: '1666600000',
         derpUrl: '/rpc/one/harmony',
-        originalUrl: 'https://rpc.ankr.com/harmony'
+        originalUrl: 'https://rpc.ankr.com/harmony',
+        blockExplorerUrl: 'https://explorer.harmony.one/'
     },
     {
         value: 'goerli',
@@ -80,6 +88,7 @@ export const chains = [
         coin: 'ETH',
         chainId: '5',
         derpUrl: '/rpc/eth/goerli',
-        originalUrl: 'https://goerli.infura.io/v3/'
+        originalUrl: 'https://goerli.infura.io/v3/',
+        blockExplorerUrl: 'https://goerli.etherscan.io/'
     }
 ]

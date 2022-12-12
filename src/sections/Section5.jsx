@@ -46,6 +46,7 @@ function RpcInformation() {
     const [url, setUrl] = useState(`https://${host}/rpc/eth/mainnet`);
     const [id, setId] = useState('1');
     const [symbol, setSymbol] = useState('ETH');
+    const [blockExplorerUrl, setBlockExplorerUrl] = useState('https://etherscan.io');
 
     const handleChange = (event) => {
         setRpc(event.target.value);
@@ -55,6 +56,7 @@ function RpcInformation() {
             setUrl(`https://${host}${chosenChain.derpUrl}`);
             setId(chosenChain.chainId);
             setSymbol(chosenChain.coin);
+            setBlockExplorerUrl(chosenChain.blockExplorerUrl)
         }
     };
 
@@ -80,6 +82,7 @@ function RpcInformation() {
                                 decimals: 18
                             },
                             rpcUrls: [url],
+                            blockExplorerUrls: [blockExplorerUrl],
                         }],
                     })
                 } else {
@@ -119,6 +122,17 @@ function RpcInformation() {
                 copy={symbol}
             />
             <br />
+            {
+                blockExplorerUrl &&
+                <>
+                    <b>Block Explorer:</b> {blockExplorerUrl}
+                    <CopyButton
+                        copy={symbol}
+                    />
+                    <br />
+                </>
+            }
+
             <SwitchChain
                 handleSwitchChain={switchChain}
             />

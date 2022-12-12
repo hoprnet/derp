@@ -12,7 +12,7 @@ function App() {
   const [chainId, setChainId] = useState('1');
   const [name, setName] = useState('DERP - ETH Mainnet');
   const [city, setCity] = useState(undefined);
-  // const [coordinates, setCoordinates] = useState(undefined);
+  const [coordinates, setCoordinates] = useState({long: undefined, lat: undefined});
 
   //let currentWebSocket;
 
@@ -67,36 +67,19 @@ function App() {
       setName('DERP - ' + chosenChain.name);
     }
 
-    // if(cf.longitude && cf.latitude){
-    //   setCoordinates()
-    // }
+    if(cf.longitude && cf.latitude){
+      setCoordinates({
+        long: cf.longitude,
+        lat: cf.latitude
+      })
+    }
 
-    // cf: {
-    //   "clientTcpRtt": 3,
-    //     "longitude": "21.00260",
-    //     "latitude": "52.24840",
-    //     "tlsCipher": "AEAD-AES256-GCM-SHA384",
-    //     "continent": "EU",
-    //     "asn": 5617,
-    //     "clientAcceptEncoding": "br, gzip, deflate",
-    //     "country": "PL",
-    //     "isEUCountry": "1",
-    //     "colo": "WAW",
-    //     "timezone": "Europe/Warsaw",
-    //     "city": "Warsaw",
-    //   "clientTrustScore": 1,
-    //     "region": "Mazovia",
-    //     "regionCode": "14",
-    //     "asOrganization": "Orange Swiatlowod",
-    //     "postalCode": "00-202",
-    //     "originalUrl": "http://localhost:8788/rpc/xdai/mainnet"
-    // }
   }
 
   const addLogEntry = (entry) => {
     setLog((prevState)=> {
       const newState = [entry, ...prevState]
-      console.log(newState)
+   //   console.log(newState)
       return newState
     });
   };
@@ -113,7 +96,6 @@ function App() {
 
     ws.addEventListener("message", (event) => {
       const data = JSON.parse(event.data);
-      console.log("received websocket message", event.data);
       addLogEntry(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
@@ -143,6 +125,31 @@ function App() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
+
+  // useEffect(() => { // DEV
+  //   const cf =  {
+  //     "clientTcpRtt": 3,
+  //       "longitude": "21.00260",
+  //       "latitude": "52.24840",
+  //       "tlsCipher": "AEAD-AES256-GCM-SHA384",
+  //       "continent": "EU",
+  //       "asn": 5617,
+  //       "clientAcceptEncoding": "br, gzip, deflate",
+  //       "country": "PL",
+  //       "isEUCountry": "1",
+  //       "colo": "WAW",
+  //       "timezone": "Europe/Warsaw",
+  //       "city": "Warsaw",
+  //       "clientTrustScore": 1,
+  //       "region": "Mazovia",
+  //       "regionCode": "14",
+  //       "asOrganization": "Orange Swiatlowod",
+  //       "postalCode": "00-202",
+  //       "originalUrl": "http://localhost:8788/rpc/xdai/mainnet"
+  //   }
+  //   updateInfo(cf);
+  // }, []);
 
   const Location = styled.div`
     width: 100%;
@@ -227,14 +234,14 @@ function App() {
               <td>
                 <div>
                   <div>{country}{city && `, ${city}`}</div>
-                  {/*<div>*/}
-                  {/*  /!*<iframe*!/*/}
-                  {/*  /!*    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156350.22604103578!2d19.00260!3d52.24388711124657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd0889090081dc01!2zNTLCsDE0JzU0LjIiTiAyMcKwMDAnMDkuNCJF!5e0!3m2!1sen!2spl!4v1655291635152!5m2!1sen!2spl`}*!/*/}
-                  {/*  /!*    className={'google-maps-iframe'}*!/*/}
-                  {/*  /!*    width="250" height="150"  allowFullScreen="" loading="lazy"*!/*/}
-                  {/*  /!*    referrerPolicy="no-referrer-when-downgrade">*!/*/}
-                  {/*  /!*</iframe>*!/*/}
-                  {/*</div>*/}
+                  {/* {
+                    coordinates.lat && coordinates.long &&
+                    <div>
+                      <iframe 
+                        src={`https://maps.google.com/maps?q=${coordinates.lat},${coordinates.long}&t=&z=10&ie=UTF8&iwloc=&output=embed`}
+                      />
+                    </div>
+                  } */}
                 </div>
               </td>
               <td className={'hopr-table-content-IP'}>{ip}</td>
