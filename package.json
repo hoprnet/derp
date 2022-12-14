@@ -1,6 +1,6 @@
 {
   "name": "derp",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "An Ethereum RPC provider which gives access to the logs it gathers.",
   "module": "./dist/index.mjs",
   "type": "module",
@@ -28,10 +28,13 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "leaflet": "^1.9.3",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
     "lottie-web": "^5.9.4",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-id-generator": "^3.0.2",
+    "react-leaflet": "^4.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },

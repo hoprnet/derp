@@ -64,7 +64,7 @@ function Section1(props) {
             </ImageContainer>
 
             <Typography type="h2">
-                D.E.R.P.<br/>
+                DERP<br/>
                 DUMB ETHEREUM RPC PROVIDER
             </Typography>
 

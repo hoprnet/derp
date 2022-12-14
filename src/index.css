@@ -13,3 +13,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+table {
+  display: table;
+}
+
+tbody tr {
+  animation-name: unset;
+}
+
+table.showRowAnimate tbody tr {
+  animation-name: showrow;
+}
+
+@media (min-width: 700px) {
+  .mobile-only {
+    display: none;
+  }
+}
+@media (max-width: 699px) {
+  .not-on-mobile {
+    display: none;
+  }
+}
