@@ -5,6 +5,8 @@ import Section from '../components/Section/index.jsx'
 import Typography from '../components/Typography/index.jsx'
 import Button from '../components/Button'
 
+import PoweredByHopr from '../components/PoweredByHOPR'
+
 const SSection = styled(Section)`
   padding-bottom: 40px;
   padding-top: 40px;
@@ -30,6 +32,12 @@ function Section4() {
             >
                 TELL ME MORE
             </Button>
+            <PoweredByHopr
+                style={{
+                    marginTop: '20px',
+                    marginBottom: '-16px',
+                }}
+            />
         </SSection>
     );
 }
