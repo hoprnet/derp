@@ -206,7 +206,7 @@ function App() {
         font-weight: 400;
         height: 39px;
       }
-      th:first-child {
+      th:first-of-type {
         font-weight: 600;
       }
 
@@ -215,7 +215,7 @@ function App() {
       }
     }
 
-    table.network-settings > tbody > tr:nth-child(1) > th {
+    table.network-settings > tbody > tr:nth-of-type(1) > th {
       border-top: 0.1rem solid #e1e1e1;
     }
 
@@ -254,24 +254,6 @@ function App() {
           </thead> */}
           <tbody>
             <tr>
-              <td className={"not-on-mobile"}>
-                {coordinates.lat && coordinates.long && (
-                  <div>
-                    {/* <iframe 
-                        src={`https://maps.google.com/maps?q=${coordinates.lat},${coordinates.long}&t=&z=3&ie=UTF8&iwloc=&output=embed`}
-                        style={{width: '400px', height: '275px', maxWidth: '45vw'}}
-                      /> */}
-                    <Map
-                      coordinates={coordinates}
-                      style={{
-                        width: "450px",
-                        height: "275px",
-                        maxWidth: "45vw",
-                      }}
-                    />
-                  </div>
-                )}
-              </td>
               <td className={"no-padding-on-mobile"} style={{width: '100%'}}>
                 <table className="network-settings">
                   <tbody>
@@ -306,7 +288,7 @@ function App() {
                     </tr>
                     <tr>
                       <th>RPC Url</th>
-                      <th id="rpc-url" class="rpc-url">
+                      <th id="rpc-url" className="rpc-url">
                         {rpcUrl}
                       </th>
                     </tr>
@@ -315,7 +297,7 @@ function App() {
                       <th>{chainId}</th>
                     </tr>
                     <tr className={"mobile-only"}>
-                      <th colspan="2">
+                      <th colSpan="2">
                         {coordinates.lat && coordinates.long && (
                           <div>
                             <Map
@@ -328,6 +310,24 @@ function App() {
                     </tr>
                   </tbody>
                 </table>
+              </td>
+              <td className={"not-on-mobile"}>
+                {coordinates.lat && coordinates.long && (
+                  <div>
+                    {/* <iframe 
+                        src={`https://maps.google.com/maps?q=${coordinates.lat},${coordinates.long}&t=&z=3&ie=UTF8&iwloc=&output=embed`}
+                        style={{width: '400px', height: '275px', maxWidth: '45vw'}}
+                      /> */}
+                    <Map
+                      coordinates={coordinates}
+                      style={{
+                        width: "450px",
+                        height: "275px",
+                        maxWidth: "45vw",
+                      }}
+                    />
+                  </div>
+                )}
               </td>
             </tr>
           </tbody>
