@@ -105,30 +105,30 @@ function App() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    // DEV
-    const cf = {
-      clientTcpRtt: 3,
-      longitude: "21.00260",
-      latitude: "52.24840",
-      tlsCipher: "AEAD-AES256-GCM-SHA384",
-      continent: "EU",
-      asn: 5617,
-      clientAcceptEncoding: "br, gzip, deflate",
-      country: "PL",
-      isEUCountry: "1",
-      colo: "WAW",
-      timezone: "Europe/Warsaw",
-      city: "Warsaw",
-      clientTrustScore: 1,
-      region: "Mazovia",
-      regionCode: "14",
-      asOrganization: "Orange Swiatlowod",
-      postalCode: "00-202",
-      originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
-    };
-    updateInfo(cf);
-  }, []);
+  // useEffect(() => {
+  //   // DEV
+  //   const cf = {
+  //     clientTcpRtt: 3,
+  //     longitude: "21.00260",
+  //     latitude: "52.24840",
+  //     tlsCipher: "AEAD-AES256-GCM-SHA384",
+  //     continent: "EU",
+  //     asn: 5617,
+  //     clientAcceptEncoding: "br, gzip, deflate",
+  //     country: "PL",
+  //     isEUCountry: "1",
+  //     colo: "WAW",
+  //     timezone: "Europe/Warsaw",
+  //     city: "Warsaw",
+  //     clientTrustScore: 1,
+  //     region: "Mazovia",
+  //     regionCode: "14",
+  //     asOrganization: "Orange Swiatlowod",
+  //     postalCode: "00-202",
+  //     originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
+  //   };
+  //   updateInfo(cf);
+  // }, []);
 
   const Location = styled.div`
     width: 100%;
@@ -181,7 +181,6 @@ function App() {
       th {
         font-size: 14px;
         font-weight: 400;
-        height: 39px;
       }
       th:first-of-type {
         font-weight: 600;
