@@ -11,9 +11,9 @@ function App() {
   const [ip, setIp] = useState("-");
   const [country, setCountry] = useState("-");
   const [status, setStatus] = useState("not connected");
-  const [rpcUrl, setRpcUrl2] = useState("");
-  const [chainId, setChainId] = useState("1");
-  const [name, setName] = useState("DERP - ETH Mainnet");
+  const [rpcUrl, setRpcUrl2] = useState("-");
+  const [chainId, setChainId] = useState("-");
+  const [name, setName] = useState("-");
   const [city, setCity] = useState("-");
   const [coordinates, setCoordinates] = useState({
     long: undefined,
@@ -91,7 +91,7 @@ function App() {
     });
   };
 
-  const join = () => {
+  const joinWebSocket = () => {
     const wsUrl = `wss://${url}/client_logs/websocket`;
     const ws = new WebSocket(wsUrl);
 
@@ -111,7 +111,7 @@ function App() {
     ws.addEventListener("close", (event) => {
       console.log("websocket closed, reconnecting:", event.code, event.reason);
       unsetConnectionStatus();
-      setTimeout(join(), 1000);
+      setTimeout(joinWebSocket(), 1000);
     });
 
     ws.addEventListener("error", (event) => {
@@ -122,9 +122,7 @@ function App() {
   };
 
   useEffect(() => {
-    unsetConnectionStatus();
-    setRpcUrl();
-    join();
+    joinWebSocket();
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -208,6 +206,7 @@ function App() {
       }
       th:first-of-type {
         font-weight: 600;
+        width: 130px;
       }
 
       .rpc-url {
