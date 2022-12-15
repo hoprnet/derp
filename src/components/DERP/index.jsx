@@ -44,23 +44,27 @@ function App() {
   // };
 
   const updateInfo = (cf) => {
-    setRpcUrl2(cf.originalUrl);
-    setCity(cf.city);
+    if(cf.originalUrl !== rpcUrl) setRpcUrl2(cf.originalUrl);
+    if(cf.city !== city)  setCity(cf.city);
 
     let chosenChain = chains.filter((chain) =>
       cf.originalUrl.includes(chain.derpUrl)
     )[0];
-    if (chosenChain) {
+
+    if(chosenChain && chosenChain.chainId !== chainId) {
       setChainId(chosenChain.chainId);
       setName("DERP - " + chosenChain.name);
     }
 
-    if (cf.longitude && cf.latitude) {
-      setCoordinates({
-        long: cf.longitude,
-        lat: cf.latitude,
-      });
-    }
+    if ( 
+          (cf.longitude && cf.latitude) &&
+          (coordinates.long !== cf.longitude && coordinates.lat !== cf.latitude) 
+      ) {
+        setCoordinates({
+          long: cf.longitude,
+          lat: cf.latitude,
+        });
+      }
   };
 
   const addLogEntry = (entry) => {
