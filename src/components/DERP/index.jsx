@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from "react";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import React, { useState, useEffect } from "react";
+// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import styled from "@emotion/styled";
 import { chains } from "../../shared/chains.js";
@@ -10,7 +10,7 @@ function App() {
   const [log, setLog] = useState([]);
   const [ip, setIp] = useState("-");
   const [country, setCountry] = useState("-");
-  const [status, setStatus] = useState("not connected");
+//  const [status, setStatus] = useState("not connected");
   const [rpcUrl, setRpcUrl2] = useState("-");
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
@@ -19,6 +19,11 @@ function App() {
     long: undefined,
     lat: undefined,
   });
+
+
+  useEffect(() => {
+    console.log('coordinates', coordinates)
+  }, [coordinates]);
 
   //let currentWebSocket;
 
@@ -30,37 +35,12 @@ function App() {
     setCountry(country);
   };
 
-  const setConnectionStatus = () => {
-    setStatus("connected");
-  };
+  // const setConnectionStatus = () => {
+  //   setStatus("connected");
+  // };
 
-  const unsetConnectionStatus = () => {
-    setStatus("not connected");
-  };
-
-  // const getIPInfo=()=>{
-  //   fetch('https://ssl.geoplugin.net/json.gp?ip=79.184.238.42'
-  //       ,{
-  //         headers : {
-  //           'Content-Type': 'application/json',
-  //           'Accept': 'application/json'
-  //         }
-  //       }
-  //   )
-  //       .then(function(response){
-  //         console.log(response)
-  //         return response.json();
-  //       })
-  //       .then(function(myJson) {
-  //         console.log(myJson);
-  //       });
-  // }
-  // useEffect(()=>{
-  //   getIPInfo()
-  // },[])
-
-  // const setRpcUrl = () => {
-  //   setRpcUrl2(`https://${url}/rpc/eth/mainnet`);
+  // const unsetConnectionStatus = () => {
+  //   setStatus("not connected");
   // };
 
   const updateInfo = (cf) => {
@@ -86,7 +66,6 @@ function App() {
   const addLogEntry = (entry) => {
     setLog((prevState) => {
       const newState = [entry, ...prevState];
-      //   console.log(newState)
       return newState;
     });
   };
@@ -98,7 +77,7 @@ function App() {
     ws.addEventListener("open", (event) => {
       console.log("websocket opened");
       // currentWebSocket = ws;
-      setConnectionStatus();
+     // setConnectionStatus();
     });
 
     ws.addEventListener("message", (event) => {
@@ -110,13 +89,13 @@ function App() {
 
     ws.addEventListener("close", (event) => {
       console.log("websocket closed, reconnecting:", event.code, event.reason);
-      unsetConnectionStatus();
+    //  unsetConnectionStatus();
       setTimeout(joinWebSocket(), 1000);
     });
 
     ws.addEventListener("error", (event) => {
       console.log("websocket error, reconnecting:", event);
-      unsetConnectionStatus();
+     // unsetConnectionStatus();
       //   setTimeout(join(), 1000);
     });
   };
@@ -126,30 +105,30 @@ function App() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   // DEV
-  //   const cf = {
-  //     clientTcpRtt: 3,
-  //     longitude: "21.00260",
-  //     latitude: "52.24840",
-  //     tlsCipher: "AEAD-AES256-GCM-SHA384",
-  //     continent: "EU",
-  //     asn: 5617,
-  //     clientAcceptEncoding: "br, gzip, deflate",
-  //     country: "PL",
-  //     isEUCountry: "1",
-  //     colo: "WAW",
-  //     timezone: "Europe/Warsaw",
-  //     city: "Warsaw",
-  //     clientTrustScore: 1,
-  //     region: "Mazovia",
-  //     regionCode: "14",
-  //     asOrganization: "Orange Swiatlowod",
-  //     postalCode: "00-202",
-  //     originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
-  //   };
-  //   updateInfo(cf);
-  // }, []);
+  useEffect(() => {
+    // DEV
+    const cf = {
+      clientTcpRtt: 3,
+      longitude: "21.00260",
+      latitude: "52.24840",
+      tlsCipher: "AEAD-AES256-GCM-SHA384",
+      continent: "EU",
+      asn: 5617,
+      clientAcceptEncoding: "br, gzip, deflate",
+      country: "PL",
+      isEUCountry: "1",
+      colo: "WAW",
+      timezone: "Europe/Warsaw",
+      city: "Warsaw",
+      clientTrustScore: 1,
+      region: "Mazovia",
+      regionCode: "14",
+      asOrganization: "Orange Swiatlowod",
+      postalCode: "00-202",
+      originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
+    };
+    updateInfo(cf);
+  }, []);
 
   const Location = styled.div`
     width: 100%;
@@ -242,15 +221,9 @@ function App() {
   `;
 
   return (
-    <Fragment>
+    <div style={{width: '100%'}}>
       <Location>
         <table className={"user-table"}>
-          {/* <thead>
-            <tr className={"hopr-table-header"}>
-              <th className={"hopr-table-header-Location"}></th>
-              <th className={"hopr-table-header-MetaMask"}></th>
-            </tr>
-          </thead> */}
           <tbody>
             <tr>
               <td className={"no-padding-on-mobile"} style={{width: '100%'}}>
@@ -268,7 +241,7 @@ function App() {
                       <th>IP</th>
                       <th>{ip}</th>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <th>Status</th>
                       <th>
                         {
@@ -280,7 +253,7 @@ function App() {
                             : status
                         } 
                       </th>
-                    </tr>
+                    </tr> */}
                     <tr>
                       <th>Network Name</th>
                       <th>{name}</th>
@@ -313,10 +286,6 @@ function App() {
               <td className={"not-on-mobile"}>
                 {coordinates.lat && coordinates.long && (
                   <div>
-                    {/* <iframe 
-                        src={`https://maps.google.com/maps?q=${coordinates.lat},${coordinates.long}&t=&z=3&ie=UTF8&iwloc=&output=embed`}
-                        style={{width: '400px', height: '275px', maxWidth: '45vw'}}
-                      /> */}
                     <Map
                       coordinates={coordinates}
                       style={{
@@ -362,7 +331,7 @@ function App() {
           </tbody>
         </table>
       </Location>
-    </Fragment>
+    </div>
   );
 }
 
