@@ -17,7 +17,7 @@ export const chains = [
         derpUrl: "/rpc/xdai/mainnet",
 //        originalUrl: "https://dai.poa.network/",
         originalUrl: "https://rpc.gnosischain.com/",
-        blockExplorerUrl: 'http://gnosisscan.io'
+        blockExplorerUrl: 'https://gnosisscan.io'
     },
     {
         value:'arbitrum',

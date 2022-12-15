@@ -59,9 +59,9 @@ function App() {
   //   getIPInfo()
   // },[])
 
-  const setRpcUrl = () => {
-    setRpcUrl2(`https://${url}/rpc/eth/mainnet`);
-  };
+  // const setRpcUrl = () => {
+  //   setRpcUrl2(`https://${url}/rpc/eth/mainnet`);
+  // };
 
   const updateInfo = (cf) => {
     setRpcUrl2(cf.originalUrl);
