@@ -90,5 +90,14 @@ export const chains = [
         derpUrl: '/rpc/eth/goerli',
         originalUrl: 'https://goerli.infura.io/v3/',
         blockExplorerUrl: 'https://goerli.etherscan.io/'
-    }
+    },
+    {
+        value: 'optimism',
+        name: 'Optimism Mainnet',
+        coin: 'OP',
+        chainId: '10',
+        derpUrl: 'rpc/optimism/mainnet',
+        originalUrl: 'https://rpc.ankr.com/optimism',
+        blockExplorerUrl: 'https://optimistic.etherscan.io/'
+    }   
 ]
