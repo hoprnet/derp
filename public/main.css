@@ -6,7 +6,7 @@ body {
   color: #414141;
 }
 
-.google-maps-iframe{
+.google-maps-iframe {
   border: none;
 }
 
@@ -355,8 +355,6 @@ i {
     display: none;
   }
 }
-
-
 
 li.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root {
   font-size: 15px;
