@@ -127,7 +127,7 @@ function RpcInformation() {
                 <>
                     <b>Block Explorer:</b> {blockExplorerUrl}
                     <CopyButton
-                        copy={symbol}
+                        copy={blockExplorerUrl}
                     />
                     <br />
                 </>
