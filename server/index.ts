@@ -2,7 +2,7 @@ import { getAssetFromKV } from "@cloudflare/kv-asset-handler";
 
 import manifestJSON from "__STATIC_CONTENT_MANIFEST";
 const assetManifest = JSON.parse(manifestJSON);
-import { chains } from '../src/shared/chains.js';
+import { chains } from "../src/shared/chains.js";
 
 export async function handleRequest(
   request: Request,
@@ -37,7 +37,9 @@ export async function handleRequest(
   const logsObject = env.client_logs.get(clientLogsId);
   let newUrl = new URL(request.url);
 
-  const chosenChain = chains.filter(chain => url.pathname.includes(chain.derpUrl))[0];
+  const chosenChain = chains.filter((chain) =>
+    url.pathname.includes(chain.derpUrl)
+  )[0];
 
   if (chosenChain) {
     newUrl.pathname = "/";

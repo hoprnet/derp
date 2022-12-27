@@ -16,6 +16,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "server/**/*", "bindings.d.ts"]
+  "include": ["server/**/*", "bindings.d.ts"]
 }
