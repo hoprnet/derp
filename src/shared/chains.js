@@ -96,7 +96,7 @@ export const chains = [
         name: 'Optimism Mainnet',
         coin: 'OP',
         chainId: '10',
-        derpUrl: 'rpc/optimism/mainnet',
+        derpUrl: '/rpc/optimism/mainnet',
         originalUrl: 'https://rpc.ankr.com/optimism',
         blockExplorerUrl: 'https://optimistic.etherscan.io/'
     }   
