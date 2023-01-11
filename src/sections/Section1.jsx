@@ -71,7 +71,13 @@ function Section1(props) {
             <Subtext center>
                 Add the DERP RPC endpoint to your crypto wallet to see exactly what information is being leaked about you every time you connect to a crypto service.
             </Subtext>
-
+            <Subtext center>
+            Disclaimer: DERP is only an educational tool to showcase all the data your wallet leaks about you. It does not solve the issue!
+            </Subtext>
+            <Subtext center>
+                If you want a truly secure and private RPC provider, use <a href="https://hoprnet.org/rpch" target="_blank" rel="noopener noreferrer">RPCh.</a>
+            </Subtext>
+                
             <Button
                 hopr
                 onClick={props.setShowSetup}
