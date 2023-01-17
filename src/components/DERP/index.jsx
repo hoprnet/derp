@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { chains } from "../../shared/chains.js";
 import Map from "../Map";
 import { Location } from "./styled"
 import DERPLog from "./log"
+import Counter from "../Counter";
 
 function DERP() {
   const [log, setLog] = useState([]);
   const [ip, setIp] = useState("-");
   const [country, setCountry] = useState("-");
-//  const [status, setStatus] = useState("not connected");
+  // const [status, setStatus] = useState("not connected");
   const [rpcUrl, setRpcUrl2] = useState("-");
+  const [calls, setCalls] = useState(0);
+  const [currentTime, setCurrentTime] = useState(null);
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
   const [city, setCity] = useState("-");
@@ -20,6 +23,9 @@ function DERP() {
     lat: undefined,
   });
 
+  const startTimeRef = useRef(null);
+  let intervalId = useRef(null);
+
   useEffect(() => {
     console.log('rerendered DERP');
   }, []);
@@ -27,6 +33,20 @@ function DERP() {
   useEffect(() => {
     console.log('coordinates', coordinates)
   }, [coordinates]);
+
+  useEffect(() => {
+    if (calls > 1) {
+      if (!startTimeRef.current) {
+        startTimeRef.current = Date.now();
+      }
+      setCurrentTime(Date.now());
+      intervalId.current = setInterval(() => {
+        setCurrentTime(Date.now());
+      }, 1000);
+
+      return () => clearInterval(intervalId.current);
+    }
+  }, [calls]);
 
   //let currentWebSocket;
 
@@ -92,6 +112,7 @@ function DERP() {
       addLogEntry(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
+      setCalls(prevCalls => prevCalls + 1);
     });
 
     ws.addEventListener("close", (event) => {
@@ -185,6 +206,15 @@ function DERP() {
                       <th>Chain ID</th>
                       <th>{chainId}</th>
                     </tr>
+                    <tr>
+                      <th>Counter</th>
+                      <th>
+                        <Counter
+                          startTime={startTimeRef.current}
+                          currentTime={currentTime}
+                          calls={calls}
+                        />
+                      </th>                    </tr>
                     <tr className={"mobile-only"}>
                       <th colSpan="2">
                         {coordinates.lat && coordinates.long && (
