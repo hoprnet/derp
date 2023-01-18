@@ -5,13 +5,17 @@ import { chains } from "../../shared/chains.js";
 import Map from "../Map";
 import { Location } from "./styled"
 import DERPLog from "./log"
+import Counter from "../Counter";
 
 function DERP() {
   const [log, setLog] = useState([]);
   const [ip, setIp] = useState("-");
   const [country, setCountry] = useState("-");
-//  const [status, setStatus] = useState("not connected");
+  // const [status, setStatus] = useState("not connected");
   const [rpcUrl, setRpcUrl2] = useState("-");
+  const [numberOfCalls, set_numberOfCalls] = useState(0);
+  const [startTimeEpoch, set_startTimeEpoch] = useState(null);
+  const [currentTime, setCurrentTime] = useState(null);
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
   const [city, setCity] = useState("-");
@@ -27,6 +31,26 @@ function DERP() {
   useEffect(() => {
     console.log('coordinates', coordinates)
   }, [coordinates]);
+
+  useEffect(() => {
+    if (numberOfCalls > 0 && !startTimeEpoch) {
+      console.log("@numberOfCalls > 0");
+      set_startTimeEpoch(Date.now());
+    }
+  }, [numberOfCalls, startTimeEpoch]);
+
+  useEffect(() => {
+    if (!startTimeEpoch) return;
+
+    console.log("@setCurrentTime");
+    setCurrentTime(Date.now());
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+      console.log("@setCurrentTime (interval)");
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTimeEpoch]);
 
   //let currentWebSocket;
 
@@ -92,6 +116,7 @@ function DERP() {
       addLogEntry(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
+      set_numberOfCalls(prevNumberOfCalls => prevNumberOfCalls + 1);
     });
 
     ws.addEventListener("close", (event) => {
@@ -184,6 +209,16 @@ function DERP() {
                     <tr>
                       <th>Chain ID</th>
                       <th>{chainId}</th>
+                    </tr>
+                    <tr>
+                      <th>Counter</th>
+                      <th>
+                        <Counter
+                          startTime={startTimeEpoch}
+                          currentTime={currentTime}
+                          numberOfCalls={numberOfCalls}
+                        />
+                      </th>
                     </tr>
                     <tr className={"mobile-only"}>
                       <th colSpan="2">
