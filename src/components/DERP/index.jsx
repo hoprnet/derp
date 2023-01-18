@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 // import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { chains } from "../../shared/chains.js";
@@ -22,9 +22,7 @@ function DERP() {
     long: undefined,
     lat: undefined,
   });
-
-  const startTimeRef = useRef(null);
-  let intervalId = useRef(null);
+  const [startTimeEpoch, set_startTimeEpoch] = useState(null);
 
   useEffect(() => {
     console.log('rerendered DERP');
@@ -35,18 +33,24 @@ function DERP() {
   }, [coordinates]);
 
   useEffect(() => {
-    if (calls > 1) {
-      if (!startTimeRef.current) {
-        startTimeRef.current = Date.now();
-      }
-      setCurrentTime(Date.now());
-      intervalId.current = setInterval(() => {
-        setCurrentTime(Date.now());
-      }, 1000);
-
-      return () => clearInterval(intervalId.current);
+    if (calls > 0 && !startTimeEpoch) {
+      console.log('------------- calls > 0');
+      set_startTimeEpoch(Date.now());
     }
   }, [calls]);
+
+  useEffect(() => {
+    if(!startTimeEpoch) return;
+
+    console.log('------------- setCurrentTime');
+    setCurrentTime(Date.now());
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+      console.log('------------- setCurrentTime (interval)');
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTimeEpoch]);
 
   //let currentWebSocket;
 
@@ -210,7 +214,7 @@ function DERP() {
                       <th>Counter</th>
                       <th>
                         <Counter
-                          startTime={startTimeRef.current}
+                          startTime={startTimeEpoch}
                           currentTime={currentTime}
                           calls={calls}
                         />
