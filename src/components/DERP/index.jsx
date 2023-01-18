@@ -13,7 +13,8 @@ function DERP() {
   const [country, setCountry] = useState("-");
   // const [status, setStatus] = useState("not connected");
   const [rpcUrl, setRpcUrl2] = useState("-");
-  const [calls, setCalls] = useState(0);
+  const [numberOfCalls, set_numberOfCalls] = useState(0);
+  const [startTimeEpoch, set_startTimeEpoch] = useState(null);
   const [currentTime, setCurrentTime] = useState(null);
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
@@ -22,7 +23,6 @@ function DERP() {
     long: undefined,
     lat: undefined,
   });
-  const [startTimeEpoch, set_startTimeEpoch] = useState(null);
 
   useEffect(() => {
     console.log('rerendered DERP');
@@ -33,20 +33,20 @@ function DERP() {
   }, [coordinates]);
 
   useEffect(() => {
-    if (calls > 0 && !startTimeEpoch) {
-      console.log('------------- calls > 0');
+    if (numberOfCalls > 0 && !startTimeEpoch) {
+      console.log("@numberOfCalls > 0");
       set_startTimeEpoch(Date.now());
     }
-  }, [calls]);
+  }, [numberOfCalls, startTimeEpoch]);
 
   useEffect(() => {
-    if(!startTimeEpoch) return;
+    if (!startTimeEpoch) return;
 
-    console.log('------------- setCurrentTime');
+    console.log("@setCurrentTime");
     setCurrentTime(Date.now());
     const interval = setInterval(() => {
       setCurrentTime(Date.now());
-      console.log('------------- setCurrentTime (interval)');
+      console.log("@setCurrentTime (interval)");
     }, 1000);
 
     return () => clearInterval(interval);
@@ -116,7 +116,7 @@ function DERP() {
       addLogEntry(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
-      setCalls(prevCalls => prevCalls + 1);
+      set_numberOfCalls(prevNumberOfCalls => prevNumberOfCalls + 1);
     });
 
     ws.addEventListener("close", (event) => {
@@ -216,9 +216,10 @@ function DERP() {
                         <Counter
                           startTime={startTimeEpoch}
                           currentTime={currentTime}
-                          calls={calls}
+                          numberOfCalls={numberOfCalls}
                         />
-                      </th>                    </tr>
+                      </th>
+                    </tr>
                     <tr className={"mobile-only"}>
                       <th colSpan="2">
                         {coordinates.lat && coordinates.long && (
