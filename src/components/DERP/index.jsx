@@ -96,7 +96,7 @@ function DERP() {
 
   const addLogEntry = (entry) => {
     setLog((prevState) => {
-      const newState = [entry, ...prevState];
+      const newState = [...prevState, entry];
       return newState;
     });
   };

@@ -14,7 +14,9 @@ export const Location = styled.div`
     padding: 8px;
   }
   pre {
-    max-width: 440px;
+    max-width: 480px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
   }
 
   .hopr-table-header {
