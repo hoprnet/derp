@@ -16,7 +16,8 @@ export const chains = [
         coin: 'xDAI',
         derpUrl: "/rpc/xdai/mainnet",
 //        originalUrl: "https://dai.poa.network/",
-        originalUrl: "https://rpc.gnosischain.com/",
+//        originalUrl: "https://rpc.gnosischain.com/",
+        originalUrl: "https://rpc.ankr.com/gnosis",
         blockExplorerUrl: 'https://gnosisscan.io'
     },
     {
