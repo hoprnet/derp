@@ -84,7 +84,7 @@ function Section1(props) {
         your wallet leaks about you. It does not solve the issue! If you want a
         truly secure and private RPC provider, use{" "}
         <a
-          href="https://hoprnet.org/rpch"
+          href="https://rpch.net"
           target="_blank"
           rel="noopener noreferrer"
         >
