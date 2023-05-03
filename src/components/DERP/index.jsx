@@ -146,40 +146,40 @@ function DERP() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    // DEV
-    const cf = {
-      clientTcpRtt: 3,
-      longitude: "21.00260",
-      latitude: "52.24840",
-      tlsCipher: "AEAD-AES256-GCM-SHA384",
-      continent: "EU",
-      asn: 5617,
-      clientAcceptEncoding: "br, gzip, deflate",
-      country: "PL",
-      isEUCountry: "1",
-      colo: "WAW",
-      timezone: "Europe/Warsaw",
-      city: "Warsaw",
-      clientTrustScore: 1,
-      region: "Mazovia",
-      regionCode: "14",
-      asOrganization: "Orange Swiatlowod",
-      postalCode: "00-202",
-      originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
-    };
-    updateInfo(cf);
-    getAndParseDataFromEntry({
-      "timestamp": "2023-05-03T16:09:54.430Z",
-      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-      "type": "request",
-      "method": "eth_getBalance",
-      "params": [
-        "0x226d833075c26dbf9aa377de032342345808953a4",
-        "0x1a79459"
-      ]
-    });
-  }, []);
+  // useEffect(() => {
+  //   // DEV
+  //   const cf = {
+  //     clientTcpRtt: 3,
+  //     longitude: "21.00260",
+  //     latitude: "52.24840",
+  //     tlsCipher: "AEAD-AES256-GCM-SHA384",
+  //     continent: "EU",
+  //     asn: 5617,
+  //     clientAcceptEncoding: "br, gzip, deflate",
+  //     country: "PL",
+  //     isEUCountry: "1",
+  //     colo: "WAW",
+  //     timezone: "Europe/Warsaw",
+  //     city: "Warsaw",
+  //     clientTrustScore: 1,
+  //     region: "Mazovia",
+  //     regionCode: "14",
+  //     asOrganization: "Orange Swiatlowod",
+  //     postalCode: "00-202",
+  //     originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
+  //   };
+  //   updateInfo(cf);
+  //   getAndParseDataFromEntry({
+  //     "timestamp": "2023-05-03T16:09:54.430Z",
+  //     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  //     "type": "request",
+  //     "method": "eth_getBalance",
+  //     "params": [
+  //       "0x226d833075c26dbf9aa377de032342345808953a4",
+  //       "0x1a79459"
+  //     ]
+  //   });
+  // }, []);
 
   return (
     <div style={{width: '100%'}}>
