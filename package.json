@@ -1,6 +1,6 @@
 {
   "name": "derp",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "An Ethereum RPC provider which gives access to the logs it gathers.",
   "module": "./dist/index.mjs",
   "type": "module",
@@ -14,6 +14,7 @@
     "start": "react-scripts start",
     "start-https": "HTTPS=true yarn start",
     "build:frontend": "react-scripts build",
+    "lint": "eslint --ext .jsx .",
     "lint:fix": "eslint --fix --ext .jsx .",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
