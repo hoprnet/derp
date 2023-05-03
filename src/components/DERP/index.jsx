@@ -234,9 +234,10 @@ function DERP() {
                         {lastAddresesUsed.length < 2 ? 'Last address used' : `Last ${lastAddresesUsed.length} address used`}
                       </th>
                       <th>
-                        { lastAddresesUsed.map((address, index) =>
-                            <p>{address}</p>
+                        { lastAddresesUsed.length !== 0 && lastAddresesUsed.map((address, index) =>
+                            <p style={{marginBottom: 0}}>{address}</p>
                         )}
+                        { lastAddresesUsed.length === 0 && '-'}
                       </th>
                     </tr>
                     <tr>
