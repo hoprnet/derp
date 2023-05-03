@@ -19,18 +19,11 @@ function DERP() {
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
   const [city, setCity] = useState("-");
+  const [lastAddresesUsed, set_lastAddresesUsed] = useState([]);
   const [coordinates, setCoordinates] = useState({
     long: undefined,
     lat: undefined,
   });
-
-  useEffect(() => {
-    console.log('rerendered DERP');
-  }, []);
-
-  useEffect(() => {
-    console.log('coordinates', coordinates)
-  }, [coordinates]);
 
   useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
@@ -101,6 +94,21 @@ function DERP() {
     });
   };
 
+  const getAndParseDataFromEntry = (entry) => {
+    if(entry.method = "eth_getBalance" && entry?.params[0]) {
+      let address = entry.params[0];
+      set_lastAddresesUsed((prevState) => {
+        let index = prevState.indexOf(address)
+        if (index === -1){
+          return [address, ...prevState].splice(0,3);
+        } else {
+          let newState = prevState.filter(elem => elem !== address);
+          return [address, ...newState].splice(0,3);
+        }
+      });
+    }
+  };
+
   const joinWebSocket = () => {
     const wsUrl = `wss://${url}/client_logs/websocket`;
     const ws = new WebSocket(wsUrl);
@@ -114,6 +122,7 @@ function DERP() {
     ws.addEventListener("message", (event) => {
       const data = JSON.parse(event.data);
       addLogEntry(data.log);
+      getAndParseDataFromEntry(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
       set_numberOfCalls(prevNumberOfCalls => prevNumberOfCalls + 1);
@@ -137,30 +146,40 @@ function DERP() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   // DEV
-  //   const cf = {
-  //     clientTcpRtt: 3,
-  //     longitude: "21.00260",
-  //     latitude: "52.24840",
-  //     tlsCipher: "AEAD-AES256-GCM-SHA384",
-  //     continent: "EU",
-  //     asn: 5617,
-  //     clientAcceptEncoding: "br, gzip, deflate",
-  //     country: "PL",
-  //     isEUCountry: "1",
-  //     colo: "WAW",
-  //     timezone: "Europe/Warsaw",
-  //     city: "Warsaw",
-  //     clientTrustScore: 1,
-  //     region: "Mazovia",
-  //     regionCode: "14",
-  //     asOrganization: "Orange Swiatlowod",
-  //     postalCode: "00-202",
-  //     originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
-  //   };
-  //   updateInfo(cf);
-  // }, []);
+  useEffect(() => {
+    // DEV
+    const cf = {
+      clientTcpRtt: 3,
+      longitude: "21.00260",
+      latitude: "52.24840",
+      tlsCipher: "AEAD-AES256-GCM-SHA384",
+      continent: "EU",
+      asn: 5617,
+      clientAcceptEncoding: "br, gzip, deflate",
+      country: "PL",
+      isEUCountry: "1",
+      colo: "WAW",
+      timezone: "Europe/Warsaw",
+      city: "Warsaw",
+      clientTrustScore: 1,
+      region: "Mazovia",
+      regionCode: "14",
+      asOrganization: "Orange Swiatlowod",
+      postalCode: "00-202",
+      originalUrl: "http://localhost:8788/rpc/xdai/mainnet",
+    };
+    updateInfo(cf);
+    getAndParseDataFromEntry({
+      "timestamp": "2023-05-03T16:09:54.430Z",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+      "type": "request",
+      "method": "eth_getBalance",
+      "params": [
+        "0x226d833075c26dbf9aa377de032342345808953a4",
+        "0x1a79459"
+      ]
+    });
+  }, []);
 
   return (
     <div style={{width: '100%'}}>
@@ -209,6 +228,16 @@ function DERP() {
                     <tr>
                       <th>Chain ID</th>
                       <th>{chainId}</th>
+                    </tr>
+                    <tr>
+                      <th>
+                        {lastAddresesUsed.length < 2 ? 'Last address used' : `Last ${lastAddresesUsed.length} address used`}
+                      </th>
+                      <th>
+                        { lastAddresesUsed.map((address, index) =>
+                            <p>{address}</p>
+                        )}
+                      </th>
                     </tr>
                     <tr>
                       <th>Counter</th>
