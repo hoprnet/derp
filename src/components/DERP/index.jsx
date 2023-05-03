@@ -95,7 +95,7 @@ function DERP() {
   };
 
   const getAndParseDataFromEntry = (entry) => {
-    if(entry.method = "eth_getBalance" && entry?.params[0]) {
+    if(entry.method = "eth_getBalance" && entry.params && entry.params[0]) {
       let address = entry.params[0];
       set_lastAddresesUsed((prevState) => {
         let index = prevState.indexOf(address)
