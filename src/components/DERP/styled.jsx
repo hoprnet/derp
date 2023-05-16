@@ -20,7 +20,7 @@ export const Location = styled.div`
   }
 
   .hopr-table-header {
-    background: linear-gradient(180deg, #0000b4 0.5%, #000050 100%);
+    background: linear-gradient(180deg, #000050 0.5%, #0000b4 100%);
     color: white;
 
     @media (min-width: 1040px) {
