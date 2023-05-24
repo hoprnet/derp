@@ -26,6 +26,29 @@ function DERP() {
   });
 
   useEffect(() => {
+    console.log("@log:", log);
+    const ethCall = log.find(
+      (entry) =>
+        entry.method === "eth_call" &&
+        (entry.params.at(0).data.length === 74 ||
+          entry.params.at(0).data.length === 394)
+    );
+    let walletAddress;
+    if (ethCall) {
+      const data = ethCall.params.at(0).data;
+      console.log('@  data:', data);
+      if (data.length === 74) {
+        walletAddress = data.substring(data.length - 40);
+        console.log("@wallet address:", walletAddress);
+      } 
+      else if (data.length === 394) {
+        walletAddress = data.match(/\b[0-9a-fA-F]{40}\b/);
+        console.log("@wallet address:", walletAddress);
+      }
+    }
+  }, [log]);
+  
+  useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
       console.log("@numberOfCalls > 0");
       set_startTimeEpoch(Date.now());
@@ -47,7 +70,8 @@ function DERP() {
 
   //let currentWebSocket;
 
-  const url = window.location.host;
+  const url = 'derp.hoprnet.org'
+  // const url = window.location.host;
   //const url = window.location.hostname + ':8788' //dev
 
   const updateIp = (newIp, newCountry) => {
