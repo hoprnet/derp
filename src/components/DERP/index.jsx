@@ -6,6 +6,8 @@ import Map from "../Map";
 import { Location } from "./styled"
 import DERPLog from "./log"
 import Counter from "../Counter";
+import { utils } from "ethers";
+
 
 function DERP() {
   const [log, setLog] = useState([]);
@@ -25,28 +27,75 @@ function DERP() {
     lat: undefined,
   });
 
+  const [ethCallData, setEthCallData] = useState("");
+  const [signatureData, setSignatureData] = useState({});
+  const [decodedEthCall, setDecodedEthCall] = useState();
+
   useEffect(() => {
-    console.log("@log:", log);
-    const ethCall = log.find(
-      (entry) =>
-        entry.method === "eth_call" &&
-        (entry.params.at(0).data.length === 74 ||
-          entry.params.at(0).data.length === 394)
-    );
-    let walletAddress;
-    if (ethCall) {
-      const data = ethCall.params.at(0).data;
-      console.log('@  data:', data);
-      if (data.length === 74) {
-        walletAddress = data.substring(data.length - 40);
-        console.log("@wallet address:", walletAddress);
-      } 
-      else if (data.length === 394) {
-        walletAddress = data.match(/\b[0-9a-fA-F]{40}\b/);
-        console.log("@wallet address:", walletAddress);
-      }
+    console.log("@  decodedEthCall:", decodedEthCall);
+  }, [decodedEthCall]);
+
+  // get decoded data from eth_call, similar to https://calldata-decoder.apoorv.xyz/
+  const getDecoded = (functionName, data) => {
+    let decoded = {};
+    const abiSignature = [`function ${functionName}`];
+    const iface = new utils.Interface(abiSignature);
+    const { args } = iface.parseTransaction({ data });
+
+    decoded = {
+      function: functionName,
+      params: args,
+    };
+
+    return decoded;
+  };
+
+  useEffect(() => {
+    console.log("@ethCallData:", ethCallData);
+    console.log("@signatureData:", signatureData);
+
+    // get earliest etherum signature (do we want this?), as there can be many.
+    if (signatureData?.results) {
+      const earliestSignature = signatureData.results.reduce(
+        (prev, current) => {
+          const prevCreatedAt = new Date(prev.created_at);
+          const currentCreatedAt = new Date(current.created_at);
+          return prevCreatedAt < currentCreatedAt ? prev : current;
+        }
+      );
+      const textSignature = earliestSignature.text_signature;
+      setDecodedEthCall(getDecoded(textSignature, ethCallData));
+    }
+  }, [ethCallData, signatureData]);
+
+  useEffect(() => {
+    // set ethCallData to the first entry of the logs with method "eth_call".
+    const foundEthCall = log.find((entry) => entry.method === "eth_call");
+    if (foundEthCall) {
+      const data = foundEthCall.params.at(0).data;      
+      // TODO: handle multicall and other functions
+      console.log('Is multicall?', data.startsWith('0x0178b8bf'))
+      setEthCallData(data);
     }
   }, [log]);
+
+  useEffect(() => {
+    // fetch signature data from 4byte directory 'Ethereum Signature Database'
+    const fetchSignatureData = async () => {
+      if (ethCallData) {
+        const signature = ethCallData.slice(0, 10);
+        const response = await fetch(
+          `https://www.4byte.directory/api/v1/signatures/?hex_signature=${signature}`
+        );
+        const data = await response.json();
+        setSignatureData(data);
+      }
+    };
+
+    fetchSignatureData();
+  }, [ethCallData]);
+
+
   
   useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
@@ -70,7 +119,9 @@ function DERP() {
 
   //let currentWebSocket;
 
+  // !!! CHANGE THIS
   const url = 'derp.hoprnet.org'
+  // !!! CHANGE THIS
   // const url = window.location.host;
   //const url = window.location.hostname + ':8788' //dev
 
