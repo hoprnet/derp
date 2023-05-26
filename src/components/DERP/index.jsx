@@ -28,75 +28,47 @@ function DERP() {
   });
 
   const [ethCallData, setEthCallData] = useState("");
-  const [signatureData, setSignatureData] = useState({});
-  const [decodedEthCall, setDecodedEthCall] = useState();
+  const [addresses, setAddresses] = useState([])
 
   useEffect(() => {
-    console.log("@  decodedEthCall:", decodedEthCall);
-  }, [decodedEthCall]);
+    if (ethCallData) {
+      return;
+    }
 
-  // get decoded data from eth_call, similar to https://calldata-decoder.apoorv.xyz/
-  const getDecoded = (functionName, data) => {
-    let decoded = {};
-    const abiSignature = [`function ${functionName}`];
-    const iface = new utils.Interface(abiSignature);
+    // 0xf0002ea9 is the signature for balances(address[],address[]).
+    const foundEthCall = log.find(
+      (entry) =>
+        entry.method === "eth_call" &&
+        entry.params.at(0).data.startsWith("0xf0002ea9")
+    );
+    if (foundEthCall) {
+      const data = foundEthCall.params.at(0).data;
+      setEthCallData(data);
+    }
+  }, [log, ethCallData]);
+
+  const getAddressesFromEthCall = (data) => {
+    const abi = ["function balances(address[],address[])"];
+    const iface = new utils.Interface(abi);
+    
+    // decode eth call data.
     const { args } = iface.parseTransaction({ data });
-
-    decoded = {
-      function: functionName,
-      params: args,
-    };
-
-    return decoded;
+    setAddresses(args.at(0))
   };
 
   useEffect(() => {
-    console.log("@ethCallData:", ethCallData);
-    console.log("@signatureData:", signatureData);
-
-    // get earliest etherum signature (do we want this?), as there can be many.
-    if (signatureData?.results) {
-      const earliestSignature = signatureData.results.reduce(
-        (prev, current) => {
-          const prevCreatedAt = new Date(prev.created_at);
-          const currentCreatedAt = new Date(current.created_at);
-          return prevCreatedAt < currentCreatedAt ? prev : current;
-        }
-      );
-      const textSignature = earliestSignature.text_signature;
-      setDecodedEthCall(getDecoded(textSignature, ethCallData));
+    if (ethCallData) {
+      getAddressesFromEthCall(ethCallData)
     }
-  }, [ethCallData, signatureData]);
-
-  useEffect(() => {
-    // set ethCallData to the first entry of the logs with method "eth_call".
-    const foundEthCall = log.find((entry) => entry.method === "eth_call");
-    if (foundEthCall) {
-      const data = foundEthCall.params.at(0).data;      
-      // TODO: handle multicall and other functions
-      console.log('Is multicall?', data.startsWith('0x0178b8bf'))
-      setEthCallData(data);
-    }
-  }, [log]);
-
-  useEffect(() => {
-    // fetch signature data from 4byte directory 'Ethereum Signature Database'
-    const fetchSignatureData = async () => {
-      if (ethCallData) {
-        const signature = ethCallData.slice(0, 10);
-        const response = await fetch(
-          `https://www.4byte.directory/api/v1/signatures/?hex_signature=${signature}`
-        );
-        const data = await response.json();
-        setSignatureData(data);
-      }
-    };
-
-    fetchSignatureData();
   }, [ethCallData]);
 
+  // check logs and highligh address leaks
+  useEffect(() => {
+    const regex = /^0x[a-fA-F0-9]{40}$|^[a-fA-F0-9]{40}$/;
+    const params = log.map(entry => entry.params)
 
-  
+  }, [log])
+
   useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
       console.log("@numberOfCalls > 0");
@@ -198,6 +170,7 @@ function DERP() {
       const data = JSON.parse(event.data);
       addLogEntry(data.log);
       getAndParseDataFromEntry(data.log);
+      // filterAndSetEthCallData(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
       set_numberOfCalls(prevNumberOfCalls => prevNumberOfCalls + 1);
