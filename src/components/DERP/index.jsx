@@ -26,7 +26,6 @@ function DERP() {
     long: undefined,
     lat: undefined,
   });
-
   const [ethCallData, setEthCallData] = useState("");
   const [addresses, setAddresses] = useState([])
 
@@ -34,12 +33,11 @@ function DERP() {
     if (ethCallData) {
       return;
     }
-
     // 0xf0002ea9 is the signature for balances(address[],address[]).
     const foundEthCall = log.find(
       (entry) =>
         entry.method === "eth_call" &&
-        entry.params.at(0).data.startsWith("0xf0002ea9")
+        entry.params?.at(0)?.data?.startsWith("0xf0002ea9")
     );
     if (foundEthCall) {
       const data = foundEthCall.params.at(0).data;
@@ -62,12 +60,9 @@ function DERP() {
     }
   }, [ethCallData]);
 
-  // check logs and highligh address leaks
   useEffect(() => {
-    const regex = /^0x[a-fA-F0-9]{40}$|^[a-fA-F0-9]{40}$/;
-    const params = log.map(entry => entry.params)
-
-  }, [log])
+    set_lastAddresesUsed(addresses.slice(0, 2))
+  }, [addresses])
 
   useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
@@ -91,10 +86,7 @@ function DERP() {
 
   //let currentWebSocket;
 
-  // !!! CHANGE THIS
-  const url = 'derp.hoprnet.org'
-  // !!! CHANGE THIS
-  // const url = window.location.host;
+  const url = window.location.host;
   //const url = window.location.hostname + ':8788' //dev
 
   const updateIp = (newIp, newCountry) => {
@@ -170,7 +162,6 @@ function DERP() {
       const data = JSON.parse(event.data);
       addLogEntry(data.log);
       getAndParseDataFromEntry(data.log);
-      // filterAndSetEthCallData(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
       set_numberOfCalls(prevNumberOfCalls => prevNumberOfCalls + 1);
@@ -283,7 +274,7 @@ function DERP() {
                       </th>
                       <th>
                         { lastAddresesUsed.length !== 0 && lastAddresesUsed.map((address, index) =>
-                            <p style={{marginBottom: 0}}>{address}</p>
+                            <p key={address} style={{marginBottom: 0}}>{address}</p>
                         )}
                         { lastAddresesUsed.length === 0 && '-'}
                       </th>
@@ -334,6 +325,7 @@ function DERP() {
       <Location>
         <DERPLog
           log={log}
+          addresses={addresses}
         />
       </Location>
     </div>

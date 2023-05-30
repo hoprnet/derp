@@ -1,36 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-function DERPLog(props) {
+const addressesToRegexes = (addresses) => {
+  return addresses.map((address) => {
+    const addressWithoutOx = address.slice(2);
+    return new RegExp(`(0x)?${addressWithoutOx}`, "gi");
+  });
+};
 
-    const stringsToMatch = [
-        "0x4F5AdF25Ec1746CcfD8f95474E895A35cbAa4628",
-        "0xCeb7DE2850FA11FC912fb8609e62C5385cdAeedE",
-        "0x3b7A6D5A9c8C30E2F5f4Fba28e86A0672843D674",
-      ];
-
-  const highlightParams = (params) => {
-    const regex = /^0x[a-fA-F0-9]{40}$|^[a-fA-F0-9]{40}$/;
-    // console.log("@Params:", params);
-      
-      if (params.match("0x4F5AdF25Ec1746CcfD8f95474E895A35cbAa4628")) {
-        console.log(params.match("4F5AdF25Ec1746CcfD8f95474E895A35cbAa4628"))
-      }
-      
-
-    // if (conditionRegex.test(params)) {
-    // Apply the desired highlighting logic
-    //   const highlightedParams = params.replace(
-    // conditionRegex,
-    // `<span style="color: red; font-weight: bold;">$&</span>`
-    //   );
-    //   return highlightedParams;
-    // }
-    // return params;
-  };
+function DERPLog({ log, addresses }) {
+  const [newLog, setNewLog] = useState([]);
+  const [regexes, setRegexes] = useState([]);
 
   useEffect(() => {
-    console.log("rerendered DERP Log");
-  }, []);
+    setNewLog(JSON.parse(JSON.stringify(log)));
+  }, [log]);
+
+  useEffect(() => {
+    setRegexes(addressesToRegexes(addresses));
+  }, [addresses]);
 
   return (
     <table className={"showRowAnimate"}>
@@ -44,30 +31,42 @@ function DERPLog(props) {
         </tr>
       </thead>
       <tbody>
-        {props.log.map((entry, index) => (
-          <tr key={`entry-${index}`}>
-            <td>{entry?.timestamp}</td>
-            <td>{entry?.type}</td>
-            <td>{entry?.userAgent}</td>
-            <td>{entry?.method}</td>
-            <td>
-              <pre>
-                {entry.params && (
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: highlightParams(
-                          JSON.stringify(
-                              entry.params
-                              , null, 2
-                          )
-                      ),
-                    }}
-                  />
-                )}
-              </pre>
-            </td>
-          </tr>
-        ))}
+        {newLog.map((entry, index) => {
+          let entryCopy = { ...entry };
+
+          if (entryCopy.params && entryCopy.params.length > 0) {
+            let stringifiedParams = JSON.stringify(entryCopy.params);
+
+            regexes.forEach((regex) => {
+              stringifiedParams = stringifiedParams.replace(
+                regex,
+                `<mark>$&</mark>`
+              );
+            });
+
+            entryCopy.params = JSON.parse(stringifiedParams);
+          }
+
+          return (
+            <tr key={`entry-${index}`}>
+              <td>{entry?.timestamp}</td>
+              <td>{entry?.type}</td>
+              <td>{entry?.userAgent}</td>
+              <td>{entry?.method}</td>
+              <td>
+                <pre>
+                  {entryCopy.params && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(entryCopy.params, null, 2),
+                      }}
+                    />
+                  )}
+                </pre>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

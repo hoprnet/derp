@@ -18,6 +18,10 @@ export const Location = styled.div`
     overflow-wrap: anywhere;
     white-space: pre-wrap;
   }
+  mark {
+    background-color: #FFA0A0;
+    font-weight: bold;
+  }
 
   .hopr-table-header {
     background: linear-gradient(180deg, #0000b4 0.5%, #000050 100%);
