@@ -21,7 +21,7 @@ function DERP() {
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
   const [city, setCity] = useState("-");
-  const [lastAddresesUsed, set_lastAddresesUsed] = useState([]);
+  const [lastAddressesUsed, set_lastAddressesUsed] = useState([]);
   const [coordinates, setCoordinates] = useState({
     long: undefined,
     lat: undefined,
@@ -61,7 +61,7 @@ function DERP() {
   }, [ethCallData]);
 
   useEffect(() => {
-    set_lastAddresesUsed(addresses.slice(0, 2))
+    set_lastAddressesUsed(addresses.slice(0, 2))
   }, [addresses])
 
   useEffect(() => {
@@ -136,7 +136,7 @@ function DERP() {
   const getAndParseDataFromEntry = (entry) => {
     if(entry.method === "eth_getBalance" && entry.params && entry.params[0]) {
       let address = entry.params[0];
-      set_lastAddresesUsed((prevState) => {
+      set_lastAddressesUsed((prevState) => {
         let index = prevState.indexOf(address)
         if (index === -1){
           return [address, ...prevState].splice(0,3);
@@ -270,13 +270,13 @@ function DERP() {
                     </tr>
                     <tr>
                       <th>
-                        {lastAddresesUsed.length < 2 ? 'Last address used' : `Last ${lastAddresesUsed.length} addresses used`}
+                        {lastAddressesUsed.length < 2 ? 'Last address used' : `Last ${lastAddressesUsed.length} addresses used`}
                       </th>
                       <th>
-                        { lastAddresesUsed.length !== 0 && lastAddresesUsed.map((address, index) =>
+                        { lastAddressesUsed.length !== 0 && lastAddressesUsed.map((address, index) =>
                             <p key={address} style={{marginBottom: 0}}>{address}</p>
                         )}
-                        { lastAddresesUsed.length === 0 && '-'}
+                        { lastAddressesUsed.length === 0 && '-'}
                       </th>
                     </tr>
                     <tr>
