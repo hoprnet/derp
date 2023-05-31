@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+import styled from "@emotion/styled";
+
+const HighlightedAddress = styled.mark`
+  background-color: #ffa0a0;
+  font-weight: bold;
+`;
 
 const addressesToRegexes = (addresses) => {
   return addresses.map((address) => {
@@ -19,6 +25,49 @@ function DERPLog({ log, addresses }) {
     setRegexes(addressesToRegexes(addresses));
   }, [addresses]);
 
+  const highlightParams = (params) => {
+    // make params a string and format it for <pre> tag.
+    let stringifiedParams = JSON.stringify(params, null, 2);
+
+    let newParams = [];
+    let index = 0;
+
+    regexes.forEach((regex) => {
+      const matches = [...stringifiedParams.matchAll(regex)];
+      if (matches.length === 0) {
+        return;
+      }
+
+      matches.forEach((match) => {
+        // index of the first match in the string.
+        const matchIndex = match.index;
+
+        // get the non-matching part of the string.
+        const nonMatchingPart = stringifiedParams.slice(index, matchIndex);
+
+        // get the matching part of the string (wallet address).
+        const matchPart = match.at(0);
+
+        if (nonMatchingPart) {
+          newParams = [...newParams, <span>{nonMatchingPart}</span>];
+        }
+
+        // newParams will be an array with strings and <HighlightedAddress> elements.
+        newParams = [...newParams, <HighlightedAddress>{matchPart}</HighlightedAddress>];
+
+        // sum of the first index match and address match length (40|42).
+        index = matchIndex + match.at(0).length;
+      });
+    });
+
+    // add params to new params OR add missing part of params to new params.
+    if (index < stringifiedParams.length) {
+      newParams = [...newParams, <span>{stringifiedParams.slice(index)}</span>];
+    }
+
+    return <pre>{newParams}</pre>;
+  };
+
   return (
     <table className={"showRowAnimate"}>
       <thead>
@@ -32,20 +81,10 @@ function DERPLog({ log, addresses }) {
       </thead>
       <tbody>
         {newLog.map((entry, index) => {
-          let entryCopy = { ...entry };
-
-          if (entryCopy.params && entryCopy.params.length > 0) {
-            let stringifiedParams = JSON.stringify(entryCopy.params);
-
-            regexes.forEach((regex) => {
-              stringifiedParams = stringifiedParams.replace(
-                regex,
-                `<mark>$&</mark>`
-              );
-            });
-
-            entryCopy.params = JSON.parse(stringifiedParams);
-          }
+          const entryCopy = { ...entry };
+          const highlightedParams = entryCopy.params
+          ? highlightParams(entryCopy.params)
+            : null;
 
           return (
             <tr key={`entry-${index}`}>
@@ -53,17 +92,7 @@ function DERPLog({ log, addresses }) {
               <td>{entry?.type}</td>
               <td>{entry?.userAgent}</td>
               <td>{entry?.method}</td>
-              <td>
-                <pre>
-                  {entryCopy.params && (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(entryCopy.params, null, 2),
-                      }}
-                    />
-                  )}
-                </pre>
-              </td>
+              <td>{highlightedParams}</td>
             </tr>
           );
         })}
