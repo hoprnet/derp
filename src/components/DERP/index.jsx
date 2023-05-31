@@ -33,7 +33,8 @@ function DERP() {
     if (ethCallData) {
       return;
     }
-    // 0xf0002ea9 is the signature for balances(address[],address[]).
+    // 0xf0002ea9 is the 4 byte signature of balances(address[],address[]).
+    // https://www.4byte.directory/signatures/?bytes4_signature=0xf0002ea9
     const foundEthCall = log.find(
       (entry) =>
         entry.method === "eth_call" &&

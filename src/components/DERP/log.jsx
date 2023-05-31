@@ -6,9 +6,17 @@ const HighlightedAddress = styled.mark`
   font-weight: bold;
 `;
 
+/**
+Converts an array of addresses to an array of regular expressions.
+@param {string[]} addresses - The array of addresses to convert.
+@returns {RegExp[]} An array of regular expressions corresponding to the addresses.
+*/
 const addressesToRegexes = (addresses) => {
   return addresses.map((address) => {
     const addressWithoutOx = address.slice(2);
+
+    // returns a regular expression to match string addresses that start with or without "0x",
+    // globally and case-insensitive. Example: /(0x)?3b7A6D5A9c8C30E2F5f4Fba28e86A0672843D674/gi
     return new RegExp(`(0x)?${addressWithoutOx}`, "gi");
   });
 };
@@ -53,9 +61,12 @@ function DERPLog({ log, addresses }) {
         }
 
         // newParams will be an array with strings and <HighlightedAddress> elements.
-        newParams = [...newParams, <HighlightedAddress>{matchPart}</HighlightedAddress>];
+        newParams = [
+          ...newParams,
+          <HighlightedAddress>{matchPart}</HighlightedAddress>,
+        ];
 
-        // sum of the first index match and address match length (40|42).
+        // sum of the first index match and address match length.
         index = matchIndex + match.at(0).length;
       });
     });
@@ -83,7 +94,7 @@ function DERPLog({ log, addresses }) {
         {newLog.map((entry, index) => {
           const entryCopy = { ...entry };
           const highlightedParams = entryCopy.params
-          ? highlightParams(entryCopy.params)
+            ? highlightParams(entryCopy.params)
             : null;
 
           return (
