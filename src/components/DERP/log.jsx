@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 
-const HighlightedAddress = styled.mark`
-  background-color: #ffa0a0;
+const HighlightedAddress = styled.span`
+  color: #ff4444;
   font-weight: bold;
 `;
 
@@ -51,7 +51,7 @@ function DERPLog({ log, addresses }) {
         const matchPart = match.at(0);
 
         if (nonMatchingPart) {
-          newParams = [...newParams, <span>{nonMatchingPart}</span>];
+          newParams = [...newParams, nonMatchingPart];
         }
 
         // newParams will be an array with strings and <HighlightedAddress> elements.
@@ -67,7 +67,7 @@ function DERPLog({ log, addresses }) {
 
     // add params to new params OR add missing part of params to new params.
     if (index < stringifiedParams.length) {
-      newParams = [...newParams, <span>{stringifiedParams.slice(index)}</span>];
+      newParams = [...newParams, stringifiedParams.slice(index)];
     }
 
     return <pre>{newParams}</pre>;
