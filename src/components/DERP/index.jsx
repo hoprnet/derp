@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 // import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { chains } from "../../shared/chains.js";
@@ -21,30 +21,12 @@ function DERP() {
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
   const [city, setCity] = useState("-");
-  const [lastAddressesUsed, set_lastAddressesUsed] = useState([]);
   const [coordinates, setCoordinates] = useState({
     long: undefined,
     lat: undefined,
   });
-  const [ethCallData, setEthCallData] = useState("");
-  const [addresses, setAddresses] = useState([])
-
-  useEffect(() => {
-    if (ethCallData) {
-      return;
-    }
-    // 0xf0002ea9 is the 4 byte signature of balances(address[],address[]).
-    // https://www.4byte.directory/signatures/?bytes4_signature=0xf0002ea9
-    const foundEthCall = log.find(
-      (entry) =>
-        entry.method === "eth_call" &&
-        entry.params?.at(0)?.data?.startsWith("0xf0002ea9")
-    );
-    if (foundEthCall) {
-      const data = foundEthCall.params.at(0).data;
-      setEthCallData(data);
-    }
-  }, [log, ethCallData]);
+  const [lastAddressesUsed, set_lastAddressesUsed] = useState([]);
+  const addresses = useRef([]);
 
   const getAddressesFromEthCall = (data) => {
     const abi = ["function balances(address[],address[])"];
@@ -52,18 +34,13 @@ function DERP() {
     
     // decode eth call data.
     const { args } = iface.parseTransaction({ data });
-    setAddresses(args.at(0))
+    return args.at(0);
   };
 
   useEffect(() => {
-    if (ethCallData) {
-      getAddressesFromEthCall(ethCallData)
-    }
-  }, [ethCallData]);
-
-  useEffect(() => {
-    set_lastAddressesUsed(addresses.slice(0, 2))
-  }, [addresses])
+    //set_lastAddressesUsed(addresses.slice(0, 2))
+    console.log('addresses changed', addresses.current)
+  }, [addresses.current])
 
   useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
@@ -74,12 +51,9 @@ function DERP() {
 
   useEffect(() => {
     if (!startTimeEpoch) return;
-
-    console.log("@setCurrentTime");
     setCurrentTime(Date.now());
     const interval = setInterval(() => {
       setCurrentTime(Date.now());
-      console.log("@setCurrentTime (interval)");
     }, 1000);
 
     return () => clearInterval(interval);
@@ -134,9 +108,18 @@ function DERP() {
     });
   };
 
+  const addNewAddressesToStore = (scrappedAddresses) => {
+    scrappedAddresses.forEach(elem => {
+      if (!addresses.current.includes(elem.toLowerCase())) {
+        addresses.current = [...addresses.current, elem.toLowerCase()];
+      }
+    });
+  };
+
   const getAndParseDataFromEntry = (entry) => {
     if(entry.method === "eth_getBalance" && entry.params && entry.params[0]) {
       let address = entry.params[0];
+      addNewAddressesToStore([address]);
       set_lastAddressesUsed((prevState) => {
         let index = prevState.indexOf(address)
         if (index === -1){
@@ -146,6 +129,15 @@ function DERP() {
           return [address, ...newState].splice(0,3);
         }
       });
+    } else if (entry.method === "eth_call") {
+      // 0xf0002ea9 is the 4 byte signature of balances(address[],address[]).
+      // https://www.4byte.directory/signatures/?bytes4_signature=0xf0002ea9
+      if (!entry.params?.at(0)?.data?.startsWith("0xf0002ea9")) return;
+      const data = entry.params.at(0).data;
+      let scrappedAddresses = getAddressesFromEthCall(data);
+      if (scrappedAddresses.length > 0) {
+        addNewAddressesToStore(scrappedAddresses);
+      }
     }
   };
 
@@ -326,7 +318,7 @@ function DERP() {
       <Location>
         <DERPLog
           log={log}
-          addresses={addresses}
+          addresses={addresses.current}
         />
       </Location>
     </div>
