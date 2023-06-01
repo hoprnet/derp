@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 // import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { chains } from "../../shared/chains.js";
@@ -6,6 +6,8 @@ import Map from "../Map";
 import { Location } from "./styled"
 import DERPLog from "./log"
 import Counter from "../Counter";
+import { utils } from "ethers";
+
 
 function DERP() {
   const [log, setLog] = useState([]);
@@ -19,27 +21,33 @@ function DERP() {
   const [chainId, setChainId] = useState("-");
   const [name, setName] = useState("-");
   const [city, setCity] = useState("-");
-  const [lastAddresesUsed, set_lastAddresesUsed] = useState([]);
   const [coordinates, setCoordinates] = useState({
     long: undefined,
     lat: undefined,
   });
+  const [lastAddressesUsed, set_lastAddressesUsed] = useState([]);
+  const addresses = useRef([]);
+
+  const getAddressesFromEthCall = (data) => {
+    const abi = ["function balances(address[],address[])"];
+    const iface = new utils.Interface(abi);
+    
+    // decode eth call data.
+    const { args } = iface.parseTransaction({ data });
+    return args.at(0);
+  };
 
   useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
-      console.log("@numberOfCalls > 0");
       set_startTimeEpoch(Date.now());
     }
   }, [numberOfCalls, startTimeEpoch]);
 
   useEffect(() => {
     if (!startTimeEpoch) return;
-
-    console.log("@setCurrentTime");
     setCurrentTime(Date.now());
     const interval = setInterval(() => {
       setCurrentTime(Date.now());
-      console.log("@setCurrentTime (interval)");
     }, 1000);
 
     return () => clearInterval(interval);
@@ -94,18 +102,43 @@ function DERP() {
     });
   };
 
+  const addNewAddressesToStore = (scrappedAddresses) => {
+    scrappedAddresses.forEach(addr => {
+
+      addr = addr.toLowerCase();
+      
+      // handle address ref
+      if (!addresses.current.includes(addr)) {
+        addresses.current = [...addresses.current, addr];
+      }
+
+      // handle lastAddressesUsed state
+      set_lastAddressesUsed((prevState) => {
+        let index = prevState.indexOf(addr)
+        if (index === -1){
+          return [addr, ...prevState].splice(0,3);
+        } else {
+          let newState = prevState.filter(elem => elem !== addr);
+          return [addr, ...newState].splice(0,3);
+        }
+      });
+
+    });
+  };
+
   const getAndParseDataFromEntry = (entry) => {
     if(entry.method === "eth_getBalance" && entry.params && entry.params[0]) {
       let address = entry.params[0];
-      set_lastAddresesUsed((prevState) => {
-        let index = prevState.indexOf(address)
-        if (index === -1){
-          return [address, ...prevState].splice(0,3);
-        } else {
-          let newState = prevState.filter(elem => elem !== address);
-          return [address, ...newState].splice(0,3);
-        }
-      });
+      addNewAddressesToStore([address]);
+    } else if (entry.method === "eth_call") {
+      // 0xf0002ea9 is the 4 byte signature of balances(address[],address[]).
+      // https://www.4byte.directory/signatures/?bytes4_signature=0xf0002ea9
+      if (!entry.params?.at(0)?.data?.startsWith("0xf0002ea9")) return;
+      const data = entry.params.at(0).data;
+      let scrappedAddresses = getAddressesFromEthCall(data);
+      if (scrappedAddresses.length > 0) {
+        addNewAddressesToStore(scrappedAddresses);
+      }
     }
   };
 
@@ -231,13 +264,13 @@ function DERP() {
                     </tr>
                     <tr>
                       <th>
-                        {lastAddresesUsed.length < 2 ? 'Last address used' : `Last ${lastAddresesUsed.length} addresses used`}
+                        {lastAddressesUsed.length < 2 ? 'Last address used' : `Last ${lastAddressesUsed.length} addresses used`}
                       </th>
                       <th>
-                        { lastAddresesUsed.length !== 0 && lastAddresesUsed.map((address, index) =>
-                            <p style={{marginBottom: 0}}>{address}</p>
+                        { lastAddressesUsed.length !== 0 && lastAddressesUsed.map((address, index) =>
+                            <p key={address} style={{marginBottom: 0}}>{address}</p>
                         )}
-                        { lastAddresesUsed.length === 0 && '-'}
+                        { lastAddressesUsed.length === 0 && '-'}
                       </th>
                     </tr>
                     <tr>
@@ -286,6 +319,7 @@ function DERP() {
       <Location>
         <DERPLog
           log={log}
+          addresses={addresses.current}
         />
       </Location>
     </div>
