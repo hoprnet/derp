@@ -38,13 +38,7 @@ function DERP() {
   };
 
   useEffect(() => {
-    //set_lastAddressesUsed(addresses.slice(0, 2))
-    console.log('addresses changed', addresses.current)
-  }, [addresses.current])
-
-  useEffect(() => {
     if (numberOfCalls > 0 && !startTimeEpoch) {
-      console.log("@numberOfCalls > 0");
       set_startTimeEpoch(Date.now());
     }
   }, [numberOfCalls, startTimeEpoch]);
@@ -128,7 +122,7 @@ function DERP() {
           return [addr, ...newState].splice(0,3);
         }
       });
-      
+
     });
   };
 
