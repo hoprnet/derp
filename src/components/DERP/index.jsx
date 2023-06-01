@@ -109,10 +109,26 @@ function DERP() {
   };
 
   const addNewAddressesToStore = (scrappedAddresses) => {
-    scrappedAddresses.forEach(elem => {
-      if (!addresses.current.includes(elem.toLowerCase())) {
-        addresses.current = [...addresses.current, elem.toLowerCase()];
+    scrappedAddresses.forEach(addr => {
+
+      addr = addr.toLowerCase();
+      
+      // handle address ref
+      if (!addresses.current.includes(addr)) {
+        addresses.current = [...addresses.current, addr];
       }
+
+      // handle lastAddressesUsed state
+      set_lastAddressesUsed((prevState) => {
+        let index = prevState.indexOf(addr)
+        if (index === -1){
+          return [addr, ...prevState].splice(0,3);
+        } else {
+          let newState = prevState.filter(elem => elem !== addr);
+          return [addr, ...newState].splice(0,3);
+        }
+      });
+      
     });
   };
 
@@ -120,15 +136,6 @@ function DERP() {
     if(entry.method === "eth_getBalance" && entry.params && entry.params[0]) {
       let address = entry.params[0];
       addNewAddressesToStore([address]);
-      set_lastAddressesUsed((prevState) => {
-        let index = prevState.indexOf(address)
-        if (index === -1){
-          return [address, ...prevState].splice(0,3);
-        } else {
-          let newState = prevState.filter(elem => elem !== address);
-          return [address, ...newState].splice(0,3);
-        }
-      });
     } else if (entry.method === "eth_call") {
       // 0xf0002ea9 is the 4 byte signature of balances(address[],address[]).
       // https://www.4byte.directory/signatures/?bytes4_signature=0xf0002ea9

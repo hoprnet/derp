@@ -22,12 +22,7 @@ const addressesToRegexes = (addresses) => {
 };
 
 function DERPLog({ log, addresses }) {
-  const [newLog, setNewLog] = useState([]);
   const [regexes, setRegexes] = useState([]);
-
-  useEffect(() => {
-    setNewLog(JSON.parse(JSON.stringify(log)));
-  }, [log]);
 
   useEffect(() => {
     setRegexes(addressesToRegexes(addresses));
@@ -36,7 +31,6 @@ function DERPLog({ log, addresses }) {
   const highlightParams = (params) => {
     // make params a string and format it for <pre> tag.
     let stringifiedParams = JSON.stringify(params, null, 2);
-
     let newParams = [];
     let index = 0;
 
@@ -91,10 +85,9 @@ function DERPLog({ log, addresses }) {
         </tr>
       </thead>
       <tbody>
-        {newLog.map((entry, index) => {
-          const entryCopy = { ...entry };
-          const highlightedParams = entryCopy.params
-            ? highlightParams(entryCopy.params)
+        {log.map((entry, index) => {
+          const highlightedParams = entry?.params
+            ? highlightParams(entry.params)
             : null;
 
           return (
