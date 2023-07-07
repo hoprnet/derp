@@ -107,7 +107,7 @@ function Typography(props) {
         );
     } else if (props.type==="h6") {
         return (
-            <H6 className={`Typography--h5 ${props.className} ${props.white ? 'typography--white' : ''}`} >
+            <H6 style={props.style} className={`Typography--h5 ${props.className} ${props.white ? 'typography--white' : ''}`} >
                 {props.children}
             </H6>
         );

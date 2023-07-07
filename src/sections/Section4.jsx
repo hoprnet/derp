@@ -11,26 +11,39 @@ const SSection = styled(Section)`
   padding-bottom: 40px;
   padding-top: 40px;
   align-items: flex-start;
+  background-image: url('/images/RPCh-BG.jpg');
+  background-position: top;
+  background-size: cover;
+`
+
+const SButton = styled(Button)`
+
 `
 
 function Section4() {
     return (
         <SSection
-            lightBlue
             center
         >
             <Typography
                 type="h6"
                 className="mb32"
+                style={{color: '#000050'}}
             >
                 Want to know how RPCh – the first private Ethereum RPC provider – fixes all this?
             </Typography>
             <Button
                 hopr
-                href='https://hoprnet.org/rpch'
+                href='https://rpch.net/'
                 target="_blank"
+                style={{
+                    width: 'unset', 
+                    maxWidth: 'unset',
+                    height: 'unset',
+                    lineHeight: '28px'
+                }}
             >
-                TELL ME MORE
+                Tell me more to Our solution: RPCh
             </Button>
             <PoweredByHopr
                 style={{
