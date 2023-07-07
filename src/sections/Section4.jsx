@@ -39,7 +39,7 @@ function Section4() {
                     lineHeight: '28px'
                 }}
             >
-                Tell me more to Our solution: RPCh
+                Our solution: RPCh
             </Button>
             <PoweredByHopr
                 style={{
