@@ -16,10 +16,6 @@ const SSection = styled(Section)`
   background-size: cover;
 `
 
-const SButton = styled(Button)`
-
-`
-
 function Section4() {
     return (
         <SSection
