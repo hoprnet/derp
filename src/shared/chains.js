@@ -1,11 +1,10 @@
 export const chains = [
     {
-        value:'ETH',
+        value: 'ETH',
         name: 'ETH Mainnet',
         chainId: '1',
         coin: 'ETH',
         derpUrl: "/rpc/eth/mainnet",
-//        originalUrl: "https://eth-erigon.lsotech.net/";
         originalUrl: "https://eth-mainnet.gateway.pokt.network/v1/lb/61dc3e545a6d110038222645",
         blockExplorerUrl: 'https://etherscan.io'
     },
@@ -15,8 +14,6 @@ export const chains = [
         chainId: '100',
         coin: 'xDAI',
         derpUrl: "/rpc/xdai/mainnet",
-//        originalUrl: "https://dai.poa.network/",
-//        originalUrl: "https://rpc.gnosischain.com/",
         originalUrl: "https://rpc.ankr.com/gnosis",
         blockExplorerUrl: 'https://gnosisscan.io'
     },
@@ -100,5 +97,32 @@ export const chains = [
         derpUrl: '/rpc/optimism/mainnet',
         originalUrl: 'https://rpc.ankr.com/optimism',
         blockExplorerUrl: 'https://optimistic.etherscan.io/'
-    }   
+    },
+    {
+        value: 'scroll',
+        name: 'Scroll Mainnet',
+        coin: 'ETH',
+        chainId: '534352',
+        derpUrl: '/rpc/scroll/mainnet',
+        originalUrl: 'https://rpc.ankr.com/scroll',
+        blockExplorerUrl: 'https://scrollscan.com/'
+    },
+    {
+        value: 'polygon-zkevm',
+        name: 'Polygon zkEVM Mainnet',
+        coin: 'ETH',
+        chainId: '1101',
+        derpUrl: '/rpc/polygon-zkevm/mainnet',
+        originalUrl: 'https://rpc.polygon-zkevm.gateway.fm',
+        blockExplorerUrl: 'https://zkevm.polygonscan.com/'
+    },
+    {
+        value: 'zksync-era',
+        name: 'zkSync Era Mainnet',
+        coin: 'ETH',
+        chainId: '324',
+        derpUrl: '/rpc/zksync-era/mainnet',
+        originalUrl: 'https://mainnet.era.zksync.io',
+        blockExplorerUrl: 'https://explorer.zksync.io/'
+    }
 ]
