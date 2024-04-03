@@ -5,7 +5,7 @@ export const chains = [
         chainId: '1',
         coin: 'ETH',
         derpUrl: "/rpc/eth/mainnet",
-        originalUrl: "https://eth-mainnet.gateway.pokt.network/v1/lb/61dc3e545a6d110038222645",
+        originalUrl: "https://rpc.ankr.com/eth",
         blockExplorerUrl: 'https://etherscan.io'
     },
     {
