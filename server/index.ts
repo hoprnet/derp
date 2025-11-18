@@ -1,8 +1,8 @@
 import { getAssetFromKV } from "@cloudflare/kv-asset-handler";
-
 import manifestJSON from "__STATIC_CONTENT_MANIFEST";
-const assetManifest = JSON.parse(manifestJSON);
 import { chains } from "../src/shared/chains.js";
+
+const assetManifest = JSON.parse(manifestJSON);
 
 export async function handleRequest(
   request: Request,
@@ -32,7 +32,7 @@ export async function handleRequest(
   const contentType = request.headers.get("content-type");
   const method = request.method;
   const path = url.pathname.slice(1).split("/");
-  const clientIp = request.headers.get("CF-Connecting-IP");
+  const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
   const clientLogsId = env.client_logs.idFromName(clientIp);
   const logsObject = env.client_logs.get(clientLogsId);
   let newUrl = new URL(request.url);
@@ -44,7 +44,7 @@ export async function handleRequest(
   if (chosenChain) {
     newUrl.pathname = "/";
     let object = request.clone();
-    object.cf.originalUrl = object.url;
+    (object as any).cf.originalUrl = object.url;
     await logsObject.fetch(newUrl, object);
     return fetchFromProvider(chosenChain.originalUrl, request);
   }
@@ -73,7 +73,7 @@ export async function handleRequest(
   }
 }
 
-async function fetchFromProvider(provider: String, request: Request) {
+async function fetchFromProvider(provider: string, request: Request) {
   return fetch(provider, request).then(async function (response) {
     return response;
   });

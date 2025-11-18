@@ -1,23 +1,17 @@
-{ pkgs ? import <nixpkgs> {}, ... }:
+{
+  pkgs ? import <nixpkgs> { },
+  ...
+}:
 let
-  linuxPkgs = with pkgs; lib.optional stdenv.isLinux (
-    inotifyTools
-  );
-  macosPkgs = with pkgs; lib.optional stdenv.isDarwin (
-    with darwin.apple_sdk.frameworks; [
-      # macOS file watcher support
-      CoreFoundation
-      CoreServices
-    ]
-  );
+  linuxPkgs = pkgs.lib.optional pkgs.stdenv.isLinux pkgs.inotifyTools;
+  macosPkgs = pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.apple-sdk_15;
 in
-with pkgs;
-mkShell {
+pkgs.mkShell {
   buildInputs = [
-    envsubst
-    nodejs-16_x
-    (yarn.override { nodejs = nodejs-16_x; })
-    macosPkgs
-    linuxPkgs
-  ];
+    pkgs.envsubst
+    pkgs.nodejs
+    (pkgs.yarn.override { nodejs = pkgs.nodejs; })
+  ]
+  ++ linuxPkgs
+  ++ macosPkgs;
 }

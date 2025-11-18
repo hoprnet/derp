@@ -1,19 +1,13 @@
 name = "derp"
-type = "javascript"
+main = "dist/index.mjs"
 workers_dev = true
-usage_model = "unbound"
-compatibility_date = "2021-12-30"
+compatibility_date = "2025-01-17"
 
 [build]
-command = "yarn && yarn build"
-
-[build.upload]
-format = "modules"
-main = "./index.mjs"
+command = "yarn build"
 
 [site]
 bucket = "./build"
-entry-point = "dist"
 
 [durable_objects]
 bindings = [
