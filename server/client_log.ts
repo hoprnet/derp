@@ -1,12 +1,10 @@
 export class ClientLog implements DurableObject {
   state: DurableObjectState;
   env: Env;
-  sessions: Array<{ webSocket: WebSocket }>;
 
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
     this.env = env;
-    this.sessions = [];
   }
 
   async fetch(request: Request) {
@@ -17,8 +15,12 @@ export class ClientLog implements DurableObject {
       }
 
       const pair = new WebSocketPair();
-      await this.handleWebsocketSession(pair[1]);
-      return new Response(null, { status: 101, webSocket: pair[0] });
+      const [client, server] = Object.values(pair);
+
+      // Use Hibernation API instead of webSocket.accept()
+      this.state.acceptWebSocket(server);
+
+      return new Response(null, { status: 101, webSocket: client });
     }
 
     if (url.pathname == "/" && request.method == "POST") {
@@ -38,8 +40,9 @@ export class ClientLog implements DurableObject {
             },
           });
 
-          this.sessions.forEach((session) => {
-            session.webSocket.send(data);
+          // Broadcast to all connected WebSockets using Hibernation API
+          this.state.getWebSockets().forEach((ws) => {
+            ws.send(data);
           });
         })
         .catch((error) => {
@@ -50,17 +53,15 @@ export class ClientLog implements DurableObject {
     return new Response("Not found", { status: 404 });
   }
 
-  async handleWebsocketSession(webSocket: WebSocket) {
-    webSocket.accept();
-
-    const session = { webSocket };
-    this.sessions.push(session);
-
-    let closeOrErrorHandler = (evt: Event) => {
-      this.sessions = this.sessions.filter((member) => member !== session);
-    };
-    webSocket.addEventListener("close", closeOrErrorHandler);
-    webSocket.addEventListener("error", closeOrErrorHandler);
+  // Hibernation API handler - called when a WebSocket connection closes
+  async webSocketClose(
+    ws: WebSocket,
+    code: number,
+    reason: string,
+    wasClean: boolean
+  ) {
+    // Connection cleanup is handled automatically by the Hibernation API
+    ws.close(code, "Durable Object is closing WebSocket");
   }
 }
 

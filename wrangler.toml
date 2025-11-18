@@ -2,6 +2,10 @@ name = "derp"
 main = "dist/index.mjs"
 workers_dev = true
 compatibility_date = "2025-11-17"
+send_metrics = false
+
+[placement]
+mode = "smart"
 
 [build]
 command = "yarn build"
