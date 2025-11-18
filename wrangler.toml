@@ -24,4 +24,5 @@ new_classes = ["ClientLog"]
 
 [[migrations]]
 tag = "v2"
+deleted_classes = ["ClientLog"]
 new_classes = ["ClientLogV2"]
