@@ -1,7 +1,8 @@
 import { getAssetFromKV } from "@cloudflare/kv-asset-handler";
-
-const assetManifest = JSON.parse(__STATIC_CONTENT_MANIFEST);
+import manifestJSON from "__STATIC_CONTENT_MANIFEST";
 import { chains } from "../src/shared/chains.js";
+
+const assetManifest = JSON.parse(manifestJSON);
 
 export async function handleRequest(
   request: Request,

@@ -5,7 +5,7 @@ export const chains = [
         chainId: '1',
         coin: 'ETH',
         derpUrl: "/rpc/eth/mainnet",
-        originalUrl: "https://rpc.ankr.com/eth",
+        originalUrl: "https://eth.llamarpc.com",
         blockExplorerUrl: 'https://etherscan.io'
     },
     {
@@ -14,7 +14,7 @@ export const chains = [
         chainId: '100',
         coin: 'xDAI',
         derpUrl: "/rpc/xdai/mainnet",
-        originalUrl: "https://rpc.ankr.com/gnosis",
+        originalUrl: "https://rpc.gnosischain.com",
         blockExplorerUrl: 'https://gnosisscan.io'
     },
     {
@@ -50,7 +50,7 @@ export const chains = [
         coin: 'MATIC',
         chainId: '137',
         derpUrl: '/rpc/matic/polygon',
-        originalUrl: 'https://rpc.ankr.com/polygon',
+        originalUrl: 'https://polygon-bor-rpc.publicnode.com',
         blockExplorerUrl: 'https://polygonscan.com/'
     },
     {
@@ -59,7 +59,7 @@ export const chains = [
         coin: 'BNB',
         chainId: '56',
         derpUrl: '/rpc/bnb/bsc',
-        originalUrl: 'https://rpc.ankr.com/bsc',
+        originalUrl: 'https://binance.llamarpc.com',
         blockExplorerUrl: 'https://bscscan.com/'
     },
     {
@@ -68,7 +68,7 @@ export const chains = [
         coin: 'FTM',
         chainId: '250',
         derpUrl: '/rpc/ftm/fantom',
-        originalUrl: 'https://rpc.ankr.com/fantom',
+        originalUrl: 'https://rpc.fantom.network',
         blockExplorerUrl: 'https://ftmscan.com/'
     },
     {
@@ -77,7 +77,7 @@ export const chains = [
         coin: 'ONE',
         chainId: '1666600000',
         derpUrl: '/rpc/one/harmony',
-        originalUrl: 'https://rpc.ankr.com/harmony',
+        originalUrl: 'wss://harmony-0.drpc.org',
         blockExplorerUrl: 'https://explorer.harmony.one/'
     },
     {
@@ -95,7 +95,7 @@ export const chains = [
         coin: 'OP',
         chainId: '10',
         derpUrl: '/rpc/optimism/mainnet',
-        originalUrl: 'https://rpc.ankr.com/optimism',
+        originalUrl: 'https://mainnet.optimism.io',
         blockExplorerUrl: 'https://optimistic.etherscan.io/'
     },
     {
@@ -104,7 +104,7 @@ export const chains = [
         coin: 'ETH',
         chainId: '534352',
         derpUrl: '/rpc/scroll/mainnet',
-        originalUrl: 'https://rpc.ankr.com/scroll',
+        originalUrl: 'https://scroll.drpc.org',
         blockExplorerUrl: 'https://scrollscan.com/'
     },
     {
