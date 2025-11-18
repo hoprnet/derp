@@ -45,12 +45,17 @@ export async function handleRequest(
     newUrl.pathname = "/";
     let object = request.clone();
     (object as any).cf.originalUrl = object.url;
-    await logsObject.fetch(newUrl, object);
+    await logsObject.fetch(new Request(newUrl, object));
     return fetchFromProvider(chosenChain.originalUrl, request);
   }
 
-  // before proceeding to try to setup the websocket, we try to serve static
-  // assets
+  // Handle Durable Object requests (WebSocket and logging) before static assets
+  if (path[0] == "client_logs") {
+    newUrl.pathname = "/" + path.slice(1).join("/");
+    return logsObject.fetch(new Request(newUrl, request));
+  }
+
+  // Serve static assets
   try {
     return await getAssetFromKV(
       {
@@ -65,10 +70,6 @@ export async function handleRequest(
       }
     );
   } catch (e) {
-    if (path[0] == "client_logs") {
-      newUrl.pathname = "/" + path.slice(1).join("/");
-      return logsObject.fetch(new Request(newUrl, request));
-    }
     return new Response("Not found", { status: 404 });
   }
 }

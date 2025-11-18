@@ -164,7 +164,7 @@ function DERP() {
     ws.addEventListener("close", (event) => {
       console.log("websocket closed, reconnecting:", event.code, event.reason);
     //  unsetConnectionStatus();
-      setTimeout(joinWebSocket(), 1000);
+      setTimeout(joinWebSocket, 1000);
     });
 
     ws.addEventListener("error", (event) => {
