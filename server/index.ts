@@ -52,7 +52,30 @@ export async function handleRequest(
   // Handle Durable Object requests (WebSocket and logging) before static assets
   if (path[0] == "client_logs") {
     newUrl.pathname = "/" + path.slice(1).join("/");
-    return logsObject.fetch(new Request(newUrl, request));
+    console.log("[DERP] Forwarding to Durable Object:", {
+      originalPath: url.pathname,
+      newPath: newUrl.pathname,
+      method: request.method,
+      upgrade: request.headers.get("Upgrade"),
+      connection: request.headers.get("Connection"),
+    });
+
+    try {
+      const response = await logsObject.fetch(new Request(newUrl.toString(), {
+        method: request.method,
+        headers: request.headers,
+        body: request.body,
+      }));
+      console.log("[DERP] Durable Object response:", {
+        status: response.status,
+        statusText: response.statusText,
+        hasWebSocket: !!response.webSocket,
+      });
+      return response;
+    } catch (error) {
+      console.error("[DERP] Error forwarding to Durable Object:", error);
+      return new Response("Internal Server Error", { status: 500 });
+    }
   }
 
   // Serve static assets
