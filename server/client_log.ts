@@ -22,7 +22,8 @@ export class ClientLog implements DurableObject {
         return new Response("expected websocket", { status: 400 });
       }
 
-      console.log("[ClientLog] Creating WebSocket pair");
+      const currentSessionCount = this.state.getWebSockets().length;
+      console.log("[ClientLog] Creating WebSocket pair. Current sessions:", currentSessionCount);
       const pair = new WebSocketPair();
       const [client, server] = Object.values(pair);
 
@@ -30,6 +31,8 @@ export class ClientLog implements DurableObject {
       console.log("[ClientLog] Accepting WebSocket with Hibernation API");
       this.state.acceptWebSocket(server);
 
+      const newSessionCount = this.state.getWebSockets().length;
+      console.log("[ClientLog] WebSocket accepted. Sessions:", newSessionCount, "(was:", currentSessionCount + ")");
       console.log("[ClientLog] Returning 101 Switching Protocols");
       return new Response(null, { status: 101, webSocket: client });
     }
@@ -52,7 +55,9 @@ export class ClientLog implements DurableObject {
           });
 
           // Broadcast to all connected WebSockets using Hibernation API
-          this.state.getWebSockets().forEach((ws) => {
+          const connectedSessions = this.state.getWebSockets();
+          console.log("[ClientLog] Broadcasting to", connectedSessions.length, "connected sessions");
+          connectedSessions.forEach((ws) => {
             ws.send(data);
           });
         })
@@ -71,6 +76,8 @@ export class ClientLog implements DurableObject {
     reason: string,
     wasClean: boolean
   ) {
+    const remainingSessions = this.state.getWebSockets().length;
+    console.log("[ClientLog] WebSocket closing. Code:", code, "Reason:", reason, "Remaining sessions:", remainingSessions);
     // Connection cleanup is handled automatically by the Hibernation API
     ws.close(code, "Durable Object is closing WebSocket");
   }
