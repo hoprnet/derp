@@ -7,8 +7,8 @@
  */
 declare global {
   interface Env {
-    /** Durable Object namespace for client logs */
-    client_logs: DurableObjectNamespace;
+    /** Durable Object namespace for client logs v2 */
+    client_logs_v2: DurableObjectNamespace;
 
     /** KV namespace for static content (site assets) */
     __STATIC_CONTENT: KVNamespace;

@@ -15,9 +15,13 @@ bucket = "./build"
 
 [durable_objects]
 bindings = [
-  { name = "client_logs", class_name = "ClientLog" }
+  { name = "client_logs_v2", class_name = "ClientLogV2" }
 ]
 
 [[migrations]]
 tag = "v1"
 new_classes = ["ClientLog"]
+
+[[migrations]]
+tag = "v2"
+new_classes = ["ClientLogV2"]

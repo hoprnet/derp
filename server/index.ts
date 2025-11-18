@@ -33,8 +33,8 @@ export async function handleRequest(
   const method = request.method;
   const path = url.pathname.slice(1).split("/");
   const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
-  const clientLogsId = env.client_logs.idFromName(clientIp);
-  const logsObject = env.client_logs.get(clientLogsId);
+  const clientLogsId = env.client_logs_v2.idFromName(clientIp);
+  const logsObject = env.client_logs_v2.get(clientLogsId);
   let newUrl = new URL(request.url);
 
   const chosenChain = chains.filter((chain) =>
@@ -45,7 +45,7 @@ export async function handleRequest(
     newUrl.pathname = "/";
     let object = request.clone();
     (object as any).cf.originalUrl = object.url;
-    await logsObject.fetch(new Request(newUrl, object));
+    await logsObject.fetch(newUrl, object);
     return fetchFromProvider(chosenChain.originalUrl, request);
   }
 
@@ -61,11 +61,7 @@ export async function handleRequest(
     });
 
     try {
-      const response = await logsObject.fetch(new Request(newUrl.toString(), {
-        method: request.method,
-        headers: request.headers,
-        body: request.body,
-      }));
+      const response = await logsObject.fetch(newUrl, request);
       console.log("[DERP] Durable Object response:", {
         status: response.status,
         statusText: response.statusText,
@@ -105,6 +101,6 @@ async function fetchFromProvider(provider: string, request: Request) {
 
 const worker: ExportedHandler<Bindings> = { fetch: handleRequest };
 
-// Make sure we export the Counter Durable Object class
-export { ClientLog } from "./client_log";
+// Make sure we export the Durable Object class
+export { ClientLogV2 } from "./client_log";
 export default worker;

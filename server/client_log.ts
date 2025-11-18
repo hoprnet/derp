@@ -1,4 +1,4 @@
-export class ClientLog implements DurableObject {
+export class ClientLogV2 implements DurableObject {
   state: DurableObjectState;
   env: Env;
 
@@ -9,7 +9,7 @@ export class ClientLog implements DurableObject {
 
   async fetch(request: Request) {
     const url = new URL(request.url);
-    console.log("[ClientLog] Received request:", {
+    console.log("[ClientLogV2] Received request:", {
       pathname: url.pathname,
       method: request.method,
       upgrade: request.headers.get("Upgrade"),
@@ -18,22 +18,22 @@ export class ClientLog implements DurableObject {
 
     if (url.pathname == "/websocket") {
       if (request.headers.get("Upgrade") != "websocket") {
-        console.log("[ClientLog] Rejecting non-WebSocket upgrade request");
+        console.log("[ClientLogV2] Rejecting non-WebSocket upgrade request");
         return new Response("expected websocket", { status: 400 });
       }
 
       const currentSessionCount = this.state.getWebSockets().length;
-      console.log("[ClientLog] Creating WebSocket pair. Current sessions:", currentSessionCount);
+      console.log("[ClientLogV2] Creating WebSocket pair. Current sessions:", currentSessionCount);
       const pair = new WebSocketPair();
       const [client, server] = Object.values(pair);
 
       // Use Hibernation API instead of webSocket.accept()
-      console.log("[ClientLog] Accepting WebSocket with Hibernation API");
+      console.log("[ClientLogV2] Accepting WebSocket with Hibernation API");
       this.state.acceptWebSocket(server);
 
       const newSessionCount = this.state.getWebSockets().length;
-      console.log("[ClientLog] WebSocket accepted. Sessions:", newSessionCount, "(was:", currentSessionCount + ")");
-      console.log("[ClientLog] Returning 101 Switching Protocols");
+      console.log("[ClientLogV2] WebSocket accepted. Sessions:", newSessionCount, "(was:", currentSessionCount + ")");
+      console.log("[ClientLogV2] Returning 101 Switching Protocols");
       return new Response(null, { status: 101, webSocket: client });
     }
 
@@ -56,7 +56,7 @@ export class ClientLog implements DurableObject {
 
           // Broadcast to all connected WebSockets using Hibernation API
           const connectedSessions = this.state.getWebSockets();
-          console.log("[ClientLog] Broadcasting to", connectedSessions.length, "connected sessions");
+          console.log("[ClientLogV2] Broadcasting to", connectedSessions.length, "connected sessions");
           connectedSessions.forEach((ws) => {
             ws.send(data);
           });
@@ -77,7 +77,7 @@ export class ClientLog implements DurableObject {
     wasClean: boolean
   ) {
     const remainingSessions = this.state.getWebSockets().length;
-    console.log("[ClientLog] WebSocket closing. Code:", code, "Reason:", reason, "Remaining sessions:", remainingSessions);
+    console.log("[ClientLogV2] WebSocket closing. Code:", code, "Reason:", reason, "Remaining sessions:", remainingSessions);
     // Connection cleanup is handled automatically by the Hibernation API
     ws.close(code, "Durable Object is closing WebSocket");
   }
