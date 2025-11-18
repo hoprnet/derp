@@ -1,8 +1,6 @@
 name = "derp"
-type = "javascript"
 workers_dev = true
-usage_model = "unbound"
-compatibility_date = "2021-12-30"
+compatibility_date = "2025-01-17"
 
 [build]
 command = "yarn && yarn build"

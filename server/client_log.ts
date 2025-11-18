@@ -1,5 +1,7 @@
-export class ClientLog {
+export class ClientLog implements DurableObject {
   state: DurableObjectState;
+  env: Env;
+  sessions: Array<{ webSocket: WebSocket }>;
 
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
@@ -22,11 +24,11 @@ export class ClientLog {
     if (url.pathname == "/" && request.method == "POST") {
       request
         .json()
-        .then((json) => {
+        .then((json: any) => {
           const data = JSON.stringify({
             ip: request.headers.get("CF-Connecting-IP"),
             country: request.headers.get("CF-IPCountry"),
-            cf: request?.cf,
+            cf: (request as any).cf,
             log: {
               timestamp: new Date().toJSON(),
               userAgent: request.headers.get("User-Agent"),
@@ -48,13 +50,13 @@ export class ClientLog {
     return new Response("Not found", { status: 404 });
   }
 
-  async handleWebsocketSession(webSocket) {
+  async handleWebsocketSession(webSocket: WebSocket) {
     webSocket.accept();
 
     const session = { webSocket };
     this.sessions.push(session);
 
-    let closeOrErrorHandler = (evt) => {
+    let closeOrErrorHandler = (evt: Event) => {
       this.sessions = this.sessions.filter((member) => member !== session);
     };
     webSocket.addEventListener("close", closeOrErrorHandler);
