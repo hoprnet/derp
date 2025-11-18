@@ -67,7 +67,7 @@ export async function handleRequest(
   } catch (e) {
     if (path[0] == "client_logs") {
       newUrl.pathname = "/" + path.slice(1).join("/");
-      return logsObject.fetch(newUrl, request);
+      return logsObject.fetch(new Request(newUrl, request));
     }
     return new Response("Not found", { status: 404 });
   }

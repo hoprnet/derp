@@ -1,7 +1,7 @@
 name = "derp"
 main = "dist/index.mjs"
 workers_dev = true
-compatibility_date = "2025-01-17"
+compatibility_date = "2025-11-17"
 
 [build]
 command = "yarn build"
