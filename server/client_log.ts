@@ -98,7 +98,6 @@ export class ClientLogV2 implements DurableObject {
       remainingSessions,
     );
     // Connection cleanup is handled automatically by the Hibernation API
-    ws.close(code, "Durable Object is closing WebSocket");
   }
 }
 

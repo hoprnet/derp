@@ -60,20 +60,12 @@ export async function handleRequest(
     });
 
     try {
-      const response = await logsObject.fetch(newUrl, request);
+      const response = await logsObject.fetch(newUrl.toString(), request);
       console.log("[DERP] Durable Object response:", {
         status: response.status,
         statusText: response.statusText,
         hasWebSocket: !!response.webSocket,
       });
-
-      if (response.webSocket) {
-        return new Response(null, {
-          status: 101,
-          statusText: "Switching Protocols",
-          webSocket: response.webSocket,
-        });
-      }
 
       return response;
     } catch (error) {
