@@ -67,6 +67,15 @@ export async function handleRequest(
         statusText: response.statusText,
         hasWebSocket: !!response.webSocket,
       });
+      
+      if (response.webSocket) {
+        return new Response(null, {
+          status: 101,
+          statusText: 'Switching Protocols',
+          webSocket: response.webSocket,
+        });
+      }
+      
       return response;
     } catch (error) {
       console.error("[DERP] Error forwarding to Durable Object:", error);
