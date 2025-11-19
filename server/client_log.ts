@@ -23,7 +23,10 @@ export class ClientLogV2 implements DurableObject {
       }
 
       const currentSessionCount = this.state.getWebSockets().length;
-      console.log("[ClientLogV2] Creating WebSocket pair. Current sessions:", currentSessionCount);
+      console.log(
+        "[ClientLogV2] Creating WebSocket pair. Current sessions:",
+        currentSessionCount,
+      );
       const pair = new WebSocketPair();
       const [client, server] = Object.values(pair);
 
@@ -32,7 +35,12 @@ export class ClientLogV2 implements DurableObject {
       this.state.acceptWebSocket(server);
 
       const newSessionCount = this.state.getWebSockets().length;
-      console.log("[ClientLogV2] WebSocket accepted. Sessions:", newSessionCount, "(was:", currentSessionCount + ")");
+      console.log(
+        "[ClientLogV2] WebSocket accepted. Sessions:",
+        newSessionCount,
+        "(was:",
+        currentSessionCount + ")",
+      );
       console.log("[ClientLogV2] Returning 101 Switching Protocols");
       return new Response(null, { status: 101, webSocket: client });
     }
@@ -56,7 +64,11 @@ export class ClientLogV2 implements DurableObject {
 
           // Broadcast to all connected WebSockets using Hibernation API
           const connectedSessions = this.state.getWebSockets();
-          console.log("[ClientLogV2] Broadcasting to", connectedSessions.length, "connected sessions");
+          console.log(
+            "[ClientLogV2] Broadcasting to",
+            connectedSessions.length,
+            "connected sessions",
+          );
           connectedSessions.forEach((ws) => {
             ws.send(data);
           });
@@ -74,10 +86,17 @@ export class ClientLogV2 implements DurableObject {
     ws: WebSocket,
     code: number,
     reason: string,
-    wasClean: boolean
+    wasClean: boolean,
   ) {
     const remainingSessions = this.state.getWebSockets().length;
-    console.log("[ClientLogV2] WebSocket closing. Code:", code, "Reason:", reason, "Remaining sessions:", remainingSessions);
+    console.log(
+      "[ClientLogV2] WebSocket closing. Code:",
+      code,
+      "Reason:",
+      reason,
+      "Remaining sessions:",
+      remainingSessions,
+    );
     // Connection cleanup is handled automatically by the Hibernation API
     ws.close(code, "Durable Object is closing WebSocket");
   }

@@ -2,10 +2,10 @@ import React from "react";
 import styled from "@emotion/styled";
 
 //mui
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const SFormControl = styled(FormControl)`
   margin-bottom: 16px;
@@ -16,30 +16,30 @@ const SFormControl = styled(FormControl)`
   .MuiOutlinedInput-root {
     font-size: 17px;
   }
-`
+`;
 
 function Section(props) {
-    return (
-        <SFormControl size="small" >
-            <InputLabel id="select-small">RPC</InputLabel>
-            <Select
-                labelId="select-small"
-                id="select-small"
-                value={props.value}
-                onChange={props.onChange}
-                label="RPC"
-            >
-                {
-                    props.chains.map((chain,index) =>
-                        <MenuItem 
-                            value={chain.value}
-                            key={`chain-${index}`}
-                        >{chain.name}</MenuItem>
-                    )
-                }
-            </Select>
-        </SFormControl>
-    );
+  return (
+    <SFormControl size="small">
+      <InputLabel id="select-small">RPC</InputLabel>
+      <Select
+        labelId="select-small"
+        id="select-small"
+        value={props.value}
+        onChange={props.onChange}
+        label="RPC"
+      >
+        {props.chains.map((chain, index) => (
+          <MenuItem
+            value={chain.value}
+            key={`chain-${index}`}
+          >
+            {chain.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </SFormControl>
+  );
 }
 
 export default Section;

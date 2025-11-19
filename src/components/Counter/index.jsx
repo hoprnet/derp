@@ -23,16 +23,19 @@ const Counter = ({ startTime, currentTime, numberOfCalls }) => {
     }
   }, [hours]);
 
-  return numberOfCalls < 1 ? (
-    "-"
-  ) : (
-    <>
-      <BoldText>{numberOfCalls}</BoldText> calls, {""}
-      <BoldText>{hours > 9 ? `${hours}` : `0${hours}`}:</BoldText>
-      <BoldText>{minutes > 9 ? `${minutes}` : `0${minutes}`}:</BoldText>
-      <BoldText>{seconds > 9 ? `${seconds}` : `0${seconds}`}</BoldText> running
-    </>
-  );
+  return numberOfCalls < 1
+    ? (
+      "-"
+    )
+    : (
+      <>
+        <BoldText>{numberOfCalls}</BoldText> calls, {""}
+        <BoldText>{hours > 9 ? `${hours}` : `0${hours}`}:</BoldText>
+        <BoldText>{minutes > 9 ? `${minutes}` : `0${minutes}`}:</BoldText>
+        <BoldText>{seconds > 9 ? `${seconds}` : `0${seconds}`}</BoldText>{" "}
+        running
+      </>
+    );
 };
 
 export default Counter;

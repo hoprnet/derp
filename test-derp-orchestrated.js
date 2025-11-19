@@ -12,9 +12,9 @@
  * Usage: yarn test:e2e
  */
 
-import { spawn } from 'child_process';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { spawn } from "child_process";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,9 +24,9 @@ function log(message) {
 }
 
 function logStage(stage) {
-  log(`\n${'='.repeat(50)}`);
+  log(`\n${"=".repeat(50)}`);
   log(`  ${stage}`);
-  log(`${'='.repeat(50)}\n`);
+  log(`${"=".repeat(50)}\n`);
 }
 
 // State management
@@ -45,8 +45,8 @@ const CONFIG = {
     /http:\/\/localhost:\d+/i,
     /http:\/\/127\.0\.0\.1:\d+/i,
   ],
-  wranglerCommand: 'npx',
-  wranglerArgs: ['wrangler', 'dev', '--port', '8787'],
+  wranglerCommand: "npx",
+  wranglerArgs: ["wrangler", "dev", "--port", "8787"],
 };
 
 /**
@@ -58,17 +58,17 @@ function cleanup(exitCode = 0) {
   }
   state.cleanupCalled = true;
 
-  log('\nCleaning up...');
+  log("\nCleaning up...");
 
   if (state.wranglerProcess) {
-    log('  Stopping Wrangler dev server...');
+    log("  Stopping Wrangler dev server...");
     try {
       // Kill the process group to ensure all child processes are terminated
-      process.kill(-state.wranglerProcess.pid, 'SIGTERM');
+      process.kill(-state.wranglerProcess.pid, "SIGTERM");
     } catch (error) {
       // Process might already be dead
       try {
-        state.wranglerProcess.kill('SIGTERM');
+        state.wranglerProcess.kill("SIGTERM");
       } catch (err) {
         // Ignore if already dead
       }
@@ -76,7 +76,7 @@ function cleanup(exitCode = 0) {
     state.wranglerProcess = null;
   }
 
-  log('  Cleanup complete\n');
+  log("  Cleanup complete\n");
   process.exit(exitCode);
 }
 
@@ -84,23 +84,23 @@ function cleanup(exitCode = 0) {
  * Set up signal handlers
  */
 function setupSignalHandlers() {
-  process.on('SIGINT', () => {
-    log('\n\nWARNING: Received SIGINT (Ctrl+C)');
+  process.on("SIGINT", () => {
+    log("\n\nWARNING: Received SIGINT (Ctrl+C)");
     cleanup(130);
   });
 
-  process.on('SIGTERM', () => {
-    log('\n\nWARNING: Received SIGTERM');
+  process.on("SIGTERM", () => {
+    log("\n\nWARNING: Received SIGTERM");
     cleanup(143);
   });
 
-  process.on('uncaughtException', (error) => {
+  process.on("uncaughtException", (error) => {
     log(`\n\nERROR: Uncaught exception: ${error.message}`);
     console.error(error);
     cleanup(1);
   });
 
-  process.on('unhandledRejection', (reason, promise) => {
+  process.on("unhandledRejection", (reason, promise) => {
     log(`\n\nERROR: Unhandled rejection: ${reason}`);
     console.error(reason);
     cleanup(1);
@@ -113,7 +113,7 @@ function setupSignalHandlers() {
 function waitForServerReady() {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
-    let output = '';
+    let output = "";
 
     const checkOutput = (data) => {
       const text = data.toString();
@@ -132,22 +132,24 @@ function waitForServerReady() {
       }
     };
 
-    state.wranglerProcess.stdout.on('data', checkOutput);
-    state.wranglerProcess.stderr.on('data', checkOutput);
+    state.wranglerProcess.stdout.on("data", checkOutput);
+    state.wranglerProcess.stderr.on("data", checkOutput);
 
     // Timeout
     const timeout = setTimeout(() => {
       if (!state.serverReady) {
         reject(
           new Error(
-            `Server failed to start within ${CONFIG.serverReadyTimeout / 1000}s`
-          )
+            `Server failed to start within ${
+              CONFIG.serverReadyTimeout / 1000
+            }s`,
+          ),
         );
       }
     }, CONFIG.serverReadyTimeout);
 
     // Clear timeout if server becomes ready
-    state.wranglerProcess.stdout.on('data', () => {
+    state.wranglerProcess.stdout.on("data", () => {
       if (state.serverReady) {
         clearTimeout(timeout);
       }
@@ -159,19 +161,19 @@ function waitForServerReady() {
  * Start Wrangler dev server
  */
 async function startWrangler() {
-  logStage('Starting Wrangler Dev Server');
+  logStage("Starting Wrangler Dev Server");
 
-  log(`Command: ${CONFIG.wranglerCommand} ${CONFIG.wranglerArgs.join(' ')}`);
-  log('Waiting for server to be ready...\n');
+  log(`Command: ${CONFIG.wranglerCommand} ${CONFIG.wranglerArgs.join(" ")}`);
+  log("Waiting for server to be ready...\n");
 
   state.wranglerProcess = spawn(CONFIG.wranglerCommand, CONFIG.wranglerArgs, {
-    stdio: ['ignore', 'pipe', 'pipe'],
+    stdio: ["ignore", "pipe", "pipe"],
     detached: true, // Create a new process group
   });
 
   // Stream output with prefix
-  state.wranglerProcess.stdout.on('data', (data) => {
-    const lines = data.toString().trim().split('\n');
+  state.wranglerProcess.stdout.on("data", (data) => {
+    const lines = data.toString().trim().split("\n");
     lines.forEach((line) => {
       if (line) {
         log(`  [wrangler] ${line}`);
@@ -179,8 +181,8 @@ async function startWrangler() {
     });
   });
 
-  state.wranglerProcess.stderr.on('data', (data) => {
-    const lines = data.toString().trim().split('\n');
+  state.wranglerProcess.stderr.on("data", (data) => {
+    const lines = data.toString().trim().split("\n");
     lines.forEach((line) => {
       if (line) {
         log(`  [wrangler] ${line}`);
@@ -188,14 +190,16 @@ async function startWrangler() {
     });
   });
 
-  state.wranglerProcess.on('error', (error) => {
+  state.wranglerProcess.on("error", (error) => {
     log(`\nERROR: Failed to start Wrangler: ${error.message}`);
     cleanup(1);
   });
 
-  state.wranglerProcess.on('exit', (code, signal) => {
+  state.wranglerProcess.on("exit", (code, signal) => {
     if (!state.cleanupCalled) {
-      log(`\nWARNING: Wrangler exited unexpectedly (code: ${code}, signal: ${signal})`);
+      log(
+        `\nWARNING: Wrangler exited unexpectedly (code: ${code}, signal: ${signal})`,
+      );
       cleanup(code || 1);
     }
   });
@@ -205,7 +209,7 @@ async function startWrangler() {
     await waitForServerReady();
   } catch (error) {
     log(`\nERROR: ${error.message}`);
-    log('\nServer output:');
+    log("\nServer output:");
     cleanup(1);
   }
 }
@@ -214,19 +218,19 @@ async function startWrangler() {
  * Run the test script
  */
 async function runTests() {
-  logStage('Running Tests');
+  logStage("Running Tests");
 
   return new Promise((resolve, reject) => {
-    const testProcess = spawn('node', ['test-derp-local.js'], {
-      stdio: 'inherit',
+    const testProcess = spawn("node", ["test-derp-local.js"], {
+      stdio: "inherit",
       cwd: __dirname,
     });
 
-    testProcess.on('error', (error) => {
+    testProcess.on("error", (error) => {
       reject(new Error(`Failed to run tests: ${error.message}`));
     });
 
-    testProcess.on('exit', (code) => {
+    testProcess.on("exit", (code) => {
       if (code === 0) {
         resolve();
       } else {
@@ -240,9 +244,9 @@ async function runTests() {
  * Main orchestration function
  */
 async function main() {
-  log('\n==================================================');
-  log('  DERP End-to-End Test Orchestration');
-  log('==================================================\n');
+  log("\n==================================================");
+  log("  DERP End-to-End Test Orchestration");
+  log("==================================================\n");
 
   const totalStartTime = Date.now();
 
@@ -254,22 +258,22 @@ async function main() {
     await startWrangler();
 
     // Step 3: Wait a bit for server to stabilize
-    log('Waiting for server to stabilize...');
+    log("Waiting for server to stabilize...");
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    log('Ready to run tests\n');
+    log("Ready to run tests\n");
 
     // Step 4: Run tests
     await runTests();
 
     // Step 5: Success!
     const totalTime = ((Date.now() - totalStartTime) / 1000).toFixed(2);
-    logStage('Test Results');
+    logStage("Test Results");
     log(`SUCCESS: All tests completed in ${totalTime}s`);
 
     cleanup(0);
   } catch (error) {
     const totalTime = ((Date.now() - totalStartTime) / 1000).toFixed(2);
-    logStage('Test Results');
+    logStage("Test Results");
     log(`ERROR: Tests failed after ${totalTime}s`);
     log(`Error: ${error.message}`);
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import styled from "@emotion/styled";
-import Logo from './logo.svg'
+import Logo from "./logo.svg";
 
 const SNavBar = styled.div`
   height: 68px;
@@ -9,7 +9,7 @@ const SNavBar = styled.div`
   width: 100vw;
   background: white;
   z-index: 10;
-`
+`;
 
 const Container = styled.div`
   height: 100%;
@@ -17,13 +17,13 @@ const Container = styled.div`
   margin: auto;
   display: flex;
   align-items: center;
-`
+`;
 
 const LogoImage = styled.img`
   height: 50px;
   width: auto;
   margin-left: 10px;
-`
+`;
 
 const NavBar = () => {
   return (

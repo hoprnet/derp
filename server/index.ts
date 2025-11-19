@@ -7,7 +7,7 @@ const assetManifest = JSON.parse(manifestJSON);
 export async function handleRequest(
   request: Request,
   env: Env,
-  ctx: Context
+  ctx: Context,
 ): Promise<Response> {
   const url = new URL(request.url);
 
@@ -37,9 +37,8 @@ export async function handleRequest(
   const logsObject = env.client_logs_v2.get(clientLogsId);
   let newUrl = new URL(request.url);
 
-  const chosenChain = chains.filter((chain) =>
-    url.pathname.includes(chain.derpUrl)
-  )[0];
+  const chosenChain =
+    chains.filter((chain) => url.pathname.includes(chain.derpUrl))[0];
 
   if (chosenChain) {
     newUrl.pathname = "/";
@@ -67,15 +66,15 @@ export async function handleRequest(
         statusText: response.statusText,
         hasWebSocket: !!response.webSocket,
       });
-      
+
       if (response.webSocket) {
         return new Response(null, {
           status: 101,
-          statusText: 'Switching Protocols',
+          statusText: "Switching Protocols",
           webSocket: response.webSocket,
         });
       }
-      
+
       return response;
     } catch (error) {
       console.error("[DERP] Error forwarding to Durable Object:", error);
@@ -95,7 +94,7 @@ export async function handleRequest(
       {
         ASSET_NAMESPACE: env.__STATIC_CONTENT,
         ASSET_MANIFEST: assetManifest,
-      }
+      },
     );
   } catch (e) {
     return new Response("Not found", { status: 404 });

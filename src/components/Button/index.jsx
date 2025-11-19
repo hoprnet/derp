@@ -1,25 +1,25 @@
-import React from 'react';
+import React from "react";
 import styled from "@emotion/styled";
 import MuiButton from "@mui/material/Button";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const SButton = styled(MuiButton)`
   &.btn-hopr--v2 {
     font-family: Source Code Pro;
     text-align: center;
-    color: #FFF;
+    color: #fff;
     background: linear-gradient(#000050, #0000b4);
     border-radius: 20px;
     text-transform: none;
-    
+
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     line-height: 45px;
-    
+
     letter-spacing: 0.25px;
-    color: #FFFFFF;
-    
+    color: #ffffff;
+
     height: 38px;
   }
   &.btn-hopr--v2:not(.btn-hopr--image-only) {
@@ -41,30 +41,32 @@ const SButton = styled(MuiButton)`
       max-width: 54px;
     }
   }
-`
+`;
 
 export default function Button(props) {
-    const {hopr, imageOnly, size70, ...rest} = props;
+  const { hopr, imageOnly, size70, ...rest } = props;
 
-    return (
-        <SButton
-            variant={props.hopr ? 'contained' : props.variant }
-            className={`${props.className} ${props.hopr && 'btn-hopr--v2'} ${props.imageOnly && 'btn-hopr--image-only'} ${props.size70 && 'btn-hopr--size70'}`}
-            {...rest}
-        >
-            {props.children}
-        </SButton>
-    )
+  return (
+    <SButton
+      variant={props.hopr ? "contained" : props.variant}
+      className={`${props.className} ${props.hopr && "btn-hopr--v2"} ${
+        props.imageOnly && "btn-hopr--image-only"
+      } ${props.size70 && "btn-hopr--size70"}`}
+      {...rest}
+    >
+      {props.children}
+    </SButton>
+  );
 }
 
 Button.defaultProps = {
-    hopr: false,
-    imageOnly:  false,
-    size70:  false,
-}
+  hopr: false,
+  imageOnly: false,
+  size70: false,
+};
 
 Button.propTypes = {
-    hopr: PropTypes.bool,
-    imageOnly:  PropTypes.bool,
-    size70:  PropTypes.bool,
+  hopr: PropTypes.bool,
+  imageOnly: PropTypes.bool,
+  size70: PropTypes.bool,
 };

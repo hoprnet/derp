@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { chains } from "../../shared/chains.js";
 import Map from "../Map";
-import { Location } from "./styled"
-import DERPLog from "./log"
+import { Location } from "./styled";
+import DERPLog from "./log";
 import Counter from "../Counter";
 import { utils } from "ethers";
-
 
 function DERP() {
   const [log, setLog] = useState([]);
@@ -31,7 +30,7 @@ function DERP() {
   const getAddressesFromEthCall = (data) => {
     const abi = ["function balances(address[],address[])"];
     const iface = new utils.Interface(abi);
-    
+
     // decode eth call data.
     const { args } = iface.parseTransaction({ data });
     return args.at(0);
@@ -72,27 +71,26 @@ function DERP() {
   // };
 
   const updateInfo = (cf) => {
-    if(cf.originalUrl !== rpcUrl) setRpcUrl2(cf.originalUrl);
-    if(cf.city !== city)  setCity(cf.city);
+    if (cf.originalUrl !== rpcUrl) setRpcUrl2(cf.originalUrl);
+    if (cf.city !== city) setCity(cf.city);
 
-    let chosenChain = chains.filter((chain) =>
-      cf.originalUrl.includes(chain.derpUrl)
-    )[0];
+    let chosenChain =
+      chains.filter((chain) => cf.originalUrl.includes(chain.derpUrl))[0];
 
-    if(chosenChain && chosenChain.chainId !== chainId) {
+    if (chosenChain && chosenChain.chainId !== chainId) {
       setChainId(chosenChain.chainId);
       setName("DERP - " + chosenChain.name);
     }
 
-    if ( 
-        (cf.longitude && cf.latitude) &&
-        (coordinates.long !== cf.longitude || coordinates.lat !== cf.latitude) 
-      ) {
-        setCoordinates({
-          long: cf.longitude,
-          lat: cf.latitude,
-        });
-      }
+    if (
+      (cf.longitude && cf.latitude) &&
+      (coordinates.long !== cf.longitude || coordinates.lat !== cf.latitude)
+    ) {
+      setCoordinates({
+        long: cf.longitude,
+        lat: cf.latitude,
+      });
+    }
   };
 
   const addLogEntry = (entry) => {
@@ -103,10 +101,9 @@ function DERP() {
   };
 
   const addNewAddressesToStore = (scrappedAddresses) => {
-    scrappedAddresses.forEach(addr => {
-
+    scrappedAddresses.forEach((addr) => {
       addr = addr.toLowerCase();
-      
+
       // handle address ref
       if (!addresses.current.includes(addr)) {
         addresses.current = [...addresses.current, addr];
@@ -114,20 +111,19 @@ function DERP() {
 
       // handle lastAddressesUsed state
       set_lastAddressesUsed((prevState) => {
-        let index = prevState.indexOf(addr)
-        if (index === -1){
-          return [addr, ...prevState].splice(0,3);
+        let index = prevState.indexOf(addr);
+        if (index === -1) {
+          return [addr, ...prevState].splice(0, 3);
         } else {
-          let newState = prevState.filter(elem => elem !== addr);
-          return [addr, ...newState].splice(0,3);
+          let newState = prevState.filter((elem) => elem !== addr);
+          return [addr, ...newState].splice(0, 3);
         }
       });
-
     });
   };
 
   const getAndParseDataFromEntry = (entry) => {
-    if(entry.method === "eth_getBalance" && entry.params && entry.params[0]) {
+    if (entry.method === "eth_getBalance" && entry.params && entry.params[0]) {
       let address = entry.params[0];
       addNewAddressesToStore([address]);
     } else if (entry.method === "eth_call") {
@@ -149,7 +145,7 @@ function DERP() {
     ws.addEventListener("open", (event) => {
       console.log("websocket opened");
       // currentWebSocket = ws;
-     // setConnectionStatus();
+      // setConnectionStatus();
     });
 
     ws.addEventListener("message", (event) => {
@@ -158,18 +154,18 @@ function DERP() {
       getAndParseDataFromEntry(data.log);
       updateIp(data.ip, data.country);
       updateInfo(data.cf);
-      set_numberOfCalls(prevNumberOfCalls => prevNumberOfCalls + 1);
+      set_numberOfCalls((prevNumberOfCalls) => prevNumberOfCalls + 1);
     });
 
     ws.addEventListener("close", (event) => {
       console.log("websocket closed, reconnecting:", event.code, event.reason);
-    //  unsetConnectionStatus();
+      //  unsetConnectionStatus();
       setTimeout(joinWebSocket, 1000);
     });
 
     ws.addEventListener("error", (event) => {
       console.log("websocket error, reconnecting:", event);
-     // unsetConnectionStatus();
+      // unsetConnectionStatus();
       //   setTimeout(join(), 1000);
     });
   };
@@ -215,12 +211,12 @@ function DERP() {
   // }, []);
 
   return (
-    <div style={{width: '100%'}}>
+    <div style={{ width: "100%" }}>
       <Location>
         <table className={"user-table"}>
           <tbody>
             <tr>
-              <td className={"no-padding-on-mobile"} style={{width: '100%'}}>
+              <td className={"no-padding-on-mobile"} style={{ width: "100%" }}>
                 <table className="network-settings">
                   <tbody>
                     <tr>
@@ -235,19 +231,21 @@ function DERP() {
                       <th>IP</th>
                       <th>{ip}</th>
                     </tr>
-                    {/* <tr>
+                    {
+                      /* <tr>
                       <th>Status</th>
                       <th>
                         {
-                          status === "connected" ? 
+                          status === "connected" ?
                             <>
-                              <CheckCircleIcon className="status-connected"/> 
-                              {status} 
+                              <CheckCircleIcon className="status-connected"/>
+                              {status}
                             </>
                             : status
-                        } 
+                        }
                       </th>
-                    </tr> */}
+                    </tr> */
+                    }
                     <tr>
                       <th>Network Name</th>
                       <th>{name}</th>
@@ -264,13 +262,18 @@ function DERP() {
                     </tr>
                     <tr>
                       <th>
-                        {lastAddressesUsed.length < 2 ? 'Last address used' : `Last ${lastAddressesUsed.length} addresses used`}
+                        {lastAddressesUsed.length < 2
+                          ? "Last address used"
+                          : `Last ${lastAddressesUsed.length} addresses used`}
                       </th>
                       <th>
-                        { lastAddressesUsed.length !== 0 && lastAddressesUsed.map((address, index) =>
-                            <p key={address} style={{marginBottom: 0}}>{address}</p>
-                        )}
-                        { lastAddressesUsed.length === 0 && '-'}
+                        {lastAddressesUsed.length !== 0 &&
+                          lastAddressesUsed.map((address, index) => (
+                            <p key={address} style={{ marginBottom: 0 }}>
+                              {address}
+                            </p>
+                          ))}
+                        {lastAddressesUsed.length === 0 && "-"}
                       </th>
                     </tr>
                     <tr>
