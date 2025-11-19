@@ -1,8 +1,9 @@
 name = "derp"
-main = "dist/index.mjs"
+main = "server/index.ts"
 workers_dev = true
-compatibility_date = "2025-11-17"
+compatibility_date = "2023-07-01"
 send_metrics = false
+tsconfig = "tsconfig.json"
 
 [vars]
 # Salt for hashing client IPs (change in production using wrangler secret)

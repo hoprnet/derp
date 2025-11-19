@@ -158,26 +158,11 @@ export async function handleRequest(
       connection: request.headers.get("Connection"),
     });
 
-    try {
-      console.log("[DERP] Calling Durable Object fetch with URL:", strippedUrl.toString());
-      const response = await logsObject.fetch(strippedUrl, request);
-      console.log("[DERP] Durable Object response received:", {
-        status: response.status,
-        statusText: response.statusText,
-        hasWebSocket: !!response.webSocket,
-      });
-
-      // Don't add security headers to WebSocket upgrade responses
-      if (response.webSocket) {
-        return response;
-      }
-      return addSecurityHeaders(response);
-    } catch (error) {
-      console.error("[DERP] Error forwarding to Durable Object:", error);
-      return addSecurityHeaders(
-        new Response("Internal Server Error", { status: 500 }),
-      );
-    }
+    console.log(
+      "[DERP] Calling Durable Object fetch with URL:",
+      strippedUrl.toString(),
+    );
+    return await logsObject.fetch(strippedUrl, request);
   }
 
   // Serve static assets
