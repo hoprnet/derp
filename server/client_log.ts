@@ -86,6 +86,11 @@ export class ClientLogV2 implements DurableObject {
     console.log("[ClientLogV2] WebSocket message received:", typeof message);
   }
 
+  // Hibernation API handler - called when a WebSocket error occurs
+  async webSocketError(ws: WebSocket, error: unknown) {
+    console.log("[ClientLogV2] WebSocket error:", error);
+  }
+
   // Hibernation API handler - called when a WebSocket connection closes
   async webSocketClose(
     ws: WebSocket,
