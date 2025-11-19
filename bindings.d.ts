@@ -7,6 +7,9 @@
  */
 declare global {
   interface Env {
+    /** Salt for hashing client IDs (privacy protection) */
+    ID_SALT?: string;
+
     /** Durable Object namespace for client logs v2 */
     client_logs_v2: DurableObjectNamespace;
 

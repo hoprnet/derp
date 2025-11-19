@@ -4,6 +4,90 @@ import { chains } from "../src/shared/chains.js";
 
 const assetManifest = JSON.parse(manifestJSON);
 
+/**
+ * Hash client identifier using SHA-256
+ * Provides privacy by not exposing raw IP addresses as Durable Object names
+ */
+async function hashClientId(ip: string, salt: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(ip + salt);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/**
+ * SSRF Protection: Allowlist of valid provider origins
+ */
+const ALLOWED_PROVIDER_ORIGINS = new Set(
+  chains.map((c) => {
+    try {
+      return new URL(c.originalUrl).origin;
+    } catch {
+      return "";
+    }
+  }).filter((origin) => origin !== "")
+);
+
+/** RPC request timeout (30 seconds) */
+const RPC_TIMEOUT = 30000;
+
+/**
+ * Validate provider URL against allowlist
+ * Prevents SSRF attacks by ensuring only configured RPC providers are accessed
+ */
+function validateProviderUrl(url: string): boolean {
+  try {
+    const urlObj = new URL(url);
+    return ALLOWED_PROVIDER_ORIGINS.has(urlObj.origin);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Add security headers to response
+ * Implements defense-in-depth security practices
+ */
+function addSecurityHeaders(response: Response): Response {
+  const newHeaders = new Headers(response.headers);
+
+  // Prevent MIME type sniffing
+  newHeaders.set("X-Content-Type-Options", "nosniff");
+
+  // Prevent clickjacking
+  newHeaders.set("X-Frame-Options", "DENY");
+
+  // Enable XSS protection (legacy, but still useful for older browsers)
+  newHeaders.set("X-XSS-Protection", "1; mode=block");
+
+  // Control referrer information
+  newHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
+
+  // Restrict permissions
+  newHeaders.set(
+    "Permissions-Policy",
+    "geolocation=(), microphone=(), camera=(), payment=()"
+  );
+
+  // HTTP Strict Transport Security (HSTS)
+  // Only set for HTTPS responses
+  const url = response.url || "";
+  if (url.startsWith("https://")) {
+    newHeaders.set(
+      "Strict-Transport-Security",
+      "max-age=31536000; includeSubDomains; preload"
+    );
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: newHeaders,
+    webSocket: response.webSocket,
+  });
+}
+
 export async function handleRequest(
   request: Request,
   env: Env,
@@ -24,7 +108,9 @@ export async function handleRequest(
 
     // only pass when we are on secure connections
     if (url.protocol != "https:" && url.protocol != "wss:") {
-      return new Response("Unsupported protocol", { status: 422 });
+      return addSecurityHeaders(
+        new Response("Unsupported protocol", { status: 422 })
+      );
     }
   }
 
@@ -33,7 +119,9 @@ export async function handleRequest(
   const method = request.method;
   const path = url.pathname.slice(1).split("/");
   const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
-  const clientLogsId = env.client_logs_v2.idFromName(clientIp);
+  // Hash client IP for privacy - don't expose raw IPs as DO names
+  const hashedId = await hashClientId(clientIp, env.ID_SALT || "default-salt-change-in-production");
+  const clientLogsId = env.client_logs_v2.idFromName(hashedId);
   const logsObject = env.client_logs_v2.get(clientLogsId);
   let newUrl = new URL(request.url);
 
@@ -45,7 +133,11 @@ export async function handleRequest(
     let object = request.clone();
     (object as any).cf.originalUrl = object.url;
     await logsObject.fetch(newUrl, object);
-    return fetchFromProvider(chosenChain.originalUrl, request);
+    const providerResponse = await fetchFromProvider(
+      chosenChain.originalUrl,
+      request
+    );
+    return addSecurityHeaders(providerResponse);
   }
 
   // Handle Durable Object requests (WebSocket and logging) before static assets
@@ -68,16 +160,22 @@ export async function handleRequest(
         hasWebSocket: !!response.webSocket,
       });
 
-      return response;
+      // Don't add security headers to WebSocket upgrade responses
+      if (response.webSocket) {
+        return response;
+      }
+      return addSecurityHeaders(response);
     } catch (error) {
       console.error("[DERP] Error forwarding to Durable Object:", error);
-      return new Response("Internal Server Error", { status: 500 });
+      return addSecurityHeaders(
+        new Response("Internal Server Error", { status: 500 })
+      );
     }
   }
 
   // Serve static assets
   try {
-    return await getAssetFromKV(
+    const assetResponse = await getAssetFromKV(
       {
         request,
         waitUntil(promise) {
@@ -89,15 +187,54 @@ export async function handleRequest(
         ASSET_MANIFEST: assetManifest,
       },
     );
+    return addSecurityHeaders(assetResponse);
   } catch (e) {
-    return new Response("Not found", { status: 404 });
+    return addSecurityHeaders(
+      new Response("Not found", { status: 404 })
+    );
   }
 }
 
-async function fetchFromProvider(provider: string, request: Request) {
-  return fetch(provider, request).then(async function (response) {
+/**
+ * Fetch from RPC provider with SSRF protection and timeout
+ * @param provider - The RPC provider URL
+ * @param request - The original request to forward
+ * @returns Response from the RPC provider
+ */
+async function fetchFromProvider(
+  provider: string,
+  request: Request
+): Promise<Response> {
+  // SSRF Protection: Validate provider URL is in allowlist
+  if (!validateProviderUrl(provider)) {
+    console.error("[DERP] SSRF attempt blocked - Invalid provider URL:", provider);
+    return new Response("Forbidden: Invalid provider URL", { status: 403 });
+  }
+
+  // Create abort controller for timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), RPC_TIMEOUT);
+
+  try {
+    const response = await fetch(provider, {
+      method: request.method,
+      headers: request.headers,
+      body: request.body,
+      signal: controller.signal,
+    });
     return response;
-  });
+  } catch (error: any) {
+    // Handle timeout
+    if (error.name === "AbortError") {
+      console.error("[DERP] RPC request timeout:", provider);
+      return new Response("Gateway Timeout", { status: 504 });
+    }
+    // Handle other errors
+    console.error("[DERP] RPC request failed:", error.message);
+    return new Response("Bad Gateway", { status: 502 });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 const worker: ExportedHandler<Bindings> = { fetch: handleRequest };

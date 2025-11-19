@@ -26,6 +26,9 @@ function DERP() {
   });
   const [lastAddressesUsed, set_lastAddressesUsed] = useState([]);
   const addresses = useRef([]);
+  const wsRef = useRef(null);
+  const reconnectTimeoutRef = useRef(null);
+  const retryCountRef = useRef(0);
 
   const getAddressesFromEthCall = (data) => {
     const abi = ["function balances(address[],address[])"];
@@ -139,11 +142,22 @@ function DERP() {
   };
 
   const joinWebSocket = () => {
+    // Clean up any existing connection
+    if (wsRef.current) {
+      wsRef.current.close();
+    }
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
+    }
+
     const wsUrl = `wss://${url}/client_logs/websocket`;
     const ws = new WebSocket(wsUrl);
+    wsRef.current = ws;
 
     ws.addEventListener("open", (event) => {
       console.log("websocket opened");
+      // Reset retry count on successful connection
+      retryCountRef.current = 0;
       // currentWebSocket = ws;
       // setConnectionStatus();
     });
@@ -158,20 +172,44 @@ function DERP() {
     });
 
     ws.addEventListener("close", (event) => {
-      console.log("websocket closed, reconnecting:", event.code, event.reason);
+      // Calculate exponential backoff delay
+      const initialDelay = 1000; // 1 second
+      const maxDelay = 30000; // 30 seconds
+      const delay = Math.min(
+        initialDelay * Math.pow(2, retryCountRef.current),
+        maxDelay
+      );
+
+      console.log(
+        `websocket closed, reconnecting in ${delay}ms (attempt ${retryCountRef.current + 1}):`,
+        event.code,
+        event.reason
+      );
+
+      retryCountRef.current += 1;
       //  unsetConnectionStatus();
-      setTimeout(joinWebSocket, 1000);
+      reconnectTimeoutRef.current = setTimeout(joinWebSocket, delay);
     });
 
     ws.addEventListener("error", (event) => {
-      console.log("websocket error, reconnecting:", event);
+      console.log("websocket error:", event);
       // unsetConnectionStatus();
-      //   setTimeout(join(), 1000);
+      // Connection will be handled by close event
     });
   };
 
   useEffect(() => {
     joinWebSocket();
+
+    // Cleanup function to close WebSocket and clear timeout on unmount
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+    };
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

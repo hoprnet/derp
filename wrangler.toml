@@ -4,6 +4,10 @@ workers_dev = true
 compatibility_date = "2025-11-17"
 send_metrics = false
 
+[vars]
+# Salt for hashing client IPs (change in production using wrangler secret)
+ID_SALT = "dev-salt-change-in-production"
+
 [placement]
 mode = "smart"
 

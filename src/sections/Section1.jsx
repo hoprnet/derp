@@ -41,17 +41,16 @@ const Disclaimer = styled(Subtext)`
 `;
 
 function Section1(props) {
-  let animationLoaded = false;
   useEffect(() => {
-    // check to prevent double animation load on page remount
-    if (!animationLoaded) {
-      lottie.loadAnimation({
-        container: document.querySelector(`#derp-animation`),
-        animationData: derpAnimation,
-      });
-    }
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-    animationLoaded = true;
+    const animation = lottie.loadAnimation({
+      container: document.querySelector(`#derp-animation`),
+      animationData: derpAnimation,
+    });
+
+    // Cleanup function to destroy animation on unmount
+    return () => {
+      animation.destroy();
+    };
   }, []);
 
   return (
