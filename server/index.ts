@@ -20,17 +20,19 @@ async function hashClientId(ip: string, salt: string): Promise<string> {
  * SSRF Protection: Allowlist of valid provider origins
  */
 const ALLOWED_PROVIDER_ORIGINS = new Set(
-  chains.map((c) => {
-    try {
-      return new URL(c.originalUrl).origin;
-    } catch {
-      return "";
-    }
-  }).filter((origin) => origin !== "")
+  chains
+    .map((c) => {
+      try {
+        return new URL(c.originalUrl).origin;
+      } catch {
+        return "";
+      }
+    })
+    .filter((origin) => origin !== ""),
 );
 
-/** RPC request timeout (30 seconds) */
-const RPC_TIMEOUT = 30000;
+/** RPC request timeout (10 seconds) */
+const RPC_TIMEOUT = 10000;
 
 /**
  * Validate provider URL against allowlist
@@ -67,7 +69,7 @@ function addSecurityHeaders(response: Response): Response {
   // Restrict permissions
   newHeaders.set(
     "Permissions-Policy",
-    "geolocation=(), microphone=(), camera=(), payment=()"
+    "geolocation=(), microphone=(), camera=(), payment=()",
   );
 
   // HTTP Strict Transport Security (HSTS)
@@ -76,7 +78,7 @@ function addSecurityHeaders(response: Response): Response {
   if (url.startsWith("https://")) {
     newHeaders.set(
       "Strict-Transport-Security",
-      "max-age=31536000; includeSubDomains; preload"
+      "max-age=31536000; includeSubDomains; preload",
     );
   }
 
@@ -109,7 +111,7 @@ export async function handleRequest(
     // only pass when we are on secure connections
     if (url.protocol != "https:" && url.protocol != "wss:") {
       return addSecurityHeaders(
-        new Response("Unsupported protocol", { status: 422 })
+        new Response("Unsupported protocol", { status: 422 }),
       );
     }
   }
@@ -120,13 +122,17 @@ export async function handleRequest(
   const path = url.pathname.slice(1).split("/");
   const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
   // Hash client IP for privacy - don't expose raw IPs as DO names
-  const hashedId = await hashClientId(clientIp, env.ID_SALT || "default-salt-change-in-production");
+  const hashedId = await hashClientId(
+    clientIp,
+    env.ID_SALT || "default-salt-change-in-production",
+  );
   const clientLogsId = env.client_logs_v2.idFromName(hashedId);
   const logsObject = env.client_logs_v2.get(clientLogsId);
   let newUrl = new URL(request.url);
 
-  const chosenChain =
-    chains.filter((chain) => url.pathname.includes(chain.derpUrl))[0];
+  const chosenChain = chains.filter((chain) =>
+    url.pathname.includes(chain.derpUrl),
+  )[0];
 
   if (chosenChain) {
     newUrl.pathname = "/";
@@ -135,25 +141,26 @@ export async function handleRequest(
     await logsObject.fetch(newUrl, object);
     const providerResponse = await fetchFromProvider(
       chosenChain.originalUrl,
-      request
+      request,
     );
     return addSecurityHeaders(providerResponse);
   }
 
   // Handle Durable Object requests (WebSocket and logging) before static assets
   if (path[0] == "client_logs") {
-    const doPath = "/" + path.slice(1).join("/");
+    const strippedUrl = new URL(request.url);
+    strippedUrl.pathname = "/" + path.slice(1).join("/");
     console.log("[DERP] Forwarding to Durable Object:", {
       originalPath: url.pathname,
-      newPath: doPath,
+      newPath: strippedUrl.pathname,
       method: request.method,
       upgrade: request.headers.get("Upgrade"),
       connection: request.headers.get("Connection"),
     });
 
     try {
-      console.log("[DERP] Calling Durable Object fetch with path:", doPath);
-      const response = await logsObject.fetch(`http://stub${doPath}`, request);
+      console.log("[DERP] Calling Durable Object fetch with URL:", strippedUrl.toString());
+      const response = await logsObject.fetch(strippedUrl, request);
       console.log("[DERP] Durable Object response received:", {
         status: response.status,
         statusText: response.statusText,
@@ -168,7 +175,7 @@ export async function handleRequest(
     } catch (error) {
       console.error("[DERP] Error forwarding to Durable Object:", error);
       return addSecurityHeaders(
-        new Response("Internal Server Error", { status: 500 })
+        new Response("Internal Server Error", { status: 500 }),
       );
     }
   }
@@ -189,9 +196,7 @@ export async function handleRequest(
     );
     return addSecurityHeaders(assetResponse);
   } catch (e) {
-    return addSecurityHeaders(
-      new Response("Not found", { status: 404 })
-    );
+    return addSecurityHeaders(new Response("Not found", { status: 404 }));
   }
 }
 
@@ -203,11 +208,14 @@ export async function handleRequest(
  */
 async function fetchFromProvider(
   provider: string,
-  request: Request
+  request: Request,
 ): Promise<Response> {
   // SSRF Protection: Validate provider URL is in allowlist
   if (!validateProviderUrl(provider)) {
-    console.error("[DERP] SSRF attempt blocked - Invalid provider URL:", provider);
+    console.error(
+      "[DERP] SSRF attempt blocked - Invalid provider URL:",
+      provider,
+    );
     return new Response("Forbidden: Invalid provider URL", { status: 403 });
   }
 
