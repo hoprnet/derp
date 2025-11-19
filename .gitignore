@@ -138,3 +138,4 @@ yarn-debug.log*
 yarn-error.log*
 .wrangler/state/v3/do/derp-ClientLog
 .wrangler/state/v3/do/derp-ClientLogV2
+.wrangler/tmp

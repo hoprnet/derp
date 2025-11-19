@@ -50,18 +50,18 @@ export async function handleRequest(
 
   // Handle Durable Object requests (WebSocket and logging) before static assets
   if (path[0] == "client_logs") {
-    newUrl.pathname = "/" + path.slice(1).join("/");
+    const doPath = "/" + path.slice(1).join("/");
     console.log("[DERP] Forwarding to Durable Object:", {
       originalPath: url.pathname,
-      newPath: newUrl.pathname,
+      newPath: doPath,
       method: request.method,
       upgrade: request.headers.get("Upgrade"),
       connection: request.headers.get("Connection"),
     });
 
     try {
-      console.log("[DERP] Calling Durable Object fetch with URL:", newUrl.toString());
-      const response = await logsObject.fetch(newUrl, request);
+      console.log("[DERP] Calling Durable Object fetch with path:", doPath);
+      const response = await logsObject.fetch(`http://stub${doPath}`, request);
       console.log("[DERP] Durable Object response received:", {
         status: response.status,
         statusText: response.statusText,
