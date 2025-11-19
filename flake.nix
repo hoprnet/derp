@@ -17,12 +17,21 @@
         treefmtEval = treefmt-nix.lib.evalModule pkgs {
           projectRootFile = "flake.nix";
           programs.deno.enable = true;
+          programs.nixpkgs-fmt.enable = true;
           settings.formatter.deno.includes = [ "*.ts" "*.js" ];
         };
       in
       {
         formatter = treefmtEval.config.build.wrapper;
-        devShells.default = import ./shell.nix { inherit pkgs; };
+        devShells.default = pkgs.mkShell {
+          buildInputs = [
+            pkgs.envsubst
+            pkgs.nodejs
+            (pkgs.yarn.override { nodejs = pkgs.nodejs; })
+          ]
+          ++ pkgs.lib.optional pkgs.stdenv.isLinux pkgs.inotifyTools
+          ++ pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.apple-sdk_15;
+        };
       }
     );
 }
