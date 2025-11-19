@@ -60,14 +60,8 @@ export async function handleRequest(
     });
 
     try {
-      console.log("[DERP] Creating modified request for:", newUrl.toString());
-      const modifiedRequest = new Request(newUrl.toString(), request);
-      console.log("[DERP] Modified request headers:", {
-        upgrade: modifiedRequest.headers.get("Upgrade"),
-        connection: modifiedRequest.headers.get("Connection"),
-      });
-      console.log("[DERP] Calling Durable Object fetch...");
-      const response = await logsObject.fetch(modifiedRequest);
+      console.log("[DERP] Calling Durable Object fetch with URL:", newUrl.toString());
+      const response = await logsObject.fetch(newUrl, request);
       console.log("[DERP] Durable Object response received:", {
         status: response.status,
         statusText: response.statusText,

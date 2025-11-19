@@ -81,6 +81,11 @@ export class ClientLogV2 implements DurableObject {
     return new Response("Not found", { status: 404 });
   }
 
+  // Hibernation API handler - called when a message is received
+  async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer) {
+    console.log("[ClientLogV2] WebSocket message received:", typeof message);
+  }
+
   // Hibernation API handler - called when a WebSocket connection closes
   async webSocketClose(
     ws: WebSocket,
