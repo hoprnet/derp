@@ -9,7 +9,7 @@
  * 4. Tearing down the server
  * 5. Exiting with appropriate status code
  *
- * Usage: yarn test:e2e
+ * Usage: pnpm test:e2e
  */
 
 import { spawn } from "child_process";
@@ -45,8 +45,8 @@ const CONFIG = {
     /http:\/\/localhost:\d+/i,
     /http:\/\/127\.0\.0\.1:\d+/i,
   ],
-  wranglerCommand: "npx",
-  wranglerArgs: ["wrangler", "dev", "--port", "8787"],
+  wranglerCommand: "pnpm",
+  wranglerArgs: ["exec", "wrangler", "dev", "--port", "8787"],
 };
 
 /**

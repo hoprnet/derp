@@ -78,7 +78,7 @@ function DERP() {
     if (cf.city !== city) setCity(cf.city);
 
     let chosenChain =
-      chains.filter((chain) => cf.originalUrl.includes(chain.derpUrl))[0];
+      chains.filter((chain) => (cf?.originalUrl || "").includes(chain.derpUrl))[0];
 
     if (chosenChain && chosenChain.chainId !== chainId) {
       setChainId(chosenChain.chainId);
