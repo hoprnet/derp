@@ -7,7 +7,7 @@ import Layout from "./components/Layout/index.jsx";
 import Section1 from "./sections/Section1.jsx";
 import Section2 from "./sections/Section2.jsx";
 import Section3 from "./sections/Section3.jsx";
-import Section4 from "./sections/Section4.jsx";
+//import Section4 from "./sections/Section4.jsx";
 import Section5 from "./sections/Section5.jsx";
 import Section6 from "./sections/Section6.jsx";
 import EncourageSection from "./components/EncourageSection/index.js";
@@ -30,7 +30,7 @@ function App() {
           setShowSetup={showSetupWithScroll}
         />
         <Section2 />
-        <Section4 />
+        {/* <Section4 /> */}
         <Section3 />
         <Section5
           showSetup={showSetup}
