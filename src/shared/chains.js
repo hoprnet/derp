@@ -5,7 +5,7 @@ export const chains = [
     chainId: "1",
     coin: "ETH",
     derpUrl: "/rpc/eth/mainnet",
-    originalUrl: "https://eth.llamarpc.com",
+    originalUrl: "https://ethereum-rpc.publicnode.com",
     blockExplorerUrl: "https://etherscan.io",
   },
   {
@@ -59,7 +59,7 @@ export const chains = [
     coin: "BNB",
     chainId: "56",
     derpUrl: "/rpc/bnb/bsc",
-    originalUrl: "https://binance.llamarpc.com",
+    originalUrl: "https://bsc-rpc.publicnode.com",
     blockExplorerUrl: "https://bscscan.com/",
   },
   {
@@ -77,7 +77,7 @@ export const chains = [
     coin: "ONE",
     chainId: "1666600000",
     derpUrl: "/rpc/one/harmony",
-    originalUrl: "wss://harmony-0.drpc.org",
+    originalUrl: "https://harmony-0.drpc.org",
     blockExplorerUrl: "https://explorer.harmony.one/",
   },
   {
@@ -113,7 +113,7 @@ export const chains = [
     coin: "ETH",
     chainId: "1101",
     derpUrl: "/rpc/polygon-zkevm/mainnet",
-    originalUrl: "https://rpc.polygon-zkevm.gateway.fm",
+    originalUrl: "https://zkevm-rpc.com",
     blockExplorerUrl: "https://zkevm.polygonscan.com/",
   },
   {
