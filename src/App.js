@@ -30,7 +30,7 @@ function App() {
           setShowSetup={showSetupWithScroll}
         />
         <Section2 />
-        <Section4 />
+        {/* <Section4 /> */}
         <Section3 />
         <Section5
           showSetup={showSetup}
