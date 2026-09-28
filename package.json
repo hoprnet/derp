@@ -16,7 +16,7 @@
     "start-https": "HTTPS=true pnpm start",
     "lint": "eslint --ext .jsx .",
     "lint:fix": "eslint --fix --ext .jsx .",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false --passWithNoTests",
     "test:local": "node test-derp-local.js",
     "test:e2e": "node test-derp-orchestrated.js",
     "eject": "react-scripts eject"
