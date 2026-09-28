@@ -8,12 +8,11 @@
  * 3. Validating that log messages are received via WebSocket
  *
  * Usage:
- *   1. Start the local dev server: yarn start-miniflare or npx wrangler dev
- *   2. Run this script: yarn test:local
+ *   1. Start the local dev server: pnpm exec wrangler dev
+ *   2. Run this script: pnpm test:local
  */
 
 import WebSocket from "ws";
-import fetch from "node-fetch";
 
 // Configuration
 const CONFIG = {
@@ -376,8 +375,6 @@ runTests()
   .catch((error) => {
     log(`\nERROR: Fatal error: ${error.message}`);
     log("\nMake sure the local dev server is running:");
-    log("  yarn start-miniflare");
-    log("  or");
-    log("  npx wrangler dev\n");
+    log("  pnpm exec wrangler dev\n");
     process.exit(1);
   });

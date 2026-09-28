@@ -1,22 +1,21 @@
 name = "derp"
 main = "server/index.ts"
 workers_dev = true
-compatibility_date = "2023-07-01"
+compatibility_date = "2026-09-25"
 send_metrics = false
-tsconfig = "tsconfig.json"
+tsconfig = "server/tsconfig.json"
 
 [vars]
 # Salt for hashing client IPs (change in production using wrangler secret)
 ID_SALT = "dev-salt-change-in-production"
 
-[placement]
-mode = "smart"
-
 [build]
-command = "yarn build"
+command = "pnpm build"
 
-[site]
-bucket = "./build"
+[assets]
+directory = "./build"
+binding = "ASSETS"
+run_worker_first = true
 
 [durable_objects]
 bindings = [

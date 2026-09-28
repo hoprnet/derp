@@ -1,8 +1,4 @@
-import { getAssetFromKV } from "@cloudflare/kv-asset-handler";
-import manifestJSON from "__STATIC_CONTENT_MANIFEST";
 import { chains } from "../src/shared/chains.js";
-
-const assetManifest = JSON.parse(manifestJSON);
 
 /**
  * Hash client identifier using SHA-256
@@ -93,7 +89,6 @@ function addSecurityHeaders(response: Response): Response {
 export async function handleRequest(
   request: Request,
   env: Env,
-  ctx: Context,
 ): Promise<Response> {
   const url = new URL(request.url);
 
@@ -136,9 +131,10 @@ export async function handleRequest(
 
   if (chosenChain) {
     newUrl.pathname = "/";
-    let object = request.clone();
-    (object as any).cf.originalUrl = object.url;
-    await logsObject.fetch(newUrl, object);
+    // request.cf is not reliably forwarded to the DO once mutated
+    const logRequest = new Request(newUrl, request.clone());
+    logRequest.headers.set("X-DERP-Original-Url", request.url);
+    await logsObject.fetch(logRequest);
     const providerResponse = await fetchFromProvider(
       chosenChain.originalUrl,
       request,
@@ -150,39 +146,17 @@ export async function handleRequest(
   if (path[0] == "client_logs") {
     const strippedUrl = new URL(request.url);
     strippedUrl.pathname = "/" + path.slice(1).join("/");
-    console.log("[DERP] Forwarding to Durable Object:", {
-      originalPath: url.pathname,
-      newPath: strippedUrl.pathname,
-      method: request.method,
-      upgrade: request.headers.get("Upgrade"),
-      connection: request.headers.get("Connection"),
-    });
-
-    console.log(
-      "[DERP] Calling Durable Object fetch with URL:",
-      strippedUrl.toString(),
-    );
-    return await logsObject.fetch(strippedUrl, request);
+    try {
+      return await logsObject.fetch(strippedUrl, request);
+    } catch (error) {
+      console.error("[DERP] Durable Object request failed:", error);
+      return addSecurityHeaders(
+        new Response("Internal Server Error", { status: 500 }),
+      );
+    }
   }
 
-  // Serve static assets
-  try {
-    const assetResponse = await getAssetFromKV(
-      {
-        request,
-        waitUntil(promise) {
-          return ctx.waitUntil(promise);
-        },
-      },
-      {
-        ASSET_NAMESPACE: env.__STATIC_CONTENT,
-        ASSET_MANIFEST: assetManifest,
-      },
-    );
-    return addSecurityHeaders(assetResponse);
-  } catch (e) {
-    return addSecurityHeaders(new Response("Not found", { status: 404 }));
-  }
+  return addSecurityHeaders(await env.ASSETS.fetch(request));
 }
 
 /**

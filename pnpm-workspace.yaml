@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  workerd: true
+  core-js: false
+  core-js-pure: false
+  sharp: false

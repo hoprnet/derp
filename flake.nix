@@ -27,9 +27,9 @@
           buildInputs = [
             pkgs.envsubst
             pkgs.nodejs
-            (pkgs.yarn.override { nodejs = pkgs.nodejs; })
+            pkgs.pnpm
           ]
-          ++ pkgs.lib.optional pkgs.stdenv.isLinux pkgs.inotifyTools
+          ++ pkgs.lib.optional pkgs.stdenv.isLinux pkgs.inotify-tools
           ++ pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.apple-sdk_15;
         };
       }
