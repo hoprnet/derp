@@ -80,15 +80,7 @@ function Section1(props) {
       </Button>
       <Disclaimer>
         Disclaimer: DERP is only an educational tool to showcase all the data
-        your wallet leaks about you. It does not solve the issue! If you want a
-        truly secure and private RPC provider, use{" "}
-        <a
-          href="https://rpch.net"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          RPCh.
-        </a>
+        your wallet leaks about you.
       </Disclaimer>
     </SSection>
   );
