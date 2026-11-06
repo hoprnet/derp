@@ -21,6 +21,5 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - uses: re-actors/alls-green@b5b5b37504aa4183270bd3d855c52a67f212be35 # v1.3.0
-        with:
-          jobs: ${{ toJSON(needs) }}
+      # alls-green rejects an empty `needs`; swap it back in once the job has a `needs:` list.
+      - run: echo "no PR checks in this repository"
